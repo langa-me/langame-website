@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 
 const FooterNav = ({
   className,
@@ -19,13 +18,16 @@ const FooterNav = ({
     >
       <ul className="list-reset">
         <li>
-          <Link to="help.langa.me">About us</Link>
+          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me">About us</a>
         </li>
         <li>
-          <Link to="help.langa.me/privacy">Privacy</Link>
+          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me/privacy">Privacy</a>
         </li>
         <li>
-          <Link to="help.langa.me/terms">Terms</Link>
+          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me/terms">Terms</a>
+        </li>
+        <li>
+          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me/join">Join us</a>
         </li>
       </ul>
     </nav>
