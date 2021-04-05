@@ -53,8 +53,7 @@ const Hero = ({
             </h1>
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                Augmented, better human conversations.
-                Compound relationships.
+                AI-Augmented human conversations.
                 </p>
             </div>
           </div>
