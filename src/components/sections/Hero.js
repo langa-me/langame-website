@@ -54,7 +54,10 @@ const Hero = ({
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
                 AI-Augmented human conversations.
-                </p>
+              </p>
+              <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
+                The Internet and its hyper-connectivity have not solved human conversations.
+              </p>
             </div>
           </div>
           <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
