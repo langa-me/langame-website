@@ -14,8 +14,8 @@ const propTypes = {
 
 const defaultProps = {
   navPosition: '',
-  hideNav: false,
-  hideSignin: false,
+  hideNav: true,
+  hideSignin: true,
   bottomOuterDivider: false,
   bottomDivider: false
 }
