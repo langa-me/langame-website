@@ -69,13 +69,23 @@ const Hero = ({
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
                 AI-Augmented human conversations.
               </p>
+              <Image
+                className='has-shadow'
+                src={require('./../../assets/images/openai.png')}
+                alt='OpenAI'
+                width={80}
+                height={80} />
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-                The Internet and its hyper-connectivity have not solved human conversations.
+                Powered by <a target='_blank' rel='noopener noreferrer' href='https://openai.com/'>OpenAI</a>
               </p>
             </div>
             <CustomForm/>
           </div>
+
           <div className='hero-figure reveal-from-bottom illustration-element-01' data-reveal-value='20px' data-reveal-delay='800'>
+            <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
+              The Internet and its hyper-connectivity have not solved human conversations.
+            </p>
             <Image
               className='has-shadow'
               src={require('./../../assets/images/demo.gif')}
