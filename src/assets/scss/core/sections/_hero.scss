@@ -24,39 +24,6 @@
 		}
 	}
 
-	> .distribution {
-		display: inline-flex;
-		// prevents stretching
-		align-items: center;
-		vertical-align: top;
-
-		> .app-store {
-			width: 20%;
-		}
-
-		> .google-play {
-			width: 15%;
-		}
-	}
-
-	.hero-beta-form {
-		display: grid;
-		gap: 1rem;
-		grid-auto-flow: row;
-
-		.hero-beta-email {
-			//font-weight: 600;
-			//line-height: 24px;
-			//opacity: 0;
-			border-radius: 4px;
-			padding: 10px;
-			transition: 0.1s all ease-in-out;
-		}
-		.hero-beta-privacy-group,input,label {
-			padding: 10px;
-		}
-	}
-
 }
 
 @include media( '<=medium' ) {
