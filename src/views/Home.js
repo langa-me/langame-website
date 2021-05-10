@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 // import sections
 import Hero from '../components/sections/Hero';
 import GenericSection from "../components/sections/GenericSection";
-import Image from "../components/elements/Image";
+// import Image from "../components/elements/Image";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -12,6 +12,7 @@ import Button from "../components/elements/Button";
 import ReactTooltip from "react-tooltip";
 import appStore from "../assets/images/app-store.svg";
 import googlePlay from "../assets/images/google-play.svg";
+import FeaturesTiles from "../components/sections/FeaturesTiles";
 
 const Home = () => {
 
@@ -26,12 +27,14 @@ const Home = () => {
 
           <CustomForm/>
 
-          <Image
-            className='has-shadow'
-            src={require('./../assets/images/demo.gif')}
-            alt='Hero'
-            width={896}
-            height={504} />
+          <FeaturesTiles></FeaturesTiles>
+
+          {/*<Image*/}
+          {/*  className='has-shadow'*/}
+          {/*  src={require('./../assets/images/demo.gif')}*/}
+          {/*  alt='Hero'*/}
+          {/*  width={896}*/}
+          {/*  height={504} />*/}
         </div>
       }/>
 
