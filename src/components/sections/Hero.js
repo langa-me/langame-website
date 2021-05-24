@@ -52,7 +52,7 @@ const Hero = ({
             </h1>
             <div className='container-xs'>
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-                AI augment us in all possible ways, why not in conversations?
+                Gamified conversations instrumented by AI.
               </p>
               <Image
                 className='has-shadow'
