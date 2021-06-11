@@ -22,7 +22,7 @@ const Home = () => {
       <GenericSection className="illustration-section-02" children={
         <div className='hero-figure reveal-from-bottom illustration-element-01' data-reveal-value='20px' data-reveal-delay='800'>
           <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-            Signing up for our waitlist and newsletter to get an early access to the greatest conversations you will ever have.
+            Sign up for our waiting list and newsletter to get early access to the conversations of the future.
           </p>
 
           <CustomForm/>
@@ -111,7 +111,7 @@ function CustomForm() {
              onChange={(e) => setEmail(e.target.value)} value={emailState}/>
       <p>{errors.email?.message}</p>
 
-      <Button className='reveal-from-bottom' variant='outlined' color='primary'>Join the Waitlist</Button>
+      <Button className='reveal-from-bottom' variant='outlined' color='primary'>Join the wait list</Button>
       <div className='hero-beta-privacy-group reveal-from-bottom'>
         <input {...register('privacy')} type='checkbox' checked={privacyState} onChange={(e) => setPrivacy(e.target.checked)} id='privacy' name='privacy' />
         <label htmlFor='privacy'>I agree to the <a target='_blank' rel='noopener noreferrer' href='https://help.langa.me/privacy'>privacy

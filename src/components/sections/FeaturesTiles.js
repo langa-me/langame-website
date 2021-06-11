@@ -45,7 +45,7 @@ const FeaturesTiles = ({
 
   const sectionHeader = {
     title: 'Langame',
-    paragraph: 'AI augmented conversations'
+    paragraph: 'Gamified conversations instrumented by AI'
   };
 
   return (
@@ -80,27 +80,27 @@ const FeaturesTiles = ({
             {/*  </div>*/}
             {/*</div>*/}
 
-            {/*<div className="tiles-item reveal-from-bottom" data-reveal-delay="200">*/}
-            {/*  <div className="tiles-item-inner">*/}
-            {/*    <div className="features-tiles-item-header">*/}
-            {/*      <div className="features-tiles-item-image mb-16">*/}
-            {/*        <Image*/}
-            {/*          src={require('./../../assets/images/feature-tile-icon-02.svg')}*/}
-            {/*          alt="Features tile icon 02"*/}
-            {/*          width={64}*/}
-            {/*          height={64} />*/}
-            {/*      </div>*/}
-            {/*    </div>*/}
-            {/*    <div className="features-tiles-item-content">*/}
-            {/*      <h4 className="mt-0 mb-8">*/}
-            {/*        Robust Workflow*/}
-            {/*        </h4>*/}
-            {/*      <p className="m-0 text-sm">*/}
-            {/*        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.*/}
-            {/*        </p>*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
+            <div className="tiles-item reveal-from-bottom" data-reveal-delay="200">
+             <div className="tiles-item-inner">
+               <div className="features-tiles-item-header">
+                 <div className="features-tiles-item-image mb-16">
+                   <Image
+                      src={require('./../../assets/images/feature-tile-icon-02.svg')}
+                      alt="Features tile icon 02"
+                      width={64}
+                      height={64} />
+                  </div>
+                </div>
+                <div className="features-tiles-item-content">
+                  <h4 className="mt-0 mb-8">
+                    Compound relationships
+                    </h4>
+                  <p className="m-0 text-sm">
+                    We provides you insights about your interactions with your friends.   
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <div className="tiles-item reveal-from-bottom" data-reveal-delay="400">
               <div className="tiles-item-inner">
@@ -137,10 +137,10 @@ const FeaturesTiles = ({
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Learn new things
+                    Expand your knowledge
                     </h4>
                   <p className="m-0 text-sm">
-                    Have conversations on specific topics, challenge and expand your knowledge.
+                    Have conversations on specific topics, instrumented by AI, challenge and expand your knowledge.
                     </p>
                 </div>
               </div>
@@ -159,10 +159,10 @@ const FeaturesTiles = ({
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Evolve
+                    Custom
                     </h4>
                   <p className="m-0 text-sm">
-                    The algorithms learn to improve user experiences.
+                    The algorithms adapt to improve user goals.
                     </p>
                 </div>
               </div>
@@ -184,7 +184,7 @@ const FeaturesTiles = ({
                     Make new friends
                     </h4>
                   <p className="m-0 text-sm">
-                    Our algorithms recommend you like-minded individuals.
+                    Our algorithms recommend you like-minded individuals based on our AI understanding of your personnality
                     </p>
                 </div>
               </div>
