@@ -1,0 +1,19 @@
+name: Run Continuous Integration & Continuous Delivery Prod
+'on':
+  push:
+    branches:
+      - main
+
+jobs:
+  ci_cd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i && npm run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --message \"${{ github.event.head_commit.message }}\"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PROD }}
+          PROJECT_ID: langame-86ac4
