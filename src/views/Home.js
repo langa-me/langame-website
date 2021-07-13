@@ -9,9 +9,6 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import firebase from "firebase";
 import {toast, ToastContainer} from "react-toastify";
 import Button from "../components/elements/Button";
-import ReactTooltip from "react-tooltip";
-import appStore from "../assets/images/app-store.svg";
-import googlePlay from "../assets/images/google-play.svg";
 import FeaturesTiles from "../components/sections/FeaturesTiles";
 
 const Home = () => {
@@ -22,12 +19,14 @@ const Home = () => {
       <GenericSection className="illustration-section-02" children={
         <div className='hero-figure reveal-from-bottom illustration-element-01' data-reveal-value='20px' data-reveal-delay='800'>
           <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-            Sign up for our waiting list and newsletter to get early access to the conversations of the future.
+            Join the closed beta now for early access to the conversations of the future.
           </p>
 
           <CustomForm/>
 
-          <FeaturesTiles></FeaturesTiles>
+          {/*<ImageHorizontalList/>*/}
+
+          <FeaturesTiles/>
 
           {/*<Image*/}
           {/*  className='has-shadow'*/}
@@ -38,25 +37,6 @@ const Home = () => {
         </div>
       }/>
 
-      <GenericSection children={
-        <div>
-          <ReactTooltip id='main'/>
-
-          <div className='distribution'>
-            <div className='app-store'>
-              <p data-for='main' data-tip='Coming soon on iOS.' data-iscapture='true'>
-              <img src={appStore} alt='App Store'/>
-            </p>
-          </div>
-
-          <div className='google-play'>
-            <p data-for='main' data-tip='Coming soon on Android.' data-iscapture='true'>
-              <img src={googlePlay} alt='Google Play'/>
-              </p>
-            </div>
-          </div>
-        </div>
-      }/>
     </>
   );
 }
@@ -111,7 +91,7 @@ function CustomForm() {
              onChange={(e) => setEmail(e.target.value)} value={emailState}/>
       <p>{errors.email?.message}</p>
 
-      <Button className='reveal-from-bottom' variant='outlined' color='primary'>Join the wait list</Button>
+      <Button className='reveal-from-bottom' variant='outlined' color='primary'>Join the closed beta now</Button>
       <div className='hero-beta-privacy-group reveal-from-bottom'>
         <input {...register('privacy')} type='checkbox' checked={privacyState} onChange={(e) => setPrivacy(e.target.checked)} id='privacy' name='privacy' />
         <label htmlFor='privacy'>I agree to the <a target='_blank' rel='noopener noreferrer' href='https://help.langa.me/privacy'>privacy

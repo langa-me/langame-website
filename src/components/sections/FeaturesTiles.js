@@ -96,7 +96,7 @@ const FeaturesTiles = ({
                     Compound relationships
                     </h4>
                   <p className="m-0 text-sm">
-                    We provides you insights about your interactions with your friends.   
+                    We provides you insights about your interactions with your friends.
                   </p>
                 </div>
               </div>
@@ -159,10 +159,10 @@ const FeaturesTiles = ({
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Custom
+                    Recommendations
                     </h4>
                   <p className="m-0 text-sm">
-                    The algorithms adapt to improve user goals.
+                    Unlike most websites that are consensus based, get recommendations for your own goals.
                     </p>
                 </div>
               </div>
