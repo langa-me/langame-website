@@ -1,32 +1,53 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 // import sections
 import Hero from '../components/sections/Hero';
 import GenericSection from "../components/sections/GenericSection";
-// import Image from "../components/elements/Image";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import firebase from "firebase";
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Button from "../components/elements/Button";
 import FeaturesTiles from "../components/sections/FeaturesTiles";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+
+
 
 const Home = () => {
 
   return (
     <>
       <Hero className="illustration-section-01" />
+      <GenericSection>
+
+        <Carousel autoplay="true" width="20%" renderThumbs={() => { }}>
+          <div>
+            <img src={require("../assets/images/1.png")} alt="screenshot one" />
+          </div>
+          <div>
+            <img src={require("../assets/images/2.png")} alt="screenshot two" />
+          </div>
+          <div>
+            <img src={require("../assets/images/3.png")} alt="screenshot three" />
+          </div>
+        </Carousel>
+
+
+      </GenericSection>
+
+
       <GenericSection className="illustration-section-02" children={
         <div className='hero-figure reveal-from-bottom illustration-element-01' data-reveal-value='20px' data-reveal-delay='800'>
           <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
             Join the closed beta now for early access to the conversations of the future.
           </p>
 
-          <CustomForm/>
+          <CustomForm />
 
           {/*<ImageHorizontalList/>*/}
 
-          <FeaturesTiles/>
+          <FeaturesTiles />
 
           {/*<Image*/}
           {/*  className='has-shadow'*/}
@@ -34,8 +55,10 @@ const Home = () => {
           {/*  alt='Hero'*/}
           {/*  width={896}*/}
           {/*  height={504} />*/}
+
+
         </div>
-      }/>
+      } />
 
     </>
   );
@@ -50,7 +73,7 @@ function CustomForm() {
     email: yup.string().email().required(),
     privacy: yup.bool().required().oneOf([true], 'Privacy policy must be agreed'),
   });
-  const { register, handleSubmit, formState:{ errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
 
@@ -88,7 +111,7 @@ function CustomForm() {
   return (
     <form className={`hero-beta-form`} onSubmit={handleSubmit(onSubmit)}>
       <input placeholder='Enter your email' className='hero-beta-email mx-auto reveal-from-bottom' {...register('email')}
-             onChange={(e) => setEmail(e.target.value)} value={emailState}/>
+        onChange={(e) => setEmail(e.target.value)} value={emailState} />
       <p>{errors.email?.message}</p>
 
       <Button className='reveal-from-bottom' variant='outlined' color='primary'>Join the closed beta now</Button>

@@ -12,6 +12,12 @@ const defaultProps = {
   ...SectionProps.defaults,
 }
 
+const random = [
+  "Skip the small talk",
+  "Have incredibly profound conversations",
+  "Share your knowledge"
+]
+
 const Hero = ({
   className,
   topOuterDivider,
@@ -52,7 +58,7 @@ const Hero = ({
             </h1>
             <div className='container-xs'>
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-                AI augment us in all possible ways, why not in conversations?
+                {random[Math.floor(Math.random() * random.length)]}
               </p>
               <Image
                 className='has-shadow'
