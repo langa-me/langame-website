@@ -81,29 +81,27 @@ function CustomForm() {
     // firebase.functions().useEmulator('0.0.0.0', 5001);
     const subscribe = firebase.functions().httpsCallable('subscribe');
     subscribe({ email: emailState })
-      .then((result) => {
-        if (result.data.statusCode !== 200) {
-          toast.error(`🥵 ${result.data.errorMessage ?? 'It is too late, AI has taken over the world'}!`, {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        } else {
-          toast.success('🦄 Congrats! You made a great decision', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }
-      })
+      .then((_) => {
+        toast.success('🦄 Congrats! You made a great decision', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }).catch((e) => {
+        toast.error(`🥵 ${e ?? 'It is too late, AI has taken over the world'}!`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   }
 
   const onSubmit = _ => subscribe();
