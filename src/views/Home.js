@@ -35,6 +35,9 @@ const Home = () => {
             <img src={require("../assets/images/3.png")} alt="screenshot three" />
           </div>
           <div>
+            <img src={require("../assets/images/5.png")} alt="screenshot five" />
+          </div>
+          <div>
             <img src={require("../assets/images/4.png")} alt="screenshot four" />
           </div>
         </Carousel>
