@@ -21,7 +21,10 @@ const Home = () => {
       <Hero className="illustration-section-01" />
       <GenericSection>
 
-        <Carousel autoplay="true" width="20%" renderThumbs={() => { }}>
+        <Carousel 
+          style={{margin: "auto", padding: "auto"}}
+          width={"50%"}
+          autoplay="true" renderThumbs={() => { }}>
           <div>
             <img src={require("../assets/images/1.png")} alt="screenshot one" />
           </div>
@@ -30,6 +33,9 @@ const Home = () => {
           </div>
           <div>
             <img src={require("../assets/images/3.png")} alt="screenshot three" />
+          </div>
+          <div>
+            <img src={require("../assets/images/4.png")} alt="screenshot four" />
           </div>
         </Carousel>
 
