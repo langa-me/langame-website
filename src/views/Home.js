@@ -26,12 +26,12 @@ const Home = () => {
               src={require('../assets/images/google-play.svg')}
               alt="Google Play" />
           </a>
-          {/* <a href="https://chrome.google.com/webstore/detail/langame/olfdgbbmfcnogbhflljkgmfjekalkjja?hl=en&authuser=0" style={{margin: '5px'}}>
+          <a href="https://chrome.google.com/webstore/detail/langame/olfdgbbmfcnogbhflljkgmfjekalkjja?hl=en&authuser=0" style={{margin: '5px'}}>
             <img
               style={{ display:'block', width: "25%", margin: 'auto' }}
               src={require('../assets/images/chrome.svg')}
               alt="Chrome Store" />
-          </a> */}
+          </a>
         </div>
 
 
