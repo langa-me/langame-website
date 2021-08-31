@@ -1,6 +1,6 @@
 {
   "name": "langame-page",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.0.1",
@@ -19,6 +19,7 @@
     "react-scripts": "^3.4.1",
     "react-toastify": "^7.0.3",
     "react-tooltip": "^4.2.15",
+    "react-twitter-widgets": "^1.10.0",
     "yup": "^0.32.9"
   },
   "repository": {

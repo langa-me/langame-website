@@ -3,6 +3,7 @@ import Hero from '../components/sections/Hero';
 import GenericSection from "../components/sections/GenericSection";
 import FeaturesTiles from "../components/sections/FeaturesTiles";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Timeline } from "react-twitter-widgets";
 
 
 const Home = () => {
@@ -13,22 +14,31 @@ const Home = () => {
 
       <GenericSection>
 
-        <div style={{ display:'block', margin: 'auto',  padding: 'auto' }}>
-          <a href="https://testflight.apple.com/join/pxxfLXZc" style={{margin: '0px'}}>
+        <Timeline
+          style={{ display: 'block', margin: 'auto', padding: 'auto' }}
+
+          dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
+          options={{
+            theme: "dark",
+            height: "400px",
+          }}
+        />
+        <div style={{ display: 'block', margin: 'auto', padding: 'auto' }}>
+          <a href="https://testflight.apple.com/join/pxxfLXZc" style={{ margin: '0px' }}>
             <img
-              style={{ display:'block', width: "30%", margin: 'auto' }}
+              style={{ display: 'block', width: "30%", margin: 'auto' }}
               src={require('../assets/images/app-store.svg')}
               alt="Apple Store" />
           </a>
           <a href="https://play.google.com/store/apps/details?id=me.langa">
             <img
-              style={{ display:'block', width: "30%", margin: 'auto' }}
+              style={{ display: 'block', width: "30%", margin: 'auto' }}
               src={require('../assets/images/google-play.svg')}
               alt="Google Play" />
           </a>
-          <a href="https://chrome.google.com/webstore/detail/langame/olfdgbbmfcnogbhflljkgmfjekalkjja?hl=en&authuser=0" style={{margin: '5px'}}>
+          <a href="https://chrome.google.com/webstore/detail/langame/olfdgbbmfcnogbhflljkgmfjekalkjja?hl=en&authuser=0" style={{ margin: '5px' }}>
             <img
-              style={{ display:'block', width: "25%", margin: 'auto' }}
+              style={{ display: 'block', width: "25%", margin: 'auto' }}
               src={require('../assets/images/chrome.svg')}
               alt="Chrome Store" />
           </a>
