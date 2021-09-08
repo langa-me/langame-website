@@ -1,5 +1,5 @@
 name: Run Continuous Integration & Continuous Delivery Prod
-'on':
+on:
   push:
     branches:
       - main

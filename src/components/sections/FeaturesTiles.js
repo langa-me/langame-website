@@ -96,30 +96,8 @@ const FeaturesTiles = ({
                     Compound relationships
                     </h4>
                   <p className="m-0 text-sm">
-                    We provides you insights about your interactions with your friends.
+                    Compound your relationships with your friends, through frequent, meaningful interactions.
                   </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="tiles-item reveal-from-bottom" data-reveal-delay="400">
-              <div className="tiles-item-inner">
-                <div className="features-tiles-item-header">
-                  <div className="features-tiles-item-image mb-16">
-                    <Image
-                      src={require('./../../assets/images/feature-tile-icon-03.svg')}
-                      alt="Features tile icon 03"
-                      width={64}
-                      height={64} />
-                  </div>
-                </div>
-                <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">
-                    No language barrier
-                    </h4>
-                  <p className="m-0 text-sm">
-                     Speak in French, they hear you in Spanish.
-                    </p>
                 </div>
               </div>
             </div>
@@ -140,29 +118,9 @@ const FeaturesTiles = ({
                     Expand your knowledge
                     </h4>
                   <p className="m-0 text-sm">
-                    Have conversations on specific topics, instrumented by AI, challenge and expand your knowledge.
-                    </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="tiles-item reveal-from-bottom" data-reveal-delay="200">
-              <div className="tiles-item-inner">
-                <div className="features-tiles-item-header">
-                  <div className="features-tiles-item-image mb-16">
-                    <Image
-                      src={require('./../../assets/images/feature-tile-icon-05.svg')}
-                      alt="Features tile icon 05"
-                      width={64}
-                      height={64} />
-                  </div>
-                </div>
-                <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">
-                    Recommendations
-                    </h4>
-                  <p className="m-0 text-sm">
-                    Unlike most websites that are consensus based, get recommendations for your own goals.
+                    Challenge your knowledge of the world through unexpected questions. 
+                    Revisit and expand your knowledge, <strong>Langame is your second-brain for conversations.</strong> 
+                    Integrated with <a href="https://obisidan.md">Obsidian.md</a> and <a href="https://roamresearch.com">RoamResearch</a>
                     </p>
                 </div>
               </div>
@@ -181,11 +139,12 @@ const FeaturesTiles = ({
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Make new friends
+                    Reduce social opacity
                     </h4>
                   <p className="m-0 text-sm">
-                    Our algorithms recommend you like-minded individuals based on our AI understanding of your personnality
-                    </p>
+                    Become more transparent with people, and get to know yourself better.
+                    Build stronger relationships.
+                  </p>
                 </div>
               </div>
             </div>

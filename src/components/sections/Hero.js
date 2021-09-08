@@ -15,8 +15,24 @@ const defaultProps = {
 const random = [
   "Skip the small talk",
   "Have incredibly profound conversations",
-  "Share your knowledge"
-]
+  "Share your knowledge",
+  "Expand your knowledge",
+  "Have the best conversation ever",
+  "Learn from each other",
+  "Reduce social opacity",
+  "Share something new with each other",
+  "Be the best version of yourself with each other",
+  "Cultivate a deep relationship with someone important to you",
+  "Stay curious about life",
+  "Learn about your interests and passions",
+  "Get to know each other better",
+  "Increase your creativity and inspiration",
+  "Get to know yourself better",
+  "Be present with each other",
+  "Be honest about your needs and accept feedback from others",
+  "Expand your horizons",
+  "Have a profound experience together"
+];
 
 const Hero = ({
   className,
@@ -64,10 +80,10 @@ const Hero = ({
                 className='has-shadow'
                 src={require('./../../assets/images/openai.png')}
                 alt='OpenAI'
-                width={80}
-                height={80} />
+                width={100}
+                height={100} />
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-                Powered by <a target='_blank' rel='noopener noreferrer' href='https://openai.com/'>OpenAI</a>
+                Powered by <a target='_blank' rel='noopener noreferrer' href='https://openai.com/'>GPT-3</a>
               </p>
             </div>
           </div>
