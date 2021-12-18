@@ -2,44 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+type FormHintProps = React.HTMLProps<HTMLDivElement> & { status?: string }
+
 const propTypes = {
   children: PropTypes.node,
-  labelHidden: PropTypes.bool,
-  id: PropTypes.string
+  status: PropTypes.string
 }
 
 const defaultProps = {
   children: null,
-  labelHidden: false,
-  id: null
+  status: null
 }
 
-const FormLabel = ({
-  className,
+const FormHint = ({
   children,
-  labelHidden,
-  id,
+  className,
+  status,
   ...props
-}) => {
+}: FormHintProps) => {
 
   const classes = classNames(
-    'form-label',
-    labelHidden && 'screen-reader',
+    'form-hint',
+    status && `text-color-${status}`,
     className
   );
 
   return (
-    <label
+    <div
       {...props}
       className={classes}
-      htmlFor={id}
     >
       {children}
-    </label>
+    </div>
   );
 }
 
-FormLabel.propTypes = propTypes;
-FormLabel.defaultProps = defaultProps;
+FormHint.propTypes = propTypes;
+FormHint.defaultProps = defaultProps;
 
-export default FormLabel;
+export default FormHint;

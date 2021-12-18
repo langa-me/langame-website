@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { ReactHTML, ReactHTMLElement } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import Image from '../elements/Image';
 import 'react-toastify/dist/ReactToastify.css';
+
+type HeroProps = SectionProps & React.HTMLProps<HTMLDivElement>
 
 const propTypes = {
   ...SectionProps.types,
@@ -43,7 +45,7 @@ const Hero = ({
   hasBgColor,
   invertColor,
   ...props
-}) => {
+}: HeroProps) => {
 
 
   const outerClasses = classNames(

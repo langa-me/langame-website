@@ -4,6 +4,17 @@ import classNames from 'classnames';
 import FormLabel from './FormLabel';
 import FormHint from './FormHint';
 
+type InputPropsTypes = 'textarea' | 'text' | 'email' | 'tel' | 'password' | 'number' | 'search' | 'color' | 'date' | 'time' | 'datetime-local';
+
+type InputProps = {
+  hasIcon?: string,
+  labelHidden?: boolean,
+  status?: string,
+  formGroup?: string,
+  type?: InputPropsTypes,
+  hint?: boolean,
+} & (React.HTMLProps<HTMLInputElement> | React.HTMLProps<HTMLTextAreaElement>)
+
 const propTypes = {
   children: PropTypes.node,
   label: PropTypes.string,
@@ -43,7 +54,7 @@ const Input = ({
   children,
   label,
   labelHidden,
-  type,
+  type = 'text',
   name,
   status,
   disabled,
@@ -52,14 +63,14 @@ const Input = ({
   hasIcon,
   size,
   placeholder,
-  rows,
+  rows = 3,
   hint,
   ...props
-}) => {
+}: InputProps) => {
 
   const wrapperClasses = classNames(
-    (formGroup && formGroup !== '') && (formGroup === 'desktop' ? 'form-group-desktop' : 'form-group'),
-    (hasIcon && hasIcon !== '') && 'has-icon-' + hasIcon
+    formGroup && formGroup === 'desktop' ? 'form-group-desktop' : 'form-group',
+    hasIcon && 'has-icon-' + hasIcon
   );
 
   const classes = classNames(
@@ -70,22 +81,24 @@ const Input = ({
   );
 
   const Component = type === 'textarea' ? 'textarea' : 'input';
+  const componentProps = {
+    ...props,
+    type: type !== 'textarea' ? type : undefined,
+    className: classes,
+    name: name,
+    disabled: disabled,
+    value: value,
+    placeholder: placeholder,
+    rows: type === 'textarea' ? rows : undefined,
+  }
+
   return (
     <>
       {label && <FormLabel labelHidden={labelHidden} id={props.id}>{label}</FormLabel>}
       <div
         className={wrapperClasses}
       >
-        <Component
-          {...props}
-          type={type !== 'textarea' ? type : null}
-          className={classes}
-          name={name}
-          disabled={disabled}
-          value={value}
-          placeholder={placeholder}
-          rows={type === 'textarea' ? rows : null}
-        />
+        <Component {...componentProps as any} />
         {children}
       </div>
       {hint && <FormHint status={status}>{hint}</FormHint>}

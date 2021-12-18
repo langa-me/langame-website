@@ -7,7 +7,7 @@ import { Timeline } from "react-twitter-widgets";
 
 
 const Home = () => {
-
+  
   return (
     <>
       <Hero className="illustration-section-01" />
@@ -15,8 +15,6 @@ const Home = () => {
       <GenericSection>
 
         <Timeline
-          style={{ display: 'block', margin: 'auto', padding: 'auto' }}
-
           dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
           options={{
             theme: "dark",

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { ReactPropTypes } from 'react';
 import classNames from 'classnames';
 import { SectionTilesProps } from '../../utils/SectionProps';
 import SectionHeader from './partials/SectionHeader';
+
+type TestimonialProps = SectionTilesProps & React.HTMLProps<HTMLDivElement>
 
 const propTypes = {
   ...SectionTilesProps.types
@@ -21,7 +23,7 @@ const Testimonial = ({
   invertColor,
   pushLeft,
   ...props
-}) => {
+}: TestimonialProps) => {
 
   const outerClasses = classNames(
     'testimonial section',

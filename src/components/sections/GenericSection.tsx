@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 
+type GenericSectionProps = SectionProps & React.HTMLProps<HTMLDivElement>
+
 const propTypes = {
   children: PropTypes.node,
   ...SectionProps.types
@@ -23,7 +25,7 @@ const GenericSection = ({
   hasBgColor,
   invertColor,
   ...props
-}) => {
+}: GenericSectionProps) => {
 
   const outerClasses = classNames(
     'section',

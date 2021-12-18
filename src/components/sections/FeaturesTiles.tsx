@@ -1,8 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SectionTilesProps } from '../../utils/SectionProps';
+import { SectionProps, SectionTilesProps } from '../../utils/SectionProps';
 import SectionHeader from './partials/SectionHeader';
 import Image from '../elements/Image';
+
+type FeatureTilesProps = SectionTilesProps & React.HTMLProps<HTMLDivElement>
 
 const propTypes = {
   ...SectionTilesProps.types
@@ -21,7 +23,7 @@ const FeaturesTiles = ({
   invertColor,
   pushLeft,
   ...props
-}) => {
+}: FeatureTilesProps) => {
 
   const outerClasses = classNames(
     'features-tiles section',

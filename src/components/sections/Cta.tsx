@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import Input from '../elements/Input';
 
+export type CtaProps = SectionProps & React.HTMLProps<HTMLDivElement> & { split?: boolean }
+
 const propTypes = {
   ...SectionProps.types,
   split: PropTypes.bool
@@ -24,7 +26,7 @@ const Cta = ({
   invertColor,
   split,
   ...props
-}) => {
+}: CtaProps) => {
 
   const outerClasses = classNames(
     'cta section center-content-mobile reveal-from-bottom',
@@ -40,7 +42,7 @@ const Cta = ({
     topDivider && 'has-top-divider',
     bottomDivider && 'has-bottom-divider',
     split && 'cta-split'
-  );  
+  );
 
   return (
     <section
@@ -54,7 +56,7 @@ const Cta = ({
           <div className="cta-slogan">
             <h3 className="m-0">
               For previewing layouts and visual?
-              </h3>
+            </h3>
           </div>
           <div className="cta-action">
             <Input id="newsletter" type="email" label="Subscribe" labelHidden hasIcon="right" placeholder="Your best email">
