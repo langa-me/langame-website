@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "langame-86ac4"
+  },
+  "targets": {
+    "langame-86ac4": {
+      "hosting": {
+        "prod-website": [
+          "langame-86ac4"
+        ]
+      }
+    }
   }
 }

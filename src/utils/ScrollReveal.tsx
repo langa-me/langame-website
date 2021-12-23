@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useImperativeHandle, ReactElement, SetStateAction, Ref } from 'react';
+import React, { useState, useEffect, useImperativeHandle, ReactElement, Ref } from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
 

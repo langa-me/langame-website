@@ -1,7 +1,6 @@
-import React, { ReactHTML, ReactHTMLElement } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
-import Image from '../elements/Image';
 import 'react-toastify/dist/ReactToastify.css';
 
 type HeroProps = SectionProps & React.HTMLProps<HTMLDivElement>
@@ -77,15 +76,6 @@ const Hero = ({
             <div className='container-xs'>
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
                 {random[Math.floor(Math.random() * random.length)]}
-              </p>
-              <Image
-                className='has-shadow'
-                src={require('./../../assets/images/openai.png')}
-                alt='OpenAI'
-                width={100}
-                height={100} />
-              <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-                Powered by <a target='_blank' rel='noopener noreferrer' href='https://openai.com/'>GPT-3</a>
               </p>
             </div>
           </div>
