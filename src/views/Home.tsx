@@ -4,8 +4,9 @@ import GenericSection from "../components/sections/GenericSection";
 import FeaturesTiles from "../components/sections/FeaturesTiles";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Timeline } from "react-twitter-widgets";
-
-
+import { Button, Grid } from '@material-ui/core';
+import { ReactComponent as Google } from '../assets/images/google-play.svg';
+import { ReactComponent as Apple } from '../assets/images/app-store.svg';
 const Home = () => {
 
   return (
@@ -15,36 +16,37 @@ const Home = () => {
       <GenericSection>
 
         <Timeline
-          style={{ display: 'block', margin: 'auto', padding: 'auto' }}
-
           dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
           options={{
             theme: "dark",
             height: "400px",
           }}
         />
-        <div style={{ display: 'block', margin: 'auto', padding: 'auto' }}>
-          <a href="https://testflight.apple.com/join/pxxfLXZc" style={{ margin: '0px' }}>
-            <img
-              style={{ display: 'block', width: "30%", margin: 'auto' }}
-              src={require('../assets/images/app-store.svg')}
-              alt="Apple Store" />
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=me.langa">
-            <img
-              style={{ display: 'block', width: "30%", margin: 'auto' }}
-              src={require('../assets/images/google-play.svg')}
-              alt="Google Play" />
-          </a>
-          <a href="https://chrome.google.com/webstore/detail/langame/olfdgbbmfcnogbhflljkgmfjekalkjja?hl=en&authuser=0" style={{ margin: '5px' }}>
-            <img
-              style={{ display: 'block', width: "25%", margin: 'auto' }}
-              src={require('../assets/images/chrome.svg')}
-              alt="Chrome Store" />
-          </a>
-        </div>
-
-
+        <Grid container direction='row'
+          alignItems="center"
+          justifyContent="center"
+          spacing={0}
+        >
+          {/* TODO: flexBasis hack */}
+          <Grid item xs={3} style={{ flexBasis: "0%" }}>
+            <Button
+              color="primary" variant="outlined">
+              <a href="https://app.langa.me" style={{ margin: '0px' }}>
+                Try now
+              </a>
+            </Button>
+          </Grid>
+          <Grid item xs={3}>
+            <a href="https://testflight.apple.com/join/pxxfLXZc" style={{ margin: '0px' }}>
+              <Apple width={256} height={128} />
+            </a>
+          </Grid>
+          <Grid item xs={3}>
+            <a href="https://play.google.com/store/apps/details?id=me.langa">
+              <Google width={256} height={128} />
+            </a>
+          </Grid>
+        </Grid>
 
       </GenericSection>
 

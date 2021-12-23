@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useLocation, Switch } from 'react-router-dom';
 import AppRoute from './utils/AppRoute';
-import ScrollReveal from './utils/ScrollReveal';
+import ScrollReveal, { ScrollRevealRef } from './utils/ScrollReveal';
 // import ReactGA from 'react-ga';
 
 // Layouts
@@ -13,13 +13,13 @@ import Home from './views/Home';
 
 const App = () => {
 
-  const childRef = useRef();
+  const childRef = useRef<ScrollRevealRef>(null);
   let location = useLocation();
 
   useEffect(() => {
     // const page = location.pathname;
     document.body.classList.add('is-loaded')
-    childRef.current.init();
+    childRef.current!.init();
     // trackPage(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);

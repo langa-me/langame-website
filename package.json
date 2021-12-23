@@ -1,26 +1,37 @@
 {
-  "name": "langame-page",
-  "version": "0.1.1",
+  "name": "langame-website",
+  "version": "0.1.2",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
     "@hookform/resolvers": "^2.0.1",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
+    "@mui/material": "^5.2.5",
     "classnames": "^2.2.6",
-    "firebase": "^8.3.2",
+    "firebase": "^9.6.1",
     "lodash": "^4.17.15",
-    "node-sass": "^4.13.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-ga": "^2.7.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
     "react-hook-form": "^7.0.4",
     "react-responsive-carousel": "^3.2.20",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
-    "react-toastify": "^7.0.3",
+    "react-scripts": "^5.0.0",
+    "react-toastify": "^8.1.0",
     "react-tooltip": "^4.2.15",
     "react-twitter-widgets": "^1.10.0",
+    "sass": "^1.44.0",
     "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.12",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router-dom": "^5.3.2",
+    "typescript": "^4.5.2"
   },
   "repository": {
     "type": "git",
@@ -31,7 +42,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && firebase deploy"
+    "deploy": "react-scripts build && firebase deploy",
+    "set-dev": "firebase use langame-dev",
+    "set-prod": "firebase use langame-86ac4"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -4,6 +4,8 @@ import { SectionSplitProps } from '../../utils/SectionProps';
 import SectionHeader from './partials/SectionHeader';
 import Image from '../elements/Image';
 
+type FeaturesSplitProps = SectionSplitProps & React.HTMLProps<HTMLDivElement>
+
 const propTypes = {
   ...SectionSplitProps.types
 }
@@ -25,7 +27,7 @@ const FeaturesSplit = ({
   alignTop,
   imageFill,
   ...props
-}) => {
+}: FeaturesSplitProps) => {
 
   const outerClasses = classNames(
     'features-split section',

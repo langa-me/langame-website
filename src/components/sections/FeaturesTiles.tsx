@@ -2,7 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import { SectionTilesProps } from '../../utils/SectionProps';
 import SectionHeader from './partials/SectionHeader';
-import Image from '../elements/Image';
+import { ReactComponent as FTITwo } from '../../assets/images/feature-tile-icon-02.svg';
+import { ReactComponent as FTIFour } from '../../assets/images/feature-tile-icon-04.svg';
+import { ReactComponent as FTISix } from '../../assets/images/feature-tile-icon-06.svg';
+
+type FeatureTilesProps = SectionTilesProps & React.HTMLProps<HTMLDivElement>
 
 const propTypes = {
   ...SectionTilesProps.types
@@ -21,7 +25,7 @@ const FeaturesTiles = ({
   invertColor,
   pushLeft,
   ...props
-}) => {
+}: FeatureTilesProps) => {
 
   const outerClasses = classNames(
     'features-tiles section',
@@ -45,7 +49,7 @@ const FeaturesTiles = ({
 
   const sectionHeader = {
     title: 'Langame',
-    paragraph: 'Gamified conversations instrumented by AI'
+    paragraph: 'Augmented conversations'
   };
 
   return (
@@ -57,46 +61,19 @@ const FeaturesTiles = ({
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
           <div className={tilesClasses}>
-
-            {/*<div className="tiles-item reveal-from-bottom">*/}
-            {/*  <div className="tiles-item-inner">*/}
-            {/*    <div className="features-tiles-item-header">*/}
-            {/*      <div className="features-tiles-item-image mb-16">*/}
-            {/*        <Image*/}
-            {/*          src={require('./../../assets/images/feature-tile-icon-01.svg')}*/}
-            {/*          alt="Features tile icon 01"*/}
-            {/*          width={64}*/}
-            {/*          height={64} />*/}
-            {/*      </div>*/}
-            {/*    </div>*/}
-            {/*    <div className="features-tiles-item-content">*/}
-            {/*      <h4 className="mt-0 mb-8">*/}
-            {/*        Robust Workflow*/}
-            {/*        </h4>*/}
-            {/*      <p className="m-0 text-sm">*/}
-            {/*        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.*/}
-            {/*        </p>*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
-
             <div className="tiles-item reveal-from-bottom" data-reveal-delay="200">
              <div className="tiles-item-inner">
                <div className="features-tiles-item-header">
                  <div className="features-tiles-item-image mb-16">
-                   <Image
-                      src={require('./../../assets/images/feature-tile-icon-02.svg')}
-                      alt="Features tile icon 02"
-                      width={64}
-                      height={64} />
+                    <FTITwo />
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Compound relationships
-                    </h4>
+                    Strengthen your relationships
+                  </h4>
                   <p className="m-0 text-sm">
-                    Compound your relationships with your friends, through frequent, meaningful interactions.
+                    Improve your relationships with your friends through frequent, meaningful interactions.
                   </p>
                 </div>
               </div>
@@ -106,22 +83,17 @@ const FeaturesTiles = ({
               <div className="tiles-item-inner">
                 <div className="features-tiles-item-header">
                   <div className="features-tiles-item-image mb-16">
-                    <Image
-                      src={require('./../../assets/images/feature-tile-icon-04.svg')}
-                      alt="Features tile icon 04"
-                      width={64}
-                      height={64} />
+                    <FTIFour />
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Expand your knowledge
-                    </h4>
+                    Learn
+                  </h4>
                   <p className="m-0 text-sm">
-                    Challenge your knowledge of the world through unexpected questions. 
-                    Revisit and expand your knowledge, <strong>Langame is your second-brain for conversations.</strong> 
-                    Integrated with <a href="https://obisidan.md">Obsidian.md</a> and <a href="https://roamresearch.com">RoamResearch</a>
-                    </p>
+                    With Langame, you can have conversations about any topic.
+                    Conversations are a great way to learn new things
+                  </p>
                 </div>
               </div>
             </div>
@@ -130,25 +102,20 @@ const FeaturesTiles = ({
               <div className="tiles-item-inner">
                 <div className="features-tiles-item-header">
                   <div className="features-tiles-item-image mb-16">
-                    <Image
-                      src={require('./../../assets/images/feature-tile-icon-06.svg')}
-                      alt="Features tile icon 06"
-                      width={64}
-                      height={64} />
+                    <FTISix />
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">
-                    Reduce social opacity
-                    </h4>
+                    Get to know your friends better
+                  </h4>
                   <p className="m-0 text-sm">
-                    Become more transparent with people, and get to know yourself better.
+                    Become more transparent in your interactions with others and get to know yourself better.
                     Build stronger relationships.
                   </p>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
