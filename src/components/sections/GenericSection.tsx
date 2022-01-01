@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { SectionProps } from '../../utils/SectionProps';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { SectionProps } from "../../utils/SectionProps";
 
 type GenericSectionProps = SectionProps & React.HTMLProps<HTMLDivElement>
 
@@ -28,18 +28,18 @@ const GenericSection = ({
 }: GenericSectionProps) => {
 
   const outerClasses = classNames(
-    'section',
-    topOuterDivider && 'has-top-divider',
-    bottomOuterDivider && 'has-bottom-divider',
-    hasBgColor && 'has-bg-color',
-    invertColor && 'invert-color',
+    "section",
+    topOuterDivider && "has-top-divider",
+    bottomOuterDivider && "has-bottom-divider",
+    hasBgColor && "has-bg-color",
+    invertColor && "invert-color",
     className
   );
 
   const innerClasses = classNames(
-    'section-inner',
-    topDivider && 'has-top-divider',
-    bottomDivider && 'has-bottom-divider'
+    "section-inner",
+    topDivider && "has-top-divider",
+    bottomDivider && "has-bottom-divider"
   );
 
   return (

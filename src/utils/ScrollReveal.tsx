@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useImperativeHandle, ReactElement, Ref } from 'react';
-import PropTypes from 'prop-types';
-import { throttle } from 'lodash';
+import React, { useState, useEffect, useImperativeHandle, ReactElement, Ref } from "react";
+import PropTypes from "prop-types";
+import { throttle } from "lodash";
 
 export type ScrollRevealRef = { init: () => void }
 
-const ScrollReveal = React.forwardRef((props: { children: () => ReactElement }, ref: Ref<ScrollRevealRef>) => {
+const ScrollReveal = 
+  React.forwardRef((props: { children: () => ReactElement }, ref: Ref<ScrollRevealRef>) => {
 
   const [viewportHeight, setViewportheight] = useState(window.innerHeight);
   const [revealEl, setRevealel] = useState([] as HTMLElement[]);
 
   const checkComplete = () => {
-    return revealEl.length <= document.querySelectorAll('[class*=reveal-].is-revealed').length;
+    return revealEl.length <= document.querySelectorAll("[class*=reveal-].is-revealed").length;
   };
 
   const elementIsVisible = (el: HTMLElement, offset: number) => {
@@ -21,16 +22,16 @@ const ScrollReveal = React.forwardRef((props: { children: () => ReactElement }, 
     if (checkComplete()) return;
     for (let i = 0; i < revealEl.length; i++) {
       let el = revealEl[i];
-      let revealDelay = Number(el.getAttribute('data-reveal-delay'))
-      let revealOffset = Number(el.getAttribute('data-reveal-offset') ? el.getAttribute('data-reveal-offset') : '200');
-      let listenedEl = (el.getAttribute('data-reveal-container') ? el.closest(el.getAttribute('data-reveal-container')!) : el) as HTMLElement;
-      if (elementIsVisible(listenedEl, revealOffset) && !el.classList.contains('is-revealed')) {
+      let revealDelay = Number(el.getAttribute("data-reveal-delay"))
+      let revealOffset = Number(el.getAttribute("data-reveal-offset") ? el.getAttribute("data-reveal-offset") : "200");
+      let listenedEl = (el.getAttribute("data-reveal-container") ? el.closest(el.getAttribute("data-reveal-container")!) : el) as HTMLElement;
+      if (elementIsVisible(listenedEl, revealOffset) && !el.classList.contains("is-revealed")) {
         if (revealDelay && revealDelay !== 0) {
           setTimeout(function () {
-            el.classList.add('is-revealed');
+            el.classList.add("is-revealed");
           }, revealDelay);
         } else {
-          el.classList.add('is-revealed');
+          el.classList.add("is-revealed");
         }
       }
     }
@@ -38,25 +39,24 @@ const ScrollReveal = React.forwardRef((props: { children: () => ReactElement }, 
 
   useImperativeHandle(ref, () => ({
     init() {
-      setRevealel(document.querySelectorAll('[class*=reveal-]') as unknown as HTMLElement[]);
+      setRevealel(document.querySelectorAll("[class*=reveal-]") as unknown as HTMLElement[]);
     }
   }));
 
   useEffect(() => {
-    if (typeof revealEl !== 'undefined' && revealEl.length > 0) {
+    if (typeof revealEl !== "undefined" && revealEl.length > 0) {
       if (!checkComplete()) {
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("resize", handleResize);
       }
       revealElements();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revealEl]);
 
   const handleListeners = () => {
     if (!checkComplete()) return;
-    window.removeEventListener('scroll', handleScroll);
-    window.removeEventListener('resize', handleResize);
+    window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("resize", handleResize);
   };
 
   const handleScroll = throttle(() => {
@@ -71,7 +71,6 @@ const ScrollReveal = React.forwardRef((props: { children: () => ReactElement }, 
   useEffect(() => {
     handleListeners();
     revealElements();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewportHeight]);
 
   return (
@@ -84,5 +83,5 @@ const ScrollReveal = React.forwardRef((props: { children: () => ReactElement }, 
 ScrollReveal.propTypes = {
   children: PropTypes.func.isRequired
 };
-
+ScrollReveal.displayName = "ScrollReveal";
 export default ScrollReveal;

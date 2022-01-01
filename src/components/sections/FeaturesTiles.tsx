@@ -1,10 +1,10 @@
-import React from 'react';
-import classNames from 'classnames';
-import { SectionTilesProps } from '../../utils/SectionProps';
-import SectionHeader from './partials/SectionHeader';
-import { ReactComponent as FTITwo } from '../../assets/images/feature-tile-icon-02.svg';
-import { ReactComponent as FTIFour } from '../../assets/images/feature-tile-icon-04.svg';
-import { ReactComponent as FTISix } from '../../assets/images/feature-tile-icon-06.svg';
+import React from "react";
+import classNames from "classnames";
+import { SectionTilesProps } from "../../utils/SectionProps";
+import SectionHeader from "./partials/SectionHeader";
+import { ReactComponent as FTITwo } from "../../assets/images/feature-tile-icon-02.svg";
+import { ReactComponent as FTIFour } from "../../assets/images/feature-tile-icon-04.svg";
+import { ReactComponent as FTISix } from "../../assets/images/feature-tile-icon-06.svg";
 
 type FeatureTilesProps = SectionTilesProps & React.HTMLProps<HTMLDivElement>
 
@@ -28,28 +28,28 @@ const FeaturesTiles = ({
 }: FeatureTilesProps) => {
 
   const outerClasses = classNames(
-    'features-tiles section',
-    topOuterDivider && 'has-top-divider',
-    bottomOuterDivider && 'has-bottom-divider',
-    hasBgColor && 'has-bg-color',
-    invertColor && 'invert-color',
+    "features-tiles section",
+    topOuterDivider && "has-top-divider",
+    bottomOuterDivider && "has-bottom-divider",
+    hasBgColor && "has-bg-color",
+    invertColor && "invert-color",
     className
   );
 
   const innerClasses = classNames(
-    'features-tiles-inner section-inner pt-0',
-    topDivider && 'has-top-divider',
-    bottomDivider && 'has-bottom-divider'
+    "features-tiles-inner section-inner pt-0",
+    topDivider && "has-top-divider",
+    bottomDivider && "has-bottom-divider"
   );
 
   const tilesClasses = classNames(
-    'tiles-wrap center-content',
-    pushLeft && 'push-left'
+    "tiles-wrap center-content",
+    pushLeft && "push-left"
   );
 
   const sectionHeader = {
-    title: 'Langame',
-    paragraph: 'Augmented conversations'
+    title: "Langame",
+    paragraph: "Augmented conversations"
   };
 
   return (

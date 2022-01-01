@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 type SectionHeadProps = {
   data: {
     title: string,
     paragraph: string,
   },
-  tag: 'h1' | 'h2' | 'h3'
-} & Omit<React.HTMLProps<HTMLDivElement>, 'data'>
+  tag: "h1" | "h2" | "h3"
+} & Omit<React.HTMLProps<HTMLDivElement>, "data">
 
 const propTypes = {
   data: PropTypes.shape({
@@ -16,24 +16,24 @@ const propTypes = {
     paragraph: PropTypes.string
   }).isRequired,
   children: PropTypes.node,
-  tag: PropTypes.oneOf(['h1', 'h2', 'h3'])
+  tag: PropTypes.oneOf(["h1", "h2", "h3"])
 }
 
 const defaultProps = {
   children: null,
-  tag: 'h2'
+  tag: "h2"
 }
 
 const SectionHeader = ({
   className,
   data,
   children,
-  tag = 'h2',
+  tag = "h2",
   ...props
 }: SectionHeadProps) => {
 
   const classes = classNames(
-    'section-header',
+    "section-header",
     className
   );
 
@@ -51,8 +51,8 @@ const SectionHeader = ({
             {data.title &&
               <Component className={
                 classNames(
-                  'mt-0',
-                  data.paragraph ? 'mb-16' : 'mb-0'
+                  "mt-0",
+                  data.paragraph ? "mb-16" : "mb-0"
                 )}>{data.title}</Component>
             }
             {data.paragraph &&

@@ -36,7 +36,7 @@ module.exports = {
       ecmaVersion: 6,
     },
     ignorePatterns: [
-      "/lib/**/*", // Ignore built files.
+      "/build/**/*", // Ignore built files.
     ],
     plugins: [
       "@typescript-eslint",

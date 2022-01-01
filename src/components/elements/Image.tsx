@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
 type ImagePropTypes = React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
 
@@ -21,6 +21,7 @@ const defaultProps = {
 }
 
 const Image = ({
+  // eslint-disable-next-line react/prop-types
   className,
   src,
   width,
@@ -35,7 +36,6 @@ const Image = ({
 
   useEffect(() => {
     handlePlaceholder(image.current!);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   const placeholderSrc = (w: number, h: number) => {
@@ -43,20 +43,20 @@ const Image = ({
   }
 
   const handlePlaceholder = (img: HTMLImageElement) => {
-    const placeholder = document.createElement('img');
+    const placeholder = document.createElement("img");
     if (!loaded) {
-      img.style.display = 'none';
+      img.style.display = "none";
       img.before(placeholder);
       placeholder.src = placeholderSrc(
-        Number(img.getAttribute('width') ?? 0),
-        Number(img.getAttribute('height') ?? 0)
+        Number(img.getAttribute("width") ?? 0),
+        Number(img.getAttribute("height") ?? 0)
       );
-      placeholder.width = Number(img.getAttribute('width'));
-      placeholder.height = Number(img.getAttribute('height'));
-      placeholder.style.opacity = '0';
+      placeholder.width = Number(img.getAttribute("width"));
+      placeholder.height = Number(img.getAttribute("height"));
+      placeholder.style.opacity = "0";
       img.className && placeholder.classList.add(img.className);
       placeholder.remove();
-      img.style.display = '';      
+      img.style.display = "";      
     }
   }
 

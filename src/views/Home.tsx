@@ -20,7 +20,7 @@ const Home = () => {
           direction='row'
           alignItems="center"
           justifyContent="center"
-          spacing={4}
+          spacing={0}
           xs={12}
         >
           <Timeline
