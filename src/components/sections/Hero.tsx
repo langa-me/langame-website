@@ -1,7 +1,7 @@
-import React from 'react';
-import classNames from 'classnames';
-import { SectionProps } from '../../utils/SectionProps';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import classNames from "classnames";
+import { SectionProps } from "../../utils/SectionProps";
+import "react-toastify/dist/ReactToastify.css";
 
 type HeroProps = SectionProps & React.HTMLProps<HTMLDivElement>
 
@@ -17,14 +17,14 @@ const random = [
   "Skip the small talk",
   "Have incredibly profound conversations",
   "Share your knowledge",
-  "Expand your knowledge",
-  "Have the best conversation ever",
   "Learn from each other",
-  "Reduce social opacity",
   "Share something new with each other",
+  "Discover new aspects of yourself",
+  "Discover new aspects of your friends",
   "Be the best version of yourself with each other",
   "Cultivate a deep relationship with someone important to you",
   "Stay curious about life",
+  "Cultivate your curiosity",
   "Learn about your interests and passions",
   "Get to know each other better",
   "Increase your creativity and inspiration",
@@ -32,7 +32,12 @@ const random = [
   "Be present with each other",
   "Be honest about your needs and accept feedback from others",
   "Expand your horizons",
-  "Have a profound experience together"
+  "Have a profound experience together",
+  "Make new friends",
+  "Strengthen your relationships",
+  "Grow your relationships",
+  "Be more open and honest",
+  "Open yourself to your friends and family",
 ];
 
 const Hero = ({
@@ -48,18 +53,18 @@ const Hero = ({
 
 
   const outerClasses = classNames(
-    'hero section center-content',
-    topOuterDivider && 'has-top-divider',
-    bottomOuterDivider && 'has-bottom-divider',
-    hasBgColor && 'has-bg-color',
-    invertColor && 'invert-color',
+    "hero section center-content",
+    topOuterDivider && "has-top-divider",
+    bottomOuterDivider && "has-bottom-divider",
+    hasBgColor && "has-bg-color",
+    invertColor && "invert-color",
     className
   );
 
   const innerClasses = classNames(
-    'hero-inner section-inner',
-    topDivider && 'has-top-divider',
-    bottomDivider && 'has-bottom-divider'
+    "hero-inner section-inner",
+    topDivider && "has-top-divider",
+    bottomDivider && "has-bottom-divider"
   );
 
   return (

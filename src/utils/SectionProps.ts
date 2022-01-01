@@ -1,4 +1,8 @@
-import PropTypes from 'prop-types';
+// disable "no-redeclare" eslinter rule
+/* eslint-disable no-redeclare */
+// TODO: until we got rid of prop-types
+
+import PropTypes from "prop-types";
 
 // Props shared by all sections
 export type SectionShared = {
