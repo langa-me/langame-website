@@ -17,3 +17,11 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PROD }}
           PROJECT_ID: langame-86ac4
+      - name: Generate Changelog
+        run: git log | head > ${{ github.workspace }}-CHANGELOG.txt
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
+        env:
+          GITHUB_REPOSITORY: langa-me/langame-website
