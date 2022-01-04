@@ -13,6 +13,7 @@
     "classnames": "^2.2.6",
     "firebase": "^9.6.1",
     "lodash": "^4.17.15",
+    "notistack": "^2.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-ga": "^3.3.0",
@@ -23,6 +24,7 @@
     "react-toastify": "^8.1.0",
     "react-tooltip": "^4.2.15",
     "react-twitter-widgets": "^1.10.0",
+    "reactfire": "^4.2.1",
     "sass": "^1.44.0",
     "yup": "^0.32.9"
   },
@@ -42,7 +44,8 @@
     "url": "https://github.com/langa-me/langame-website.git"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_ENVIRONMENT=dev react-scripts start",
+    "start-prod": "REACT_APP_ENVIRONMENT=production react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
