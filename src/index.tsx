@@ -5,17 +5,12 @@ import { createBrowserHistory } from "history";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { FirebaseAppProvider } from "reactfire";
-import { getFirebaseConfig } from "./utils/firebase";
 import "./assets/scss/style.scss";
-const firebaseConfig = getFirebaseConfig();
 const history = createBrowserHistory();
 
 ReactDOM.render(
   <Router history={history}>
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
       <App />
-    </FirebaseAppProvider>
   </Router>,
   document.getElementById("root")
 );

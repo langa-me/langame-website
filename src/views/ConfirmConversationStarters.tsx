@@ -102,11 +102,6 @@ export const ConfirmConversationStarters = () => {
                         backgroundColor: "white",
                         padding: "20px",
                         width: "50%",
-                        // center child
-                        // display: "flex",
-                        // justifyContent: "center",
-                        // alignItems: "center",
-
                     }}
                 >
 
