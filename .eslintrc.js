@@ -46,5 +46,6 @@ module.exports = {
     rules: {
       quotes: ["error", "double"],
       "@typescript-eslint/no-unused-vars": "error",
+      "import/no-named-as-default": 0
     },
   };
