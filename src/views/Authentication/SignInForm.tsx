@@ -56,9 +56,9 @@ const SignInForm = () => {
           <Grid>
             <TextField label="Email" variant="outlined"
               value={email}
+              type="email"
               onChange={(e) => setEmail(e.target.value)}
             />
-
           </Grid>
           <Grid item>
             <TextField label="Password" variant="outlined"

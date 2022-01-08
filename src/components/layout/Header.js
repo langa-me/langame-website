@@ -14,7 +14,7 @@ const propTypes = {
 
 const defaultProps = {
   navPosition: '',
-  hideNav: true,
+  hideNav: false,
   hideSignin: true,
   bottomOuterDivider: false,
   bottomDivider: false
@@ -44,7 +44,7 @@ const Header = ({
       document.removeEventListener('click', clickOutside);
       closeMenu();
     };
-  });  
+  });
 
   const openMenu = () => {
     document.body.classList.add('off-nav-is-active');
@@ -66,7 +66,7 @@ const Header = ({
     if (!nav.current) return
     if (!isActive || nav.current.contains(e.target) || e.target === hamburger.current) return;
     closeMenu();
-  }  
+  }
 
   const classes = classNames(
     'site-header',
@@ -111,9 +111,9 @@ const Header = ({
                       'list-reset text-xs',
                       navPosition && `header-nav-${navPosition}`
                     )}>
-                    {/*<li>*/}
-                    {/*  <Link to="#0" onClick={closeMenu}>Documentation</Link>*/}
-                    {/*</li>*/}
+                    <li>
+                      <Link target="_blank" to={{ pathname:"https://docs.langa.me" }} onClick={closeMenu}>Developer Documentation</Link>
+                    </li>
                   </ul>
                   {!hideSignin &&
                     <ul

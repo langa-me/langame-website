@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unreachable */
-import { browserLocalPersistence, browserSessionPersistence, setPersistence } from "firebase/auth";
+import { browserSessionPersistence, setPersistence } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { useAuth, useSigninCheck, useUser } from "reactfire";
+import { useAuth, useSigninCheck } from "reactfire";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
 import { log } from "../../utils/logs";
 
