@@ -21,7 +21,6 @@ const Home = () => {
           alignItems="center"
           justifyContent="center"
           spacing={0}
-          xs={12}
         >
           <Timeline
             dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
