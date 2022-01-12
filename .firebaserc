@@ -1,12 +1,19 @@
 {
   "projects": {
-    "default": "langame-86ac4"
+    "default": "langame-dev"
   },
   "targets": {
     "langame-86ac4": {
       "hosting": {
         "prod-website": [
           "langame-86ac4"
+        ]
+      }
+    },
+    "langame-dev": {
+      "hosting": {
+        "dev-website": [
+          "langame-dev-website"
         ]
       }
     }

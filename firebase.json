@@ -19,6 +19,26 @@
           "dynamicLinks": true
         }
       ]
+    },
+    {
+      "target": "dev-website",
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "appAssociation": "AUTO",
+      "rewrites": [
+        {
+          "source": "!/join/**",
+          "destination": "/index.html"
+        },
+        {
+          "source": "/join/**",
+          "dynamicLinks": true
+        }
+      ]
     }
   ]
 }

@@ -11,7 +11,7 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.5",
     "classnames": "^2.2.6",
-    "firebase": "^9.6.1",
+    "firebase": "^9.6.2",
     "lodash": "^4.17.15",
     "notistack": "^2.0.3",
     "react": "^17.0.2",
@@ -25,6 +25,7 @@
     "react-tooltip": "^4.2.15",
     "react-twitter-widgets": "^1.10.0",
     "reactfire": "^4.2.1",
+    "recharts": "^2.1.8",
     "sass": "^1.44.0",
     "yup": "^0.32.9"
   },
@@ -44,12 +45,14 @@
     "url": "https://github.com/langa-me/langame-website.git"
   },
   "scripts": {
-    "start": "REACT_APP_ENVIRONMENT=dev react-scripts start",
+    "start": "REACT_APP_ENVIRONMENT=emulator react-scripts start",
     "start-prod": "REACT_APP_ENVIRONMENT=production react-scripts start",
+    "start-dev": "REACT_APP_ENVIRONMENT=development react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && firebase deploy",
+    "deploy-prod": "npm run set-prod && REACT_APP_ENVIRONMENT=production react-scripts build && firebase deploy --only hosting:prod-website",
+    "deploy-dev": "npm run set-dev && REACT_APP_ENVIRONMENT=development react-scripts build && firebase deploy --only hosting:dev-website",
     "set-dev": "firebase use langame-dev",
     "set-prod": "firebase use langame-86ac4",
     "lint": "eslint . --ext .ts --fix"

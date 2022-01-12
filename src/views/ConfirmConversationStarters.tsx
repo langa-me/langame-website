@@ -99,7 +99,6 @@ export const ConfirmConversationStarters = () => {
             >
                 <FormGroup
                     style={{
-                        backgroundColor: "white",
                         padding: "20px",
                         width: "50%",
                     }}

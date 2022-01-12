@@ -2,8 +2,7 @@ import { browserSessionPersistence, setPersistence } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useAuth, useSigninCheck } from "reactfire";
-import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
-import { log } from "../../utils/logs";
+import CenteredCircularProgress from "./CenteredCircularProgress";
 
 export const CheckAuthentication = ({ children }: React.PropsWithChildren<any>): JSX.Element => {
     const auth = useAuth();
@@ -18,10 +17,8 @@ export const CheckAuthentication = ({ children }: React.PropsWithChildren<any>):
         return <CenteredCircularProgress/>;
     }
     if (sign.data.signedIn) {
-        log("authenticated, redirecting to", children);
         return children as JSX.Element;
     } else {
-        log("not authenticated, redirecting to /signin");
         return <Redirect to="/signin" />;
     }
 };
