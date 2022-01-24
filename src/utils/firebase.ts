@@ -1,7 +1,7 @@
 import { connectAuthEmulator, getAuth } from "@firebase/auth";
 import {
     connectFirestoreEmulator,
-    getFirestore,
+    getFirestore
 } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions } from "firebase/app";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
@@ -12,7 +12,7 @@ export const getFirebaseConfig = (): FirebaseOptions => {
     const firebaseConfig: FirebaseOptions = isProd ?
         {
             apiKey: "AIzaSyDxLmqscMfKF6FUd_rXcsJxH--w0PQhVWw",
-            authDomain: "langame-86ac4.firebaseapp.com",
+            authDomain: "langa.me",
             projectId: "langame-86ac4",
             storageBucket: "langame-86ac4.appspot.com",
             messagingSenderId: "909899959016",
@@ -20,7 +20,7 @@ export const getFirebaseConfig = (): FirebaseOptions => {
             measurementId: "G-2MMEHXG4LR"
         } : {
             apiKey: "AIzaSyBA_lBzVBjwkHx8X3PUl6Vz_sA__K8mCF0",
-            authDomain: "langame-dev.firebaseapp.com",
+            authDomain: "langame-dev.firebaseapp.com", // TODO
             projectId: "langame-dev",
             storageBucket: "langame-dev.appspot.com",
             messagingSenderId: "388264600961",

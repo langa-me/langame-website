@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 type FormLabelProps = React.HTMLProps<HTMLLabelElement> & { labelHidden?: boolean }
 
@@ -25,8 +25,8 @@ const FormLabel = ({
 }: FormLabelProps) => {
 
   const classes = classNames(
-    'form-label',
-    labelHidden && 'screen-reader',
+    "form-label",
+    labelHidden && "screen-reader",
     className
   );
 

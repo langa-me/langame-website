@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 type FormHintProps = React.HTMLProps<HTMLDivElement> & { status?: string }
 
@@ -22,7 +22,7 @@ const FormHint = ({
 }: FormHintProps) => {
 
   const classes = classNames(
-    'form-hint',
+    "form-hint",
     status && `text-color-${status}`,
     className
   );

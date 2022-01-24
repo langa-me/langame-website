@@ -1,0 +1,20 @@
+name: Run Continuous Integration & Continuous Delivery Dev
+on:
+  push:
+    branches:
+      - dev
+env:
+  REACT_APP_ENVIRONMENT: development
+jobs:
+  ci_cd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i && npm run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:dev-website --message \"${{ github.event.head_commit.message }}\"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_DEV }}
+          PROJECT_ID: langame-dev

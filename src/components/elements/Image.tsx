@@ -1,23 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 
-type ImagePropTypes = React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
-
-const propTypes = {
-  src: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.string
-  ]).isRequired,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  alt: PropTypes.string,
-}
-
-const defaultProps = {
-  src: undefined,
-  width: undefined,
-  height: undefined,
-  alt: undefined,
+interface ImageProps extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+  src: string;
+  width?: number;
+  height?: number;
+  alt?: string;
 }
 
 const Image = ({
@@ -28,7 +15,7 @@ const Image = ({
   height,
   alt,
   ...props
-}: ImagePropTypes) => {
+}: ImageProps) => {
 
   const [loaded, setLoaded] = useState(false);
 
@@ -76,8 +63,5 @@ const Image = ({
       onLoad={onLoad}/>
   );
 }
-
-Image.propTypes = propTypes;
-Image.defaultProps = defaultProps;
 
 export default Image;
