@@ -1,5 +1,5 @@
 import { AlternateEmail, Google } from "@mui/icons-material";
-import { Grid, Button } from "@mui/material";
+import { Grid, Button, Typography } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useSnackbar } from "notistack";
 import * as React from "react";
@@ -36,6 +36,29 @@ const SignInPage = () => {
 
     if (isLoading) {
         return <CenteredCircularProgress />;
+    }
+
+    // Prevent usage on small width screens and display a message
+    // in the middle of the screen
+    if (window.innerWidth < 1000) {
+        return (
+            <Grid container justifyContent="center" alignItems="center"
+                sx={{
+                    height: "100vh",
+                    width: "100vw",
+                }}
+            >
+                <Grid item>
+                    <Typography variant="h4"
+                    // center the text
+                        align="center"
+                    >
+                        Unfortunately, this page is not available on mobile, 
+                        please use a desktop device or a larger screen.
+                    </Typography>
+                </Grid>
+            </Grid>
+        );
     }
 
     // Show a centered vertically and horizontally form

@@ -1,6 +1,6 @@
-import { CircularProgress, Paper, Typography } from "@mui/material";
+import { CircularProgress, Grid, Paper, Typography } from "@mui/material";
 import { collection, doc, Timestamp } from "firebase/firestore";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFirestore, useFirestoreDocData } from "reactfire";
 import {
     Bar,
@@ -9,9 +9,15 @@ import {
     XAxis, YAxis
 } from "recharts";
 
+//create your forceUpdate hook
+function useForceUpdate() {
+    const setValue = useState(0)[1]; // integer state
+    return () => setValue((v: number) => v + 1); // update the state to force render
+}
+
 
 function CustomTooltip({ payload, label, active }: any) {
-    if (active && payload[0].value) {
+    if (active && payload && payload[0] && payload[0].value) {
         return (
             // label + current month short string
             <Paper
@@ -25,7 +31,7 @@ function CustomTooltip({ payload, label, active }: any) {
                         new Date().toLocaleString("en-us", { month: "short" })}
                 </Typography>
                 <Typography>
-                    Usage: <strong>{payload[0].value}</strong>
+                    Requests: <strong>{payload[0].value}</strong>
                 </Typography>
             </Paper>
         );
@@ -42,43 +48,50 @@ export default function UsagePerKeyChart({ keyId }: IUsagePerKeyChartProps) {
     const usagesCollection = collection(firestore, "usages");
     const usageDoc = doc(usagesCollection, keyId);
     const { status, data: usage } = useFirestoreDocData(usageDoc);
+    const forceUpdate = useForceUpdate();
+
+    // Stupid hack necessary because recharts crashes when document is updated
+    useEffect(() => {
+        forceUpdate();
+    }, [usage]);
 
     // group usage data by day and sum up the calls
     const groupQueriesByDay = (
         queries: Timestamp[]
     ): { day: number, count: number }[] => {
-        // current day as a number (e.g. 12)
-        const today = new Date().getDate();
-        // list of {[day: number]: number}
-        // groupQueries initialised with 8 days before today and 8 days after today
-        const groupedQueries: { day: number, count: number }[] =
-            Array(16).fill(null).map((e, i) => ({
-                day: (16 - today) + i
+        const today = new Date();
 
-                , count: 0
-            }))
-                // filter out negative days (i.e. if today is 4, then filter out -1, -2, -3, -4)
-                .filter(e => e.day > 0);
-        queries = queries.filter((query) => query.toDate() > new Date(new Date().setDate(today - 8)));
-        queries = queries.filter((query) => query.toDate() < new Date(new Date().setDate(today + 8)));
+        const groupedQueries: { day: number, count: number }[] = [];
+
+        // get first day of month
+        const firstDayOfMonth = new Date().getDate() - new Date().getDay();
+        const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDay();
+
+        // filter from this month only
+        queries = queries.filter((query) => query.toDate() >=
+            new Date(new Date().setDate(today.getDate() - firstDayOfMonth)));
+        queries = queries.filter((query) => query.toDate() <=
+            new Date(new Date().setDate(today.getDate() + lastDayOfMonth)));
+
         queries.forEach((query) => {
             const day = new Date(query.toDate()).getDate();
-            groupedQueries.forEach((groupedQuery) => {
-                if (groupedQuery.day === day) {
-                    groupedQuery.count++;
-                }
-            });
+            groupedQueries[day] = {
+                day,
+                count: groupedQueries[day] ? groupedQueries[day].count + 1 : 1
+            };
         });
+
         return groupedQueries;
     }
 
     if (status === "loading") {
         return <CircularProgress />
     }
+    const q = groupQueriesByDay(usage?.queries || []);
     return (
-        usage && usage.queries ?
+        usage && usage!.queries ?
             <BarChart
-                data={groupQueriesByDay(usage?.queries || [])}
+                data={q}
                 width={800}
                 height={400}
                 margin={{
@@ -100,7 +113,27 @@ export default function UsagePerKeyChart({ keyId }: IUsagePerKeyChartProps) {
                 />
             </BarChart>
             :
-            <h1>No data</h1>
+            <Grid container justifyContent="center" alignItems="center"
+            >
+                <Grid item>
+                    <Typography variant="h4"
+                        align="center"
+                    // Link to https://docs.langa.me in another tab
+                    >
+
+                        No data yet! See the <a href="https://docs.langa.me" 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >
+                            <strong>
+                                {" "}
+                                documentation
+                            </strong>
+                        </a> for more information.
+
+                    </Typography>
+                </Grid>
+            </Grid>
 
 
     );

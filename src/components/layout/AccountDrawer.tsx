@@ -89,8 +89,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              // open in a new tab "https://help.langa.me/langame-api/pricing"
-              window.open("https://help.langa.me/langame-api/pricing", "_blank");
+              window.open("https://help.langa.me/langame-services/pricing", "_blank");
             }}
           >
             <ListItemIcon>
