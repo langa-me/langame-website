@@ -14,7 +14,6 @@ import { useSnackbar } from "notistack";
 import * as React from "react";
 import { useAuth, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import { log } from "../../utils/logs";
-import CenteredCircularProgress from "./CenteredCircularProgress";
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -53,10 +52,6 @@ export default function AccountMenu() {
             log("error signing out", error);
             enqueueSnackbar(error.message, { variant: "error" });
         });
-    }
-
-    if (status === "loading") {
-        return <CenteredCircularProgress />;
     }
 
     return (
@@ -111,7 +106,7 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                {organizations.map((e) => {
+                {status != "loading" && organizations.map((e) => {
                     return (
                         <MenuItem key={e.id}>
                             {prefObs.data?.currentOrganization === e.id &&

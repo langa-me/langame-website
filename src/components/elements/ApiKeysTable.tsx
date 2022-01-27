@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CenteredCircularProgress from "./CenteredCircularProgress";
 import { addDoc, collection, deleteDoc, doc, DocumentData, onSnapshot, query, serverTimestamp, where } from "firebase/firestore";
-import { Button, CircularProgress, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, CircularProgress, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import { Add, ContentCopy, Delete, SentimentSatisfied } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 import { isProd } from "../../utils/constants";
@@ -18,6 +18,7 @@ import { isProd } from "../../utils/constants";
 interface ApiKeysProps {
     organizationId: string;
 }
+const apiUrl = `https://${isProd ? "" : "d"}api.langa.me/v1/conversation/starter`;
 export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
     const firestore = useFirestore();
     const apiKeysCollection = collection(firestore, "api_keys");
@@ -26,7 +27,7 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
         idField: "id",
     });
     const [canAct, setCanAct] = React.useState(false);
-    const [topicsQueryTry, setTopicsQueryTry] = React.useState("");
+    const [topicsQueryTry, setTopicsQueryTry] = React.useState("ice breaker,travel");
     const [queryResponse, setQueryResponse] = React.useState<any>(null);
     const { enqueueSnackbar } = useSnackbar();
 
@@ -71,12 +72,11 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
             .catch(onFail);
     };
     const onExecuteRequestToApi = () => {
-        fetch(`https://${isProd ? "" : "d"}api.langa.me`, {
-            mode: "no-cors",
+        fetch(apiUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-API-Key": keys?.[0]?.apiKey,
+                "X-Api-Key": keys[0].apiKey,
             },
             body: JSON.stringify({
                 topics: topicsQueryTry.split(",").map((e) => e.trim()),
@@ -86,6 +86,14 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
         }).catch((e) => {
             enqueueSnackbar(e.message, { variant: "error" });
             setQueryResponse(null);
+        });
+    };
+    const onCopyRequestAsCurlToClipboard = () => {
+        const curl = `curl -X POST -H "Content-Type: application/json" -H "X-Api-Key: ${keys[0].apiKey}" -d '{"topics": [${topicsQueryTry.split(",").map((e) => `"${e.trim()}"`).join(", ")}]}' ${apiUrl} | jq '.'`;
+        navigator.clipboard.writeText(curl).then(() => {
+            enqueueSnackbar("Copied to clipboard", { variant: "success" });
+        }).catch((e) => {
+            enqueueSnackbar(e.message, { variant: "error" });
         });
     };
     if (status === "loading") {
@@ -180,31 +188,53 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                 value={topicsQueryTry}
                 onChange={(e) => setTopicsQueryTry(e.target.value)}
             />
-            <Tooltip title={
-                "Coming soon"
+            {/* Row with 2 buttons */}
+            <Grid
+                container
+                spacing={2}
+                justifyContent="space-around"
+            >
+                <Grid item>
 
-                // !canAct
-                // // any of topics are length < 3
-                // || topicsQueryTry.split(",").some((e) => e.trim().length < 3) ?
-                // "Your topics must between 4 and 20 characters long and splitted by comma" :
-                // "Try now!"
-            }>
-                <span>
-                    <Button
-                        variant="outlined"
-                        startIcon={<SentimentSatisfied />}
-                        onClick={onExecuteRequestToApi}
-                        disabled={
-                            true
-                            // !canAct
-                            // // any of topics are length < 3
-                            // || topicsQueryTry.split(",").some((e) => e.trim().length < 3)
-                        }
+                    <Tooltip title={
+                        "Try the API with a cURL request."
+                    }
+                        followCursor={true}
                     >
-                        Execute
-                    </Button>
-                </span>
-            </Tooltip>
+                        <span>
+                            <Button
+                                variant="outlined"
+                                startIcon={<ContentCopy />}
+                                onClick={onCopyRequestAsCurlToClipboard}
+                                disabled={
+                                    !canAct
+                                    || topicsQueryTry.split(",").some((e) => e.trim().length < 3)
+                                }
+                            >
+                                Copy as cURL
+                            </Button>
+                        </span>
+                    </Tooltip>
+                </Grid>
+                <Grid item>
+                    <Tooltip title={
+                        "Coming soon"
+                    }
+                        followCursor={true}
+                    >
+                        <span>
+                            <Button
+                                variant="outlined"
+                                startIcon={<SentimentSatisfied />}
+                                onClick={onExecuteRequestToApi}
+                                disabled={true}
+                            >
+                                Execute
+                            </Button>
+                        </span>
+                    </Tooltip>
+                </Grid>
+            </Grid>
             {
                 queryResponse &&
                 <Typography>{queryResponse}</Typography>

@@ -69,7 +69,10 @@ const App = () => {
                   <Switch>
                     <AppRoute exact path='/' component={Home} layout={LayoutDefault} />
                     <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
+                    <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
                     <CheckAuthentication>
+                      <AppRoute exact path='/confirm' component={ConfirmConversationStarters}
+                        layout={LayoutDefault} />
                       <AppRoute exact path='/account/settings'
                         component={AccountSettings}
                         layout={LayoutAccount}
@@ -83,13 +86,8 @@ const App = () => {
                         layout={LayoutAccount}
                       />
                       { /* Redirect /account to /account/settings */}
-                      <Redirect exact from="/account" to="/account/settings" />
-                      <AppRoute exact path='/confirm' component={ConfirmConversationStarters}
-                        layout={LayoutDefault} />
+                      <Redirect exact from="/account/*" to="/account/settings" />
                     </CheckAuthentication>
-                    { /* TODO does not work 404 */}
-                    <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
-                    <Redirect to="/404" />
                   </Switch>
                 )}
               </ScrollReveal>

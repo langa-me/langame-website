@@ -16,11 +16,12 @@ export const CheckAuthentication = ({ children }: React.PropsWithChildren<any>):
     if (sign.status === "loading") {
         return <CenteredCircularProgress/>;
     }
-    if (sign.data.signedIn) {
+    if (sign.data.signedIn && children) {
         return children as JSX.Element;
-    } else {
+    } else if (!sign.data.signedIn) {
         return <Redirect to="/signin" />;
     }
+    return <Redirect to="/404" />
 };
 CheckAuthentication.displayName = "CheckAuthentication";
 export default CheckAuthentication;

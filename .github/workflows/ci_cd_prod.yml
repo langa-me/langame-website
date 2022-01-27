@@ -14,7 +14,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting:prod-website --message \"${{ github.event.head_commit.message }}\" --project langame-86ac4
+          args: deploy --only hosting:prod-website --message \"${{ github.event.head_commit.message }}\"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PROD }}
           PROJECT_ID: langame-86ac4

@@ -3,10 +3,9 @@ import { addDoc, collection, doc, query, setDoc, where } from "firebase/firestor
 import { useSnackbar } from "notistack";
 import { log } from "../../utils/logs";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
-import { Button, Stack, TextField } from "@mui/material";
+import { Tooltip, Button, Stack, TextField } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
-import { Tooltip } from "@material-ui/core";
 
 export default function AccountSettings() {
     const fs = useFirestore();
@@ -64,9 +63,11 @@ export default function AccountSettings() {
             />
             {
                 organizations.length === 0 &&
-                <Tooltip title={organizationName.length < 3 ?
-                    "Organization name must be at least 3 characters long" :
-                    "Create a new organization"}
+                <Tooltip
+                    followCursor={true}
+                    title={organizationName.length < 3 ?
+                        "Organization name must be at least 3 characters long" :
+                        "Create a new organization"}
                 >
                     <span>
                         <Button
