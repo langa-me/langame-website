@@ -31,11 +31,33 @@ const firebaseConfig = getFirebaseConfig();
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
+  // hack see src/assets/scss/settings/base/_colors.scss
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
           mode: prefersDarkMode ? "dark" : "light",
+          primary: {
+            light: "#6163FF",
+            main: "#ACADFF",
+            dark: "#5658DD",
+            contrastText: "#E9E9FF"
+          },
+          secondary: {
+            light: "#24E5AF",
+            main: "#73EFCC",
+            dark: "#1CB68B",
+            contrastText: "#D2F9EE"
+          },
+          error: {
+            main: "#FF6171"
+          },
+          warning: {
+            main: "#FFA173"
+          },
+          info: {
+            main: "#24E5AF"
+          },
         },
       }),
     [prefersDarkMode],

@@ -1,13 +1,13 @@
-import { AttachMoney, BarChart, Key, Settings } from "@mui/icons-material";
+import { AttachMoney, BarChart, Key, Settings, ThumbsUpDown } from "@mui/icons-material";
 import { Divider, ListItemButton } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { collection, query, where } from "firebase/firestore";
+import { collection, doc, query, where } from "firebase/firestore";
 import * as React from "react";
 import { useHistory } from "react-router-dom";
-import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
+import { useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import CenteredCircularProgress from "../elements/CenteredCircularProgress";
 interface AccountDrawerProps {
   topAnchor: any;
@@ -22,6 +22,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
   const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
     idField: "id",
   });
+  const userObs = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || ""));
 
   if (status === "loading") {
     return <CenteredCircularProgress />;
@@ -100,6 +101,23 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
             <ListItemText primary="Pricing" />
           </ListItemButton>
         </ListItem>
+        {userObs.data?.role === "admin" &&
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                // go to /confirm
+                history.push("/confirm");
+              }}
+            >
+              <ListItemIcon>
+                <ThumbsUpDown
+                  color="success"
+                />
+              </ListItemIcon>
+              <ListItemText primary="Conversation starters" />
+            </ListItemButton>
+          </ListItem>
+        }
       </List>
     </nav>
   );

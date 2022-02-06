@@ -1,15 +1,21 @@
-import { Grid } from "@mui/material";
-import React from "react";
+import { Button, Grid } from "@mui/material";
+import React, { useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Timeline } from "react-twitter-widgets";
-import { ReactComponent as Apple } from "../assets/images/app-store.svg";
 import { ReactComponent as Discord } from "../assets/images/discord.svg";
+import { ReactComponent as Apple } from "../assets/images/app-store.svg";
 import { ReactComponent as Google } from "../assets/images/google-play.svg";
-import { ReactComponent as Browser } from "../assets/images/browser.svg";
 import FeaturesTiles from "../components/sections/FeaturesTiles";
 import GenericSection from "../components/sections/GenericSection";
 import Hero from "../components/sections/Hero";
+import { Web } from "@mui/icons-material";
 const Home = () => {
+  useEffect(() => {
+    // allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts
+    fetch("https://discord.com/api/guilds/888438975646285834/widget.json").then(async (e) => {
+      console.log(await e.json());
+    });
+  }, []);
   return (
     <>
       <Hero className="illustration-section-01" />
@@ -17,44 +23,49 @@ const Home = () => {
       <GenericSection>
 
         <Grid container
-          direction='row'
+          direction='column'
           alignItems="center"
           justifyContent="center"
           spacing={0}
         >
+
           <Timeline
             dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
             options={{
               theme: "dark",
               height: "400px",
+              width: "100%",
             }}
           />
-          <Grid container direction='row'
-            alignItems="center"
-            justifyContent="center"
-            spacing={0}
-          >
-            {/* TODO: flexBasis hack */}
-            <Grid item xs={3}>
-              <a href="https://app.langa.me" style={{ margin: "0px" }}>
-                <Browser width={256} height={128} />
-              </a>
-            </Grid>
-            <Grid item xs={3}>
-              <a href="https://discord.gg/7KFwPUr4hj" style={{ margin: "0px" }}>
-                <Discord width={256} height={128} />
-              </a>
-            </Grid>
-            <Grid item xs={3}>
-              <a href="https://testflight.apple.com/join/pxxfLXZc" style={{ margin: "0px" }}>
-                <Apple width={256} height={128} />
-              </a>
-            </Grid>
-            <Grid item xs={3}>
-              <a href="https://play.google.com/store/apps/details?id=me.langa">
-                <Google width={256} height={128} />
-              </a>
-            </Grid>
+          <Grid item xs={3}>
+            <Button
+              onClick={() => {
+                window.open("https://discord.gg/7KFwPUr4hj", "_blank");
+              }}
+            >
+              <Discord />
+            </Button>
+          </Grid>
+          <Grid item xs={3}>
+            <a href="https://testflight.apple.com/join/pxxfLXZc" >
+              <Apple width={256} height={128} />
+            </a>
+          </Grid>
+          <Grid item xs={3}>
+            <a href="https://play.google.com/store/apps/details?id=me.langa">
+              <Google width={256} height={128} />
+            </a>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              startIcon={<Web/>}
+              onClick={() => {
+                window.location.href = "https://app.langa.me";
+              }}
+            >
+              On Google Chrome
+            </Button>
           </Grid>
         </Grid>
       </GenericSection>

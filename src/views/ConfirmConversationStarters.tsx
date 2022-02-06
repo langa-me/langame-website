@@ -135,6 +135,10 @@ export const ConfirmConversationStarters = () => {
                         </Button>
                     </ButtonGroup>
                     <FormControlLabel
+                        style={{
+                            // disable text selection
+                            userSelect: "none",
+                        }}
                         control={<Checkbox value={shouldTweet}
                             onChange={(e) => setShouldTweet(e.target.checked)} />}
                         label="Tweet"
