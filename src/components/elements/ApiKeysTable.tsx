@@ -197,6 +197,10 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                 <Grid item>
 
                     <Tooltip title={
+                        keys.length === 0 ||
+                        !canAct
+                        || topicsQueryTry.split(",").some((e) => e.trim().length < 3) ?
+                        "You need to create an API key first" :
                         "Try the API with a cURL request."
                     }
                         followCursor={true}
@@ -207,6 +211,7 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                                 startIcon={<ContentCopy />}
                                 onClick={onCopyRequestAsCurlToClipboard}
                                 disabled={
+                                    keys.length === 0 ||
                                     !canAct
                                     || topicsQueryTry.split(",").some((e) => e.trim().length < 3)
                                 }

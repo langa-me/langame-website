@@ -1,4 +1,4 @@
-import { AlternateEmail, Google } from "@mui/icons-material";
+import { AlternateEmail } from "@mui/icons-material";
 import { Grid, Button, Typography } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useSnackbar } from "notistack";
@@ -8,6 +8,7 @@ import CenteredCircularProgress from "../../components/elements/CenteredCircular
 import EmailSignInDialogForm from "../../components/elements/EmailSignInDialogForm";
 import { isProd } from "../../utils/constants";
 import { log } from "../../utils/logs";
+import GoogleButton from "react-google-button"
 
 
 const SignInPage = () => {
@@ -87,15 +88,19 @@ const SignInPage = () => {
                     padding={20}
                     border={4}
                     alignItems="center"
-                    justifyContent="center">
+                    justifyContent="center"
+                    borderRadius={10}
+                    style={{
+                        backgroundColor: "#33363A",
+                    }}
+                >
                     <Grid item>
-                        <Button
+                        <GoogleButton
                             color="primary"
-                            startIcon={<Google />}
                             onClick={googleSignIn}
                         >
                             Google
-                        </Button>
+                        </GoogleButton>
                     </Grid>
                     {!isProd && <Grid item>
                         <Button

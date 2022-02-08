@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -17,6 +17,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-ga": "^3.3.0",
+    "react-google-button": "^0.7.2",
     "react-hook-form": "^7.0.4",
     "react-responsive-carousel": "^3.2.20",
     "react-router-dom": "^5.1.2",
