@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Timeline } from "react-twitter-widgets";
 import { ReactComponent as Discord } from "../assets/images/discord.svg";
@@ -13,12 +13,6 @@ import DiscordSamples from "../components/elements/DiscordSamples";
 
 
 const Home = () => {
-  useEffect(() => {
-    // allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts
-    fetch("https://discord.com/api/guilds/888438975646285834/widget.json").then(async (e) => {
-      console.log(await e.json());
-    });
-  }, []);
   return (
     <>
       <Hero className="illustration-section-01" />

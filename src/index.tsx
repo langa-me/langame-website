@@ -6,8 +6,9 @@ import { createBrowserHistory } from "history";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./assets/scss/style.scss";
+import { seed } from "./utils/random";
 const history = createBrowserHistory();
-
+seed(new Date().getTime());
 ReactDOM.render(
   <Router history={history}>
       <App />

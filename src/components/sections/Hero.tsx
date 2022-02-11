@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { SectionProps } from "../../utils/SectionProps";
 import "react-toastify/dist/ReactToastify.css";
+import { getRandom } from "../../utils/random";
 
 type HeroProps = SectionProps & React.HTMLProps<HTMLDivElement>
 
@@ -39,7 +40,6 @@ const random = [
   "Be more open and honest",
   "Open yourself to your friends and family",
 ];
-
 const Hero = ({
   className,
   topOuterDivider,
@@ -50,6 +50,7 @@ const Hero = ({
   invertColor,
   ...props
 }: HeroProps) => {
+  const text = random[Math.floor(getRandom() * random.length)];
 
 
   const outerClasses = classNames(
@@ -80,7 +81,7 @@ const Hero = ({
             </h1>
             <div className='container-xs'>
               <p className='m-0 mb-32 reveal-from-bottom' data-reveal-delay='400'>
-                {random[Math.floor(Math.random() * random.length)]}
+                {text}
               </p>
             </div>
           </div>

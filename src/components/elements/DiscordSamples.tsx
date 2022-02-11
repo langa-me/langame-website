@@ -130,10 +130,12 @@ const langames = [
     }
 ]
 
+
 const DiscordSamples = (
     { style }: React.PropsWithChildren<{ style?: React.CSSProperties }>
 ) => {
     const langame = sample(langames);
+
     return (
         <DiscordMessages
             style={style}
