@@ -100,7 +100,7 @@ const langames = [
     },
     {
         "question": {
-            "topics": ["travel"],
+            "topics": ["health"],
             "players": [
                 "huy66", "alice76", "lou03"
             ],
@@ -115,7 +115,7 @@ const langames = [
     },
     {
         "question": {
-            "topics": ["travel"],
+            "topics": ["health"],
             "players": [
                 "huy66", "alice76", "lou03"
             ],
