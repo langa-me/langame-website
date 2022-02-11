@@ -49,7 +49,7 @@ const FeaturesTiles = ({
 
   const sectionHeader = {
     title: "Langame",
-    paragraph: "Augmented conversations"
+    paragraph: "AI Augmented conversations"
   };
 
   return (

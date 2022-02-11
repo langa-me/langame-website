@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -10,6 +10,8 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.5",
+    "@skyra/discord-components-core": "^3.1.0",
+    "@skyra/discord-components-react": "^3.1.0",
     "classnames": "^2.2.6",
     "firebase": "^9.6.2",
     "lodash": "^4.17.15",

@@ -9,6 +9,9 @@ import FeaturesTiles from "../components/sections/FeaturesTiles";
 import GenericSection from "../components/sections/GenericSection";
 import Hero from "../components/sections/Hero";
 import { Web } from "@mui/icons-material";
+import DiscordSamples from "../components/elements/DiscordSamples";
+
+
 const Home = () => {
   useEffect(() => {
     // allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts
@@ -23,50 +26,97 @@ const Home = () => {
       <GenericSection>
 
         <Grid container
-          direction='column'
+          direction="column"
           alignItems="center"
           justifyContent="center"
-          spacing={0}
         >
-
-          <Timeline
-            dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
-            options={{
-              theme: "dark",
-              height: "400px",
-              width: "100%",
-            }}
-          />
-          <Grid item xs={3}>
-            <Button
-              onClick={() => {
-                window.open("https://discord.gg/7KFwPUr4hj", "_blank");
-              }}
-            >
-              <Discord />
-            </Button>
+          <Grid item>
+            <Discord />
           </Grid>
-          <Grid item xs={3}>
-            <a href="https://testflight.apple.com/join/pxxfLXZc" >
-              <Apple width={256} height={128} />
-            </a>
-          </Grid>
-          <Grid item xs={3}>
-            <a href="https://play.google.com/store/apps/details?id=me.langa">
-              <Google width={256} height={128} />
-            </a>
+          <Grid container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            spacing={2}
+          >
+            <Grid item>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={
+                  // https://discord.me/langame
+                  () => window.open("https://discord.me/langame", "_blank")
+                }
+              >
+                Install now
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={
+                  // https://discord.me/langame
+                  () => window.open("https://discord.gg/7KFwPUr4hj", "_blank")
+                }
+              >
+                Or join the community
+              </Button>
+            </Grid>
           </Grid>
           <Grid item>
-            <Button
-              variant="outlined"
-              startIcon={<Web/>}
-              onClick={() => {
-                window.location.href = "https://app.langa.me";
-              }}
-            >
-              On Google Chrome
-            </Button>
+            <DiscordSamples />
           </Grid>
+
+          <Grid item>
+            <h1>
+              <span>
+                Join the platforms
+              </span>
+            </h1>
+          </Grid>
+
+          <Grid container
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            spacing={2}
+          >
+            <Grid item>
+              <Button
+                variant="outlined"
+                startIcon={<Web />}
+                onClick={() => {
+                  window.location.href = "https://app.langa.me";
+                }}
+              >
+                On Google Chrome
+              </Button>
+            </Grid>
+            <Grid item>
+              <a href="https://testflight.apple.com/join/pxxfLXZc" >
+                <Apple width={256} height={128} />
+              </a>
+            </Grid>
+            <Grid item>
+              <a href="https://play.google.com/store/apps/details?id=me.langa">
+                <Google width={256} height={128} />
+              </a>
+            </Grid>
+
+          </Grid>
+
+          <Grid item>
+            <Timeline
+              dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
+              options={{
+                theme: "dark",
+                height: "400px",
+                width: "100%",
+              }}
+            />
+          </Grid>
+
         </Grid>
       </GenericSection>
 
