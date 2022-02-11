@@ -50,8 +50,7 @@ const Hero = ({
   invertColor,
   ...props
 }: HeroProps) => {
-  const text = random[Math.floor(getRandom() * random.length)];
-
+  const text = React.useState(random[Math.floor(getRandom() * random.length)])[0];
 
   const outerClasses = classNames(
     "hero section center-content",
