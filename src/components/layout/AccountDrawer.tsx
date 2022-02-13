@@ -1,4 +1,4 @@
-import { AttachMoney, BarChart, Key, Settings, ThumbsUpDown } from "@mui/icons-material";
+import { AttachMoney, BarChart, Key, Settings, ThumbsUpDown, People } from "@mui/icons-material";
 import { Divider, ListItemButton } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -115,6 +115,22 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 />
               </ListItemIcon>
               <ListItemText primary="Conversation starters" />
+            </ListItemButton>
+          </ListItem>
+        }
+        {userObs.data?.role === "admin" &&
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                history.push("/users");
+              }}
+            >
+              <ListItemIcon>
+                <People
+                  color="success"
+                />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
             </ListItemButton>
           </ListItem>
         }
