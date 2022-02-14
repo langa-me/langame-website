@@ -23,12 +23,14 @@ export const ConfirmConversationStarters = () => {
     const { data: topics } = useFirestoreCollectionData(topicsQuery, { idField: "id" });
     const [shouldTweet, setShouldTweet] = React.useState(false);
     const [conversationStarter, setConversationStarter] = React.useState("");
-    const [conversationStarterTopics, setConversationStarterTopics] = React.useState("");
+    const [conversationStarterTopics, setConversationStarterTopics] =
+        React.useState<string[]>([]);
     const [showAlternatives, setShowAlternatives] = React.useState(true);
+    const [topicsField, setTopicsField] = React.useState("");
     const { enqueueSnackbar } = useSnackbar();
     useEffect(() => {
         setConversationStarter(memes && memes[0] && memes[0].content || "");
-        setConversationStarterTopics(memes && memes[0] && memes[0].topics.join(",") || "");
+        setConversationStarterTopics(memes && memes[0] && memes[0].topics || []);
         log("ConfirmMemes", memes);
     }, [memes]);
     const onConfirm = () => {
@@ -38,7 +40,7 @@ export const ConfirmConversationStarters = () => {
             // Check that topics is not empty
             !conversationStarterTopics ||
             // Check that all topics is at least 2 characters long
-            conversationStarterTopics.split(",").filter(t => t.length < 2).length > 0
+            conversationStarterTopics.filter((t) => t.length < 2).length > 0
         ) {
             enqueueSnackbar("Topics must be a comma separated string with each topics of at least 2 characters",
                 { variant: "error" });
@@ -58,7 +60,7 @@ export const ConfirmConversationStarters = () => {
         setDoc(doc(firestore, "memes", memes[0].id), {
             disabled: false,
             content: conversationStarter,
-            topics: conversationStarterTopics.split(","),
+            topics: conversationStarterTopics,
             tweet: shouldTweet,
             confirmed: true,
         }).then(() => {
@@ -162,11 +164,15 @@ export const ConfirmConversationStarters = () => {
                     <Autocomplete
                         multiple
                         id="tags-outlined"
-                        options={topics}
-                        getOptionLabel={(option) => option.id}
+                        options={topics.map((e) => e.id)}
+                        getOptionLabel={(option) => option}
+                        inputValue={topicsField}
+                        onInputChange={(e, value) => setTopicsField(value)}
+                        value={conversationStarterTopics}
                         filterSelectedOptions
+                        popupIcon={<></>}
                         onChange={(e, value) => {
-                            setConversationStarterTopics(value.map((v) => v.id).join(","));
+                            setConversationStarterTopics(value);
                         }}
                         renderInput={(params) => (
                             <TextField
