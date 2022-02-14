@@ -125,6 +125,7 @@ export default function AccountMenu() {
                     sx={{
                         fontSize: 18
                     }}
+                    color="primary"
                 >
                     <ListItemIcon
 

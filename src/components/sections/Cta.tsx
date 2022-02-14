@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { SectionProps } from '../../utils/SectionProps';
-import Input from '../elements/Input';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { SectionProps } from "../../utils/SectionProps";
+import Input from "../elements/Input";
 
 export type CtaProps = SectionProps & React.HTMLProps<HTMLDivElement> & { split?: boolean }
 
@@ -29,19 +29,19 @@ const Cta = ({
 }: CtaProps) => {
 
   const outerClasses = classNames(
-    'cta section center-content-mobile reveal-from-bottom',
-    topOuterDivider && 'has-top-divider',
-    bottomOuterDivider && 'has-bottom-divider',
-    hasBgColor && 'has-bg-color',
-    invertColor && 'invert-color',
+    "cta section center-content-mobile reveal-from-bottom",
+    topOuterDivider && "has-top-divider",
+    bottomOuterDivider && "has-bottom-divider",
+    hasBgColor && "has-bg-color",
+    invertColor && "invert-color",
     className
   );
 
   const innerClasses = classNames(
-    'cta-inner section-inner',
-    topDivider && 'has-top-divider',
-    bottomDivider && 'has-bottom-divider',
-    split && 'cta-split'
+    "cta-inner section-inner",
+    topDivider && "has-top-divider",
+    bottomDivider && "has-bottom-divider",
+    split && "cta-split"
   );
 
   return (

@@ -1,73 +1,76 @@
-import { Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, Tooltip } from "@mui/material";
-import { collection, limit, orderBy, query } from "firebase/firestore";
-import { useSnackbar } from "notistack";
+import { Box, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import React from "react";
-import { useFirestore, useFirestoreCollectionData } from "reactfire";
-import CenteredCircularProgress from "../components/elements/CenteredCircularProgress";
-
+import ApiUsers from "../components/sections/ApiUsers";
+import AppUsers from "../components/sections/AppUsers";
+import SocialIntegrationUsers from "../components/sections/SocialIntegrationUsers";
 
 
 export const Users = () => {
-    const firestore = useFirestore();
-    const usersCollection = collection(firestore, "users");
-    const usersQuery = query(usersCollection,
-        orderBy("lastSpent", "desc"),
-        limit(20), // TODO: pagination
-    );
-    const { data: users } = useFirestoreCollectionData(usersQuery, { idField: "id" });
-    const { enqueueSnackbar } = useSnackbar();
-
-    if (!users) {
-        return <CenteredCircularProgress />;
-    }
+    const [tabIndex, setTabIndex] = React.useState(0);
     return (
-        <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            marginTop="10%"
-        >
-            <Grid item>
-                <List>
-                    {users
-                        // order by user.lastSignInTime
-                        .sort((a: any, b: any) => {
-                            if (a.lastSpent.toDate() > b.lastSpent.toDate()) {
-                                return -1;
-                            }
-                            if (a.lastSpent.toDate() < b.lastSpent.toDate()) {
-                                return 1;
-                            }
-                            return 0;
-                        })
-                        .map(user => (
-                            <Tooltip
-                                key={user.id}
-                                title={"Last login: " + user.lastSpent.toDate().toLocaleString()}>
-                                <ListItem key={user.id}
-                                    onClick={() => {
-                                        // copy tag to clipboard
-                                        navigator.clipboard.writeText(user.tag);
-                                        enqueueSnackbar("Tag copied to clipboard", { variant: "success" });
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar alt={user.displayName} src={user.photoUrl} />
-                                    </ListItemAvatar>
+        // show list on the left to pick between "app,api,social integrations"
+        <>
+            <List
+                style={{
+                    top: 100,
+                    position: "absolute",
+                    width: "20%",
+                    zIndex: 1,
+                    boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+                    margin: "20px",
+                }}
+            >
+                {
+                    ["App", "API", "Social integrations"].map((e, i) => (
+                        <ListItem
+                            key={i}
+                            disablePadding>
+                            <ListItemButton
+                                onClick={() => {
+                                    setTabIndex(i);
+                                }}
+                            >
+                                <ListItemText primary={e} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))
+                }
+            </List>
+            <Box sx={{
+                marginTop: "10%",
+                marginLeft: "20%",
+                padding: "0px 20px",
+                // center children
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
 
-                                    <ListItemText
-                                        secondary={user.email}
-                                        primary={user.tag}
+            }}>
+                {
+                    tabIndex === 0 ?
+                        <AppUsers
+                            style={{
+                                width: "90%",
+                                height: 400,
+                            }}
+                        /> :
+                        tabIndex === 1 ?
+                            <ApiUsers
+                                style={{
+                                    width: "90%",
+                                    height: 400,
+                                }}
+                            /> :
+                            <SocialIntegrationUsers
+                                style={{
+                                    width: "90%",
+                                    height: 400,
+                                }}
+                            />
+                }
+            </Box >
+        </>
 
-                                    />
-
-                                </ListItem>
-                            </Tooltip>
-                        ))}
-                </List>
-            </Grid>
-        </Grid >
     );
 }
