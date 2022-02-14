@@ -1,5 +1,5 @@
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { Button, ButtonGroup, Checkbox, Divider, FormControlLabel, FormGroup, Grid, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
+import { Autocomplete, Button, ButtonGroup, Checkbox, Divider, FormControlLabel, FormGroup, Grid, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
 import { collection, deleteDoc, doc, documentId, limit, query, setDoc, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
@@ -10,6 +10,7 @@ import { log } from "../utils/logs";
 export const ConfirmConversationStarters = () => {
     const firestore = useFirestore();
     const memesCollection = collection(firestore, "memes");
+    const topicsCollection = collection(firestore, "topics");
     const [skipped, setSkipped] = React.useState<string[]>(["aaaaaaaaaaaaaaaaaaa"]);
     const memesQuery = query(memesCollection,
         where("disabled", "==", true),
@@ -17,7 +18,9 @@ export const ConfirmConversationStarters = () => {
         where(documentId(), "not-in", skipped),
         limit(1),
     );
+    const topicsQuery = query(topicsCollection)
     const { data: memes } = useFirestoreCollectionData(memesQuery, { idField: "id" });
+    const { data: topics } = useFirestoreCollectionData(topicsQuery, { idField: "id" });
     const [shouldTweet, setShouldTweet] = React.useState(false);
     const [conversationStarter, setConversationStarter] = React.useState("");
     const [conversationStarterTopics, setConversationStarterTopics] = React.useState("");
@@ -91,7 +94,7 @@ export const ConfirmConversationStarters = () => {
         enqueueSnackbar(`Skipping ${memes[0].id}`, { variant: "success" });
     }
 
-    if (!memes) {
+    if (!memes || !topics) {
         return <CenteredCircularProgress />;
     }
     return (
@@ -107,7 +110,7 @@ export const ConfirmConversationStarters = () => {
                 <FormGroup
                     style={{
                         padding: "20px",
-                        width: "50%",
+                        width: "70%",
                     }}
                 >
                     <Grid
@@ -156,12 +159,23 @@ export const ConfirmConversationStarters = () => {
                         margin="normal"
                         size="medium"
                         variant="outlined" />
-                    <TextField
-                        label="Topics"
-                        margin="normal"
-                        value={conversationStarterTopics}
-                        onChange={(e) => setConversationStarterTopics(e.target.value)}
-                        variant="outlined" />
+                    <Autocomplete
+                        multiple
+                        id="tags-outlined"
+                        options={topics}
+                        getOptionLabel={(option) => option.id}
+                        filterSelectedOptions
+                        onChange={(e, value) => {
+                            setConversationStarterTopics(value.map((v) => v.id).join(","));
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Topics"
+                                placeholder="ice breaker"
+                            />
+                        )}
+                    />
                     <ButtonGroup
                         variant="text" aria-label="text button group"
                         sx={{
