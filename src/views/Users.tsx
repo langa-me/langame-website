@@ -51,21 +51,18 @@ export const Users = () => {
                     tabIndex === 0 ?
                         <AppUsers
                             style={{
-                                width: "90%",
-                                height: 400,
+                                width: "80%",
                             }}
                         /> :
                         tabIndex === 1 ?
                             <ApiUsers
                                 style={{
-                                    width: "90%",
-                                    height: 400,
+                                    width: "80%",
                                 }}
                             /> :
                             <SocialIntegrationUsers
                                 style={{
-                                    width: "90%",
-                                    height: 400,
+                                    width: "80%",
                                 }}
                             />
                 }

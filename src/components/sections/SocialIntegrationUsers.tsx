@@ -55,7 +55,9 @@ export default function SocialIntegrationUsers(
                 Discord Guilds
             </Typography>
             <DataGrid
-                style={style}
+                autoHeight
+                pageSize={5}
+                rowsPerPageOptions={[5]}
                 rows={Object.entries(discordGuilds).map(([k, v]) => ({
                     id: k,
                     name: v.name,

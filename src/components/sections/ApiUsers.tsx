@@ -34,7 +34,9 @@ export default function ApiUsers(
                 Organizations
             </Typography>
             <DataGrid
-                style={style}
+                autoHeight
+                pageSize={5}
+                rowsPerPageOptions={[5]}
                 rows={organizations.map((e) => ({
                     id: e.id,
                     name: e.name,

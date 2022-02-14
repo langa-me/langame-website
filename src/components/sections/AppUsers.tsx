@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { collection, doc, limit, orderBy, query } from "firebase/firestore";
+import { collection, limit, orderBy, query } from "firebase/firestore";
 import * as React from "react";
-import { useFirestore, useFirestoreCollectionData, useFirestoreDocData } from "reactfire";
+import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CenteredCircularProgress from "../elements/CenteredCircularProgress";
 
 export default function AppUsers(
@@ -10,17 +10,19 @@ export default function AppUsers(
 ) {
     const firestore = useFirestore();
     const usersCollection = collection(firestore, "users");
-    const preferencesCollection = collection(firestore, "preferences");
     const usersQuery = query(usersCollection,
         orderBy("lastSpent", "desc"),
         limit(20), // TODO: pagination
     );
 
     const { data: users } = useFirestoreCollectionData(usersQuery, { idField: "id" });
-    const preferencesDocs = users.map((user) => doc(preferencesCollection, user.id));
-    const preferences = preferencesDocs.map((doc) =>
-        useFirestoreDocData(doc, { idField: "id" })).map((e) => e?.data);
-    if (!users) {
+
+    const preferencesCollection = collection(firestore, "preferences");
+    const preferencesQuery = query(preferencesCollection,
+    );
+
+    const { data: preferences } = useFirestoreCollectionData(preferencesQuery, { idField: "id" });
+    if (!users || !preferences) {
         return <CenteredCircularProgress />;
     }
     return (
@@ -31,7 +33,9 @@ export default function AppUsers(
                 App users
             </Typography>
             <DataGrid
-                style={style}
+                autoHeight
+                pageSize={5}
+                rowsPerPageOptions={[5]}
                 rows={users.map((e) => ({
                     id: e.id,
                     lastSpent: e.lastSpent.toDate().toLocaleString(),
@@ -64,6 +68,7 @@ export default function AppUsers(
                         field: "favoriteTopics",
                         width: 200,
                         type: "array",
+                        resizable: true,
                     },
                     {
                         headerName: "Email",
