@@ -1,26 +1,27 @@
-// This is a react component that displays a confirmation page
-// using Material UI.
-
-import { Button, ButtonGroup, Checkbox, FormControlLabel, FormGroup, Grid, TextField } from "@mui/material";
-import { collection, deleteDoc, doc, limit, query, setDoc, where } from "firebase/firestore";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import { Button, ButtonGroup, Checkbox, Divider, FormControlLabel, FormGroup, Grid, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
+import { collection, deleteDoc, doc, documentId, limit, query, setDoc, where } from "firebase/firestore";
+import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CenteredCircularProgress from "../components/elements/CenteredCircularProgress";
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { useSnackbar } from "notistack";
 import { log } from "../utils/logs";
 
 export const ConfirmConversationStarters = () => {
     const firestore = useFirestore();
     const memesCollection = collection(firestore, "memes");
+    const [skipped, setSkipped] = React.useState<string[]>(["aaaaaaaaaaaaaaaaaaa"]);
     const memesQuery = query(memesCollection,
         where("disabled", "==", true),
+        // filter out skipped
+        where(documentId(), "not-in", skipped),
         limit(1),
     );
     const { data: memes } = useFirestoreCollectionData(memesQuery, { idField: "id" });
     const [shouldTweet, setShouldTweet] = React.useState(false);
     const [conversationStarter, setConversationStarter] = React.useState("");
     const [conversationStarterTopics, setConversationStarterTopics] = React.useState("");
+    const [showAlternatives, setShowAlternatives] = React.useState(true);
     const { enqueueSnackbar } = useSnackbar();
     useEffect(() => {
         setConversationStarter(memes && memes[0] && memes[0].content || "");
@@ -84,6 +85,12 @@ export const ConfirmConversationStarters = () => {
         });
     };
 
+    const onSkip = () => {
+        log("ConfirmMemes:onSkip", memes[0].id);
+        setSkipped([...skipped, memes[0].id]);
+        enqueueSnackbar(`Skipping ${memes[0].id}`, { variant: "success" });
+    }
+
     if (!memes) {
         return <CenteredCircularProgress />;
     }
@@ -103,7 +110,43 @@ export const ConfirmConversationStarters = () => {
                         width: "50%",
                     }}
                 >
+                    <Grid
+                        container
+                        spacing={0}
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Grid item>
+                            <FormControlLabel
+                                style={{
+                                    // disable text selection
+                                    userSelect: "none",
+                                    // center
+                                    justifyContent: "center",
 
+                                }}
+                                control={<Checkbox value={shouldTweet}
+                                    onChange={(e) => setShouldTweet(e.target.checked)} />}
+                                label="Tweet"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <FormControlLabel
+                                control={<Checkbox
+                                    disabled={
+                                        !memes ||
+                                        memes.length === 0 ||
+                                        memes[0].conversationStarters === undefined ||
+                                        memes[0].conversationStarters.length <= 1
+                                    }
+                                    value={showAlternatives} onChange={() => {
+                                        setShowAlternatives(!showAlternatives);
+                                    }} />}
+                                label="Hide alternative conversation starters generated"
+                            />
+                        </Grid>
+                    </Grid>
                     <TextField
                         label="Conversation starter"
                         value={conversationStarter}
@@ -120,29 +163,75 @@ export const ConfirmConversationStarters = () => {
                         onChange={(e) => setConversationStarterTopics(e.target.value)}
                         variant="outlined" />
                     <ButtonGroup
-                        variant="text" aria-label="text button group">
-                        <Button
-                            onClick={onDelete}
-                            startIcon={<ArrowBackIos />}
-                        >
-                            Delete
-                        </Button>
-                        <Button
-                            onClick={onConfirm}
-                            endIcon={<ArrowForwardIos />}
-                        >
-                            Confirm
-                        </Button>
-                    </ButtonGroup>
-                    <FormControlLabel
-                        style={{
-                            // disable text selection
-                            userSelect: "none",
+                        variant="text" aria-label="text button group"
+                        sx={{
+                            // align center
+                            justifyContent: "center",
+
                         }}
-                        control={<Checkbox value={shouldTweet}
-                            onChange={(e) => setShouldTweet(e.target.checked)} />}
-                        label="Tweet"
-                    />
+                    >
+                        <Tooltip title="Bad conversation starter">
+                            <Button
+                                onClick={onDelete}
+                                startIcon={<ArrowBackIos />}
+                            >
+                                Delete
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="I don't know">
+                            <Button
+                                onClick={onSkip}
+                            >
+                                Skip
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="Good conversation starter">
+                            <Button
+                                onClick={onConfirm}
+                                endIcon={<ArrowForwardIos />}
+                            >
+                                Confirm
+                            </Button>
+                        </Tooltip>
+                    </ButtonGroup>
+                    {showAlternatives &&
+                        memes[0] &&
+                        memes[0].conversationStarters &&
+                        memes[0].conversationStarters.length > 1 &&
+                        <>
+                            <Divider
+                                sx={{
+                                    margin: "10px",
+                                }}
+                            />
+                            <Typography variant="h5" gutterBottom
+                                align="center"
+                                alignContent="center"
+                            >
+                                Generated alternatives
+                            </Typography>
+                            <List>
+                                {/* display conversation_starter and classification in a list */}
+                                {memes[0].conversationStarters.map((e: any, i: number) => (
+                                    <Tooltip title="Copy to clipboard" key={i}>
+                                        <ListItemButton key={i}
+                                            // copy to clipboard
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(e.conversation_starter);
+                                                enqueueSnackbar("Copied to clipboard", { variant: "success" });
+                                            }}
+                                        >
+
+                                            <ListItemText
+                                                primary={e.conversation_starter}
+                                                secondary={"Classification: " + e.classification}
+                                            />
+                                        </ListItemButton>
+                                    </Tooltip>
+                                ))}
+                            </List>
+                        </>
+                    }
                 </FormGroup>
 
             </Grid>

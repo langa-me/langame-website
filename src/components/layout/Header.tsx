@@ -125,7 +125,7 @@ const Header = ({
                       <li>
                         <Link to="#0"
                           className="button button-primary button-wide-mobile button-sm"
-                          onClick={signUp}>Sign up
+                          onClick={signUp}>Sign in
                         </Link>
                       </li>
                     </ul>

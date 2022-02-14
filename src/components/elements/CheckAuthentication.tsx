@@ -1,4 +1,4 @@
-import { browserSessionPersistence, setPersistence } from "firebase/auth";
+import { browserLocalPersistence, setPersistence } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useAuth, useSigninCheck } from "reactfire";
@@ -8,7 +8,7 @@ export const CheckAuthentication = ({ children }: React.PropsWithChildren<any>):
     const auth = useAuth();
     const sign = useSigninCheck();
     useEffect(() => {
-        setPersistence(auth, browserSessionPersistence);
+        setPersistence(auth, browserLocalPersistence);
       }, [auth]);
     if (!children) {
         throw new Error("Children must be provided");
