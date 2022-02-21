@@ -49,12 +49,12 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 color="success"
               />
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            {window.innerWidth > 768 && <ListItemText primary="Settings" />}
           </ListItemButton>
         </ListItem>
         {
           // Don't show if no organizations created yet
-          organizations.length > 0 &&
+          window.innerWidth > 768 && organizations.length > 0 &&
           <>
             <ListItem disablePadding>
               <ListItemButton
@@ -67,7 +67,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                     color="success"
                   />
                 </ListItemIcon>
-                <ListItemText primary="API keys" />
+                {window.innerWidth > 768 && <ListItemText primary="API keys" />}
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -81,7 +81,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                     color="success"
                   />
                 </ListItemIcon>
-                <ListItemText primary="Usage" />
+                {window.innerWidth > 768 && <ListItemText primary="Usage" />}
               </ListItemButton>
             </ListItem>
           </>
@@ -98,11 +98,11 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 color="success"
               />
             </ListItemIcon>
-            <ListItemText primary="Pricing" />
+            {window.innerWidth > 768 && <ListItemText primary="Pricing" />}
           </ListItemButton>
         </ListItem>
         {userObs.data?.role === "admin" &&
-          <Divider textAlign="left">Admin</Divider>
+          <Divider textAlign="left">{window.innerWidth > 768 && "Admin"}</Divider>
         }
         {userObs.data?.role === "admin" &&
           <ListItem disablePadding>
@@ -116,7 +116,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   color="success"
                 />
               </ListItemIcon>
-              <ListItemText primary="Conversation starters" />
+              {window.innerWidth > 768 && <ListItemText primary="Conversation starters" />}
             </ListItemButton>
           </ListItem>
         }
@@ -132,7 +132,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   color="success"
                 />
               </ListItemIcon>
-              <ListItemText primary="Conversation assistance" />
+              {window.innerWidth > 768 && <ListItemText primary="Conversation assistance" />}
             </ListItemButton>
           </ListItem>
         }
@@ -148,7 +148,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   color="success"
                 />
               </ListItemIcon>
-              <ListItemText primary="Users" />
+              {window.innerWidth > 768 && <ListItemText primary="Users" />}
             </ListItemButton>
           </ListItem>
         }

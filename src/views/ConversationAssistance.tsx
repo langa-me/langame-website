@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Tooltip } from "@material-ui/core";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
-import { collection, doc, documentId, limit, orderBy, query, serverTimestamp, setDoc, startAfter, startAt, where } from "firebase/firestore";
+import { collection, doc, limit, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import { useSnackbar } from "notistack";
-import React, { useEffect } from "react";
+import React from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CenteredCircularProgress from "../components/elements/CenteredCircularProgress";
 import { log } from "../utils/logs";

@@ -20,7 +20,7 @@ const LayoutAccount = ({ children }: LayoutAccountProps) => (
       <main className="site-content"
         style={{
           position: "relative",
-          left: "20%",
+          left: "30%",
         }}
       >
         {children}

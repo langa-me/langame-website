@@ -25,3 +25,5 @@ export const altOrOption = isMacOS ? "⌥" : "Alt";
 //     "4a289fd3ac307d9606c5ff37bdffd41b"
 // );
 // TODO: best practice is to store these in remote config, but for now it's k
+
+export const mobileBreakpoint = 768;
