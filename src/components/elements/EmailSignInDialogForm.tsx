@@ -9,6 +9,7 @@ import { useAuth } from "reactfire";
 import { log } from "../../utils/logs";
 import { useSnackbar } from "notistack";
 import { Check } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
 
 interface EmailSignInDialogFormProps {
   onClose: () => void;
@@ -20,6 +21,7 @@ const EmailSignInDialogForm = ({
   const auth = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClose = () => {
@@ -33,8 +35,7 @@ const EmailSignInDialogForm = ({
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         message("Signed in", { variant: "success" });
-        // Redirect to /confirm
-        window.location.href = "/confirm";
+        history.replace("/account/settings");
       })
       .catch((error) => {
         log(error);

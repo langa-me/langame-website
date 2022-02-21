@@ -63,7 +63,7 @@ export const ConfirmConversationStarters = () => {
             topics: conversationStarterTopics,
             tweet: shouldTweet,
             confirmed: true,
-        }).then(() => {
+        }, {merge: true}).then(() => {
             const link = `https://console.cloud.google.com/firestore/data/memes/${memes[0].id}?project=${firestore.app.options.projectId}`;
             log("ConfirmMemes:onConfirm:success, visit",
                 link

@@ -68,7 +68,6 @@ export default function AppUsers(
                         field: "favoriteTopics",
                         width: 200,
                         type: "array",
-                        resizable: true,
                     },
                     {
                         headerName: "Email",

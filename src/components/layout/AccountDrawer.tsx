@@ -1,4 +1,4 @@
-import { AttachMoney, BarChart, Key, Settings, ThumbsUpDown, People } from "@mui/icons-material";
+import { AttachMoney, BarChart, Key, Settings, ThumbsUpDown, People, Forum } from "@mui/icons-material";
 import { Divider, ListItemButton } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -102,11 +102,13 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
           </ListItemButton>
         </ListItem>
         {userObs.data?.role === "admin" &&
+          <Divider textAlign="left">Admin</Divider>
+        }
+        {userObs.data?.role === "admin" &&
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                // go to /confirm
-                history.push("/confirm");
+                history.push("/admin/conversation/starter");
               }}
             >
               <ListItemIcon>
@@ -122,7 +124,23 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                history.push("/users");
+                history.push("/admin/conversation/assistance");
+              }}
+            >
+              <ListItemIcon>
+                <Forum
+                  color="success"
+                />
+              </ListItemIcon>
+              <ListItemText primary="Conversation assistance" />
+            </ListItemButton>
+          </ListItem>
+        }
+        {userObs.data?.role === "admin" &&
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                history.push("/admin/users");
               }}
             >
               <ListItemIcon>

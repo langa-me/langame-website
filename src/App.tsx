@@ -25,6 +25,7 @@ import ApiKeys from "./views/Account/ApiKeys";
 import { isEmulator } from "./utils/constants";
 import Usage from "./views/Account/Usage";
 import { Users } from "./views/Users";
+import { ConversationAssistance } from "./views/ConversationAssistance";
 
 const firebaseConfig = getFirebaseConfig();
 
@@ -94,9 +95,11 @@ const App = () => {
                     <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
                     <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
                     <CheckAuthentication>
-                      <AppRoute exact path='/confirm' component={ConfirmConversationStarters}
+                      <AppRoute exact path='/admin/conversation/starter' component={ConfirmConversationStarters}
                         layout={LayoutDefault} />
-                      <AppRoute exact path='/users' component={Users}
+                      <AppRoute exact path='/admin/conversation/assistance' component={ConversationAssistance}
+                        layout={LayoutDefault} />
+                      <AppRoute exact path='/admin/users' component={Users}
                         layout={LayoutDefault} />
                       <AppRoute exact path='/account/settings'
                         component={AccountSettings}
