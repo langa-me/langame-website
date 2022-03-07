@@ -1,76 +1,76 @@
 import { Tooltip } from "@material-ui/core";
-import { ArrowLeft, ArrowRight } from "@mui/icons-material";
-import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
-import { collection, doc, limit, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import { Button, ButtonGroup, Chip, Grid, List, ListItem, TextField, Typography } from "@mui/material";
+import { collection, deleteDoc, doc, DocumentData, limit, query, serverTimestamp, setDoc, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CenteredCircularProgress from "../components/elements/CenteredCircularProgress";
-import { log } from "../utils/logs";
 
+function useForceUpdate() {
+    const setValue = useState(0)[1]; // integer state
+    return () => setValue((v) => v + 1); // update the state to force render
+}
 export const ConversationAssistance = () => {
     const firestore = useFirestore();
     const conversationsCollection = collection(firestore, "conversations");
+    const [conversationDoc, setConversationDoc] = 
+        React.useState<DocumentData | undefined>(undefined);
+    const { enqueueSnackbar } = useSnackbar();
+    const forceUpdate = useForceUpdate();
     const conversationsQuery = query(conversationsCollection,
-        orderBy("updatedAt", "desc"),
+        where("confirmed", "==", false),
         limit(1),
     );
-    const { data: conversations } = useFirestoreCollectionData(conversationsQuery, { idField: "id" });
-    const [feedback, setFeedback] = React.useState("");
-    const [feedbackIndex, setFeedbackIndex] = React.useState(0);
-    const [feedbackRecipient, setFeedbackRecipient] = React.useState("");
-    const { enqueueSnackbar } = useSnackbar();
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const onFeedbackSubmit = () => {
-        handleClose();
-        if (
-            feedback.length < 10
-        ) {
-            enqueueSnackbar("Feedback must be at least 10 characters long",
-                { variant: "error" });
-            return;
+    const { data: conversations } = 
+        useFirestoreCollectionData(conversationsQuery, { idField: "id" });
+    const [textFields, setTextFields] = React.useState<string[]>(["","",""]);
+    useEffect(() => {
+        if (conversations && conversations.length > 0) {
+            setConversationDoc(conversations[0]);
         }
-
-        const newData = conversations[0].conversation;
-        newData[feedbackIndex].feedback = {
-            text: feedback,
-            recipient: feedbackRecipient,
-        };
-        // If all validation went well, update the doc
-        setDoc(doc(firestore, "conversations", conversations[0].id), {
-            updatedAt: serverTimestamp(),
-            conversation: newData,
-        }, { merge: true }).then(() => {
-            const link = `https://console.cloud.google.com/firestore/data/conversations/${conversations[0].id}?project=${firestore.app.options.projectId}`;
-            log("onFeedbackSubmit:success, visit",
-                link
-            );
+    }, [conversations]);
+    useEffect(() => {
+        if (conversationDoc) {
+            setTextFields(conversationDoc.conversation.map((e: any) => e.content));
+        }
+    }, [conversationDoc]);
+    const onDelete = () => {
+        const link = `https://console.cloud.google.com/firestore/data/deleted_conversations/${conversationDoc!.id}?project=${firestore.app.options.projectId}`;
+        deleteDoc(doc(firestore, "conversations", conversationDoc!.id)).then(() => {
+            enqueueSnackbar("Success", { variant: "success" });
+            forceUpdate();
+        }).catch((err) => {
+            enqueueSnackbar(err.message, { variant: "error" });
+        });
+        setDoc(doc(firestore, "deleted_conversations", conversationDoc!.id), conversationDoc, { merge: true }).then(() => {
             enqueueSnackbar("Success, link copied to clipboard", { variant: "success" });
             navigator.clipboard.writeText(link);
         }).catch((err) => {
             enqueueSnackbar(err.message, { variant: "error" });
         });
     };
+    const onSkip = () => {
 
-    const onFeedbackDelete = (player: "1" | "both" | "2", index: number) => {
-        const newData = conversations[0].conversation;
-        newData[index].feedback = {
-            text: "",
-            recipient: player,
-        };
-        setDoc(doc(firestore, "conversations", conversations[0].id), {
+    };
+    const onConfirm = () => {
+        const c = conversationDoc!.conversation.map((e: any, i: number) => ({
+            ...e,
+            content: textFields[i],
+        }));
+        const link = `https://console.cloud.google.com/firestore/data/conversations/${conversationDoc!.id}?project=${firestore.app.options.projectId}`;
+
+        setDoc(doc(collection(firestore, "conversations"), conversationDoc!.id), { 
+            confirmed: true,
             updatedAt: serverTimestamp(),
-            conversation: newData,
-        }, { merge: true }).then(() => {
-            enqueueSnackbar("Success", { variant: "success" });
-        }).catch((err) => {
-            enqueueSnackbar(err.message, { variant: "error" });
+            conversation: c,
+        }, { merge: true })
+        .then(() => {
+            enqueueSnackbar("Success, link copied to clipboard", { variant: "success" });
+            navigator.clipboard.writeText(link);
+            forceUpdate();
+        }).catch(() => {
+            enqueueSnackbar("Error confirming conversation", { variant: "error" });
         });
     };
 
@@ -86,27 +86,7 @@ export const ConversationAssistance = () => {
             alignItems="center"
             padding={10}
         >
-            {/* show left and right arrow as floating action button in bottom left */}
-            <Fab
-                color="success"
-                sx={{
-                    position: "fixed",
-                    bottom: "50%",
-                    left: (theme) => theme.spacing(4)
-                }}
-            >
-                <ArrowLeft />
-            </Fab>
-            <Fab
-                color="success"
-                sx={{
-                    position: "fixed",
-                    bottom: "50%",
-                    right: (theme) => theme.spacing(4)
-                }}
-            >
-                <ArrowRight />
-            </Fab>
+            
             <h1>Conversation Assistance</h1>
             <Typography
                 variant="caption"
@@ -116,39 +96,6 @@ export const ConversationAssistance = () => {
                 the data is then used to create artificial intelligence
                 that repeat this assistance during real conversations.
             </Typography>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-            >
-                <DialogTitle>
-                    What&apos;s your feedback for {feedbackRecipient}?
-                </DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Feedback"
-                        fullWidth
-                        variant="standard"
-                        value={feedback}
-                        onChange={(e) => {
-                            setFeedback(e.target.value);
-                        }}
-                    />
-                </DialogContent>
-                <DialogActions
-                    sx={{
-                        // center children
-                        justifyContent: "center",
-                    }}
-                >
-                    <Button onClick={onFeedbackSubmit}
-                        variant="outlined"
-                    >
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
             <Grid
                 container
                 direction="row"
@@ -193,8 +140,9 @@ export const ConversationAssistance = () => {
             <List
                 sx={{
                     mb: 0, overflow: "auto",
+                    width: "100%",
                 }}>
-                {conversations[0]?.conversation.map((c: any, index: number) => (
+                {conversationDoc?.conversation.map((c: any, index: number) => (
                     <div key={index}
                         style={{
                             borderBottom: "1px solid #e0e0e0",
@@ -210,101 +158,65 @@ export const ConversationAssistance = () => {
                     >
                         <ListItem
                             sx={{
-                                width: "70%",
+                                width: "90%",
                                 justifyContent: "center",
                                 textAlign: "center",
                             }}
                         >
-                            <ListItemText primary={c.text}
-                                sx={{
-                                    color: index % 2 === 0 ? "info.main" : "warning.main",
+                            
+                            <TextField 
+                                multiline   
+                                variant="outlined"
+                                fullWidth
+                                value={textFields[index]}
+                                onChange={(e) => {
+                                    const newTextFields = [...textFields];
+                                    newTextFields[index] = e.target.value;
+                                    setTextFields(newTextFields);
                                 }}
+                                color={index % 2 === 0 ? "info" : "warning"}
                             />
                         </ListItem>
-                        <Grid
-                            container
-                            direction="row"
-                            justifyContent="center"
-                            alignItems="center"
-                            spacing={20}
-                        >
-                            <Grid
-                                item
-                            >
-                                <Tooltip title={conversations[0].conversation[index].feedback.text &&
-                                    conversations[0].conversation[index].feedback.recipient === "1" ?
-                                    conversations[0].conversation[index].feedback.text : "No feedback yet"}>
-                                    <span>
-                                        <Chip
-                                            color="info"
-                                            label={conversations[0].conversation[index].feedback.text &&
-                                                conversations[0].conversation[index].feedback.recipient === "1" ?
-                                                "feedback" : "N/A"}
-                                            onClick={() => {
-                                                setFeedbackIndex(index);
-                                                setFeedbackRecipient("1");
-                                                setOpen(true);
-                                            }}
-                                            onDelete={
-                                                conversations[0].conversation[index].feedback.text &&
-                                                    conversations[0].conversation[index].feedback.recipient === "1" ?
-                                                    () => onFeedbackDelete("1", index) : undefined} />
-                                    </span>
-                                </Tooltip>
-                            </Grid>
-                            <Grid
-                                item
-                            >
-                                <Tooltip title={conversations[0].conversation[index].feedback.text &&
-                                    conversations[0].conversation[index].feedback.recipient === "both" ?
-                                    conversations[0].conversation[index].feedback.text : "No feedback yet"}>
-                                    <span>
-                                        <Chip
-                                            label={conversations[0].conversation[index].feedback.text &&
-                                                conversations[0].conversation[index].feedback.recipient === "both" ?
-                                                "feedback" : "N/A"}
-                                            onClick={() => {
-                                                setFeedbackIndex(index);
-                                                setFeedbackRecipient("both");
-                                                setOpen(true);
-                                            }}
-                                            onDelete={
-                                                conversations[0].conversation[index].feedback.text &&
-                                                    conversations[0].conversation[index].feedback.recipient === "both" ?
-                                                    () => onFeedbackDelete("both", index) : undefined
-                                            } />
-                                    </span>
-                                </Tooltip>
-                            </Grid>
-                            <Grid
-                                item
-                            >
-                                <Tooltip title={conversations[0].conversation[index].feedback.text &&
-                                    conversations[0].conversation[index].feedback.recipient === "2" ?
-                                    conversations[0].conversation[index].feedback.text : "No feedback yet"}>
-                                    <span>
-                                        <Chip
-                                            color="warning"
-                                            label={conversations[0].conversation[index].feedback.text &&
-                                                conversations[0].conversation[index].feedback.recipient === "2" ?
-                                                "feedback" : "N/A"}
-                                            onClick={() => {
-                                                setFeedbackIndex(index);
-                                                setFeedbackRecipient("2");
-                                                setOpen(true);
-                                            }}
-                                            onDelete={
-                                                conversations[0].conversation[index].feedback.text &&
-                                                    conversations[0].conversation[index].feedback.recipient === "2" ?
-                                                    () => onFeedbackDelete("2", index) : undefined} />
-                                    </span>
-                                </Tooltip>
-                            </Grid>
-                        </Grid>
                     </div>
                 ))}
 
             </List>
+            <Grid
+            item
+            >
+                <ButtonGroup
+                        variant="text" aria-label="text button group"
+                        sx={{
+                            // align center
+                            justifyContent: "center",
+
+                        }}
+                    >
+                        <Tooltip title="Bad conversation">
+                            <Button
+                                onClick={onDelete}
+                                startIcon={<ArrowBackIos />}
+                            >
+                                Delete
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="I don't know">
+                            <Button
+                                onClick={onSkip}
+                            >
+                                Skip
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="Good conversation">
+                            <Button
+                                onClick={onConfirm}
+                                endIcon={<ArrowForwardIos />}
+                            >
+                                Confirm
+                            </Button>
+                        </Tooltip>
+                    </ButtonGroup>
+                    </Grid>
         </Grid>
     );
 }
