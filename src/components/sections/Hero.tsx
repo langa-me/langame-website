@@ -68,6 +68,7 @@ const Hero = ({
   );
 
   return (
+    // @ts-ignore
     <section
       {...props}
       className={outerClasses}

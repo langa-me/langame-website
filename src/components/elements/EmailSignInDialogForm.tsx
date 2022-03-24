@@ -30,6 +30,7 @@ const EmailSignInDialogForm = ({
 
   const signIn = async (
     auth: Auth,
+    // eslint-disable-next-line no-unused-vars
     message: (message: string, options?: any) => void,
     email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)

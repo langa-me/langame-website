@@ -1,11 +1,11 @@
-import * as React from "react";
-import { addDoc, collection, doc, query, setDoc, where } from "firebase/firestore";
-import { useSnackbar } from "notistack";
-import { log } from "../../utils/logs";
-import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
-import { Tooltip, Button, Stack, TextField } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import { Button, Divider, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { addDoc, collection, query, where } from "firebase/firestore";
+import { useSnackbar } from "notistack";
+import * as React from "react";
+import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
+import { log } from "../../utils/logs";
 
 export default function AccountSettings() {
     const fs = useFirestore();
@@ -13,8 +13,6 @@ export default function AccountSettings() {
     const [organizationName, setOrganizationName] = React.useState("");
     const { enqueueSnackbar } = useSnackbar();
     const organizationsCollection = collection(fs, "organizations");
-    const preferencesCollection = collection(fs, "preferences");
-    const preferencesDoc = doc(preferencesCollection, user.data?.uid);
     const organizationsQuery = query(organizationsCollection,
         where("members", "array-contains", user.data?.uid));
     const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
@@ -32,10 +30,7 @@ export default function AccountSettings() {
             }
         };
         const newOrganizationDoc = await addDoc(organizationsCollection, newOrganization);
-        // Update preferences for the user (might have a b2c account)
-        await setDoc(preferencesDoc, {
-            currentOrganization: newOrganizationDoc.id
-        }, { merge: true });
+        
         log("created new organization", newOrganizationDoc);
         enqueueSnackbar("Created new organization", { variant: "success" });
         setIsLoading(false);
@@ -52,7 +47,12 @@ export default function AccountSettings() {
                 width: "50%",
             }}
         >
-            <h3>Account Settings</h3>
+            <Typography
+          variant="h3"
+          >
+          Account Settings
+          </Typography>
+          <Divider />
             <TextField
                 label="Organization Name"
                 value={organizations.length > 0 ?

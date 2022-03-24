@@ -43,6 +43,7 @@ const GenericSection = ({
   );
 
   return (
+    // @ts-ignore
     <section
       {...props}
       className={outerClasses}

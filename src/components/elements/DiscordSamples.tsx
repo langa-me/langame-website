@@ -1,8 +1,13 @@
 import * as React from "react";
+// @ts-ignore
 import { DiscordMention, DiscordMessage, DiscordMessages } from "@skyra/discord-components-react";
 import { sample } from "../../utils/array";
 
-
+// declare global {
+// 	interface Window {
+// 		$discordMessage: DiscordMessageOptions;
+// 	}
+// }
 
 window.$discordMessage = {
     profiles: {
@@ -70,16 +75,20 @@ const langames = [
     },
     {
         "question": {
-            "topics": ["travel"],
+            "topics": ["big talk"],
             "players": [
                 "huy66", "alice76", "lou03"
             ],
-            "conversationStarter": "What's something you learned while traveling?",
+            "conversationStarter": "What do you want to do before you die?",
         },
         "answers": [
             {
                 "profile": "alice76",
-                "answer": "I learned that the best way to learn something is by doing it 😇.",
+                "answer": "I want to spread happiness to everyone 🥰",
+            },
+            {
+                "profile": "langame",
+                "answer": "You are a wonderful person, Alice.",
             }
         ],
     },
@@ -126,6 +135,59 @@ const langames = [
                 "profile": "lou03",
                 "answer": "I don't know, I can do neither of them 😂",
             }
+        ],
+    },
+    {
+        "question": {
+            "topics": ["dating"],
+            "players": [
+                "huy66", "alice76",
+            ],
+            "conversationStarter": "Describe in details your most awkward date.",
+        },
+        "answers": [
+            {
+                "profile": "huy66",
+                "answer": "Ok. I start. This is going to be a long anwser 😅",
+            },
+            {
+                "profile": "langame",
+                "answer": "Don't worry, we have plenty of time to listen to you 😛",
+            }
+        ],
+    },
+    {
+        "question": {
+            "topics": ["personal development"],
+            "players": [
+                "lou03", "alice76",
+            ],
+            "conversationStarter": "What tricks do you use to stick to your habits? Any concrete examples?",
+        },
+        "answers": [
+            {
+                "profile": "alice76",
+                "answer": "I read in Atomic Habits that announcing our objective publicly increase our incentive to stick to it 🤓.",
+            },
+            {
+                "profile": "langame",
+                "answer": "Did you do it? What's your progression on this objective?",
+            }
+        ],
+    },
+    {
+        "question": {
+            "topics": ["big talk"],
+            "players": [
+                "lou03", "alice76", "huy66",
+            ],
+            "conversationStarter": "What are the top three goals of your life? How are you achieving these?",
+        },
+        "answers": [
+            {
+                "profile": "huy66",
+                "answer": "I want to be the best father and husband, I read many books on this! I also wish to get a raise in my job, I'm trying to learn new things during my week-ends.",
+            },
         ],
     }
 ]

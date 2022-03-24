@@ -92,7 +92,11 @@ export default function UsagePerKeyChart({ keyId }: IUsagePerKeyChartProps) {
         usage && usage!.queries ?
             <BarChart
                 data={q}
-                width={800}
+                width={
+                    window.innerWidth > 600 ?
+                        800 :
+                        400
+                }
                 height={400}
                 margin={{
                     top: 20,

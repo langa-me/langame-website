@@ -1,12 +1,18 @@
 import { browserLocalPersistence, setPersistence } from "firebase/auth";
+import { collection, doc } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { useAuth, useSigninCheck } from "reactfire";
+import { useAuth, useFirestore, useFirestoreDoc, useSigninCheck } from "reactfire";
 import CenteredCircularProgress from "./CenteredCircularProgress";
 
-export const CheckAuthentication = ({ children }: React.PropsWithChildren<any>): JSX.Element => {
+const CheckAuthentication = ({ children }: React.PropsWithChildren<any>) => {
     const auth = useAuth();
     const sign = useSigninCheck();
+    const firestore = useFirestore();
+    const usersCollection = collection(firestore, "users");
+    const userDoc = doc(usersCollection, auth.currentUser?.uid ||
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    const {status} = useFirestoreDoc(userDoc);
     useEffect(() => {
         setPersistence(auth, browserLocalPersistence);
       }, [auth]);
@@ -14,6 +20,10 @@ export const CheckAuthentication = ({ children }: React.PropsWithChildren<any>):
         throw new Error("Children must be provided");
     }
     if (sign.status === "loading") {
+        return <CenteredCircularProgress/>;
+    }
+    // signed in but no firestore user, load
+    if (sign.data.signedIn && status === "loading") {
         return <CenteredCircularProgress/>;
     }
     if (sign.data.signedIn && children) {

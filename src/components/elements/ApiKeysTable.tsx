@@ -232,7 +232,7 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                                 variant="outlined"
                                 startIcon={<SentimentSatisfied />}
                                 onClick={onExecuteRequestToApi}
-                                disabled={true}
+                                disabled={false}
                             >
                                 Execute
                             </Button>

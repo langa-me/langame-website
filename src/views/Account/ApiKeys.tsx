@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { collection, doc } from "firebase/firestore";
 import * as React from "react";
 import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
@@ -22,10 +22,15 @@ export default function ApiKeys() {
         <Stack
             sx={{
                 width: "70%",
-                padding: "2rem",
             }}
+            spacing={4}
         >
-            <h3>Account Settings</h3>
+            <Typography
+          variant="h3"
+          >
+          API keys
+          </Typography>
+          <Divider />
             <p>
                 Your secret API keys are shown below. Do not share your API key with others,
                 or expose it in the browser or other client-side code.

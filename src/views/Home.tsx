@@ -1,103 +1,109 @@
-import { Button, Grid } from "@mui/material";
+import { InstallDesktop, Key, ReadMore } from "@mui/icons-material";
+import { Button, Grid, Tooltip } from "@mui/material";
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { useHistory } from "react-router-dom";
 import { Timeline } from "react-twitter-widgets";
 import { ReactComponent as Discord } from "../assets/images/discord.svg";
-import { ReactComponent as Apple } from "../assets/images/app-store.svg";
-import { ReactComponent as Google } from "../assets/images/google-play.svg";
-import FeaturesTiles from "../components/sections/FeaturesTiles";
-import GenericSection from "../components/sections/GenericSection";
-import Hero from "../components/sections/Hero";
-import { Web } from "@mui/icons-material";
 import DiscordSamples from "../components/elements/DiscordSamples";
+import Hero from "../components/sections/Hero";
+
 
 
 const Home = () => {
+  const history = useHistory();
   return (
     <>
       <Hero className="illustration-section-01" />
-
-      <GenericSection>
 
         <Grid container
           direction="column"
           alignItems="center"
           justifyContent="center"
+          spacing={4}
         >
           <Grid item>
             <Discord />
           </Grid>
-          <Grid container
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            spacing={2}
-          >
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={
-                  // https://discord.me/langame
-                  () => window.open("https://discord.me/langame", "_blank")
-                }
-              >
-                Install now
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={
-                  // https://discord.me/langame
-                  () => window.open("https://discord.gg/7KFwPUr4hj", "_blank")
-                }
-              >
-                Or join the community
-              </Button>
+          <Grid item>
+            <Grid container
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+            >
+              <Grid item>
+                <Tooltip title="Install Langame Discord bot in your community">
+                  <Button
+                    startIcon={<InstallDesktop/>}
+                    variant="outlined"
+                    color="primary"
+                    onClick={
+                      // https://discord.me/langame
+                      () => window.open("https://discord.me/langame", "_blank")
+                    }
+                  >
+                    Install the bot
+                  </Button>
+                </Tooltip>
+              </Grid>
+              <Grid item>
+                <Tooltip title="Join Langame Discord community">
+                  <Button
+                    startIcon={<Key/>}
+                    variant="outlined"
+                    color="primary"
+                    onClick={
+                      // https://discord.me/langame
+                      () => window.open("https://discord.gg/7KFwPUr4hj", "_blank")
+                    }
+                  >
+                    Or join the server
+                  </Button>
+                </Tooltip>
+              </Grid>
             </Grid>
           </Grid>
+          
           <Grid item>
             <DiscordSamples />
           </Grid>
 
-          <Grid item>
-            <h1>
-              <span>
-                Join the platforms
-              </span>
-            </h1>
-          </Grid>
 
-          <Grid container
-            direction="row"
+          
+
+          <Grid item>
+            <Grid container 
+            direction="column"
             alignItems="center"
             justifyContent="center"
-            spacing={2}
-          >
-            <Grid item>
-              <Button
-                variant="outlined"
-                startIcon={<Web />}
-                onClick={() => {
-                  window.location.href = "https://app.langa.me";
+            spacing={2}>
+              <Grid item
+                sx={{
+                  width: "70%",
                 }}
               >
-                On Google Chrome
-              </Button>
+                <a href="https://asciinema.org/a/yJJh2yL8IQz6w1Hhu2VIQHPKG" target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src="https://asciinema.org/a/yJJh2yL8IQz6w1Hhu2VIQHPKG.svg" />
+                </a>
+              </Grid>
+              <Grid item>
+                <Tooltip title="Integrate Langame real-time conversation starters in your app">
+                  <Button
+                    startIcon={<ReadMore/>}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={
+                      () => history.replace("/account/api-keys")
+                    }
+                  >
+                    Try the API
+                  </Button>
+                </Tooltip>
+              </Grid>
             </Grid>
-            <Grid item>
-              <a href="https://testflight.apple.com/join/pxxfLXZc" >
-                <Apple width={256} height={128} />
-              </a>
-            </Grid>
-            <Grid item>
-              <a href="https://play.google.com/store/apps/details?id=me.langa">
-                <Google width={256} height={128} />
-              </a>
-            </Grid>
-
           </Grid>
 
           <Grid item>
@@ -112,18 +118,6 @@ const Home = () => {
           </Grid>
 
         </Grid>
-      </GenericSection>
-
-
-      <GenericSection className="illustration-section-02">
-        <div className='hero-figure reveal-from-bottom illustration-element-01'
-          data-reveal-value='20px' data-reveal-delay='800'>
-
-          <FeaturesTiles />
-
-
-        </div>
-      </GenericSection>
 
     </>
   );

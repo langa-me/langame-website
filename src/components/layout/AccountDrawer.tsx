@@ -1,4 +1,4 @@
-import { AttachMoney, BarChart, Key, Settings, ThumbsUpDown, People, Forum } from "@mui/icons-material";
+import { AttachMoney, BarChart, Forum, Key, Payment, People, Settings, ThumbsUpDown } from "@mui/icons-material";
 import { Divider, ListItemButton } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -18,7 +18,9 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
   const user = useUser();
   const organizationsCollection = collection(firestore, "organizations");
   const organizationsQuery = query(organizationsCollection,
-    where("members", "array-contains", user.data?.uid));
+    where("members", "array-contains", user.data?.uid || 
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ));
   const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
     idField: "id",
   });
@@ -84,6 +86,23 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 {window.innerWidth > 768 && <ListItemText primary="Usage" />}
               </ListItemButton>
             </ListItem>
+            {
+              false &&
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      history.push("/account/billing");
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Payment
+                        color="success"
+                      />
+                    </ListItemIcon>
+                    {window.innerWidth > 768 && <ListItemText primary="Billing" />}
+                  </ListItemButton>
+                </ListItem>
+          }
           </>
         }
         <Divider />

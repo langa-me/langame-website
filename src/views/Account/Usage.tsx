@@ -1,5 +1,6 @@
 import { AttachMoney } from "@mui/icons-material";
-import { Chip, FormControl, InputLabel, MenuItem, Select, Stack, Typography } from "@mui/material";
+import { Chip, Divider, FormControl, InputLabel,
+    MenuItem, Select, Stack, Typography } from "@mui/material";
 import { collection, query, where } from "firebase/firestore";
 import * as React from "react";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
@@ -41,11 +42,15 @@ export default function Usage() {
         <Stack
             sx={{
                 width: "70%",
-                padding: "2rem",
             }}
             spacing={4}
         >
-            <h1>Usage</h1>
+            <Typography
+          variant="h3"
+          >
+          Usage
+          </Typography>
+          <Divider />
             {
                 organizationsQuerySnapshot.data &&
                 organizationsQuerySnapshot.data.length > 0 &&

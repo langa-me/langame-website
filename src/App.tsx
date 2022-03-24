@@ -6,7 +6,7 @@ import { SnackbarProvider } from "notistack";
 import React, { useEffect, useRef } from "react";
 import { Redirect, Switch, useLocation } from "react-router-dom";
 import {
-  AuthProvider, FirebaseAppProvider, FirestoreProvider,
+  AuthProvider, FirebaseAppProvider, FirestoreProvider, FunctionsProvider,
 } from "reactfire";
 // Layouts
 import LayoutDefault from "./layouts/LayoutDefault";
@@ -26,8 +26,18 @@ import { isEmulator } from "./utils/constants";
 import Usage from "./views/Account/Usage";
 import { Users } from "./views/Users";
 import { ConversationAssistance } from "./views/ConversationAssistance";
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+import Billing from "./views/Account/Billing";
+import { getFunctions } from "firebase/functions";
+import { log } from "./utils/logs";
 
 const firebaseConfig = getFirebaseConfig();
+
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe("pk_test_51KeqduByPr5RRBhXTH0wEo3lQw7tHnV0tLTw25D5cJtJ3TeF1ZXuMSRVdFV0zCbIpxBwVqZXBt3UGZOuFaEyhFqQ00uHwM0Icw");
 
 
 const App = () => {
@@ -70,6 +80,7 @@ const App = () => {
   const app = React.useState<FirebaseApp>(initializeApp(firebaseConfig))[0];
   const auth = getAuth(app);
   const fs = getFirestore(app);
+  const functions = getFunctions();
   useEffect(() => {
     // const page = location.pathname;
     document.body.classList.add("is-loaded")
@@ -78,7 +89,13 @@ const App = () => {
   }, [location]);
 
   useEffect(() => {
-    if (isEmulator) initEmulator(app);
+    if (isEmulator) {
+      try {
+        initEmulator(app);
+      } catch {
+        log("Emulator not found");
+      }
+    }
   }, [app]);
 
   return (
@@ -86,40 +103,48 @@ const App = () => {
       <FirebaseAppProvider firebaseConfig={firebaseConfig}>
         <AuthProvider sdk={auth}>
           <FirestoreProvider sdk={fs}>
+            <FunctionsProvider sdk={functions}>
             <SnackbarProvider maxSnack={3}>
-              <ScrollReveal
-                ref={childRef}>
-                {() => (
-                  <Switch>
-                    <AppRoute exact path='/' component={Home} layout={LayoutDefault} />
-                    <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
-                    <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
-                    <CheckAuthentication>
-                      <AppRoute exact path='/admin/conversation/starter' component={ConfirmConversationStarters}
-                        layout={LayoutDefault} />
-                      <AppRoute exact path='/admin/conversation/assistance' component={ConversationAssistance}
-                        layout={LayoutDefault} />
-                      <AppRoute exact path='/admin/users' component={Users}
-                        layout={LayoutDefault} />
-                      <AppRoute exact path='/account/settings'
-                        component={AccountSettings}
-                        layout={LayoutAccount}
-                      />
-                      <AppRoute exact path='/account/api-keys'
-                        component={ApiKeys}
-                        layout={LayoutAccount}
-                      />
-                      <AppRoute exact path='/account/usage'
-                        component={Usage}
-                        layout={LayoutAccount}
-                      />
-                      { /* Redirect /account to /account/settings */}
-                      <Redirect exact from="/account/*" to="/account/settings" />
-                    </CheckAuthentication>
-                  </Switch>
-                )}
-              </ScrollReveal>
+              <Elements stripe={stripePromise}>
+                <ScrollReveal
+                  ref={childRef}>
+                  {() => (
+                    <Switch>
+                      <AppRoute exact path='/' component={Home} layout={LayoutDefault} />
+                      <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
+                      <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
+                      <CheckAuthentication>
+                        <AppRoute exact path='/admin/conversation/starter' component={ConfirmConversationStarters}
+                          layout={LayoutDefault} />
+                        <AppRoute exact path='/admin/conversation/assistance' component={ConversationAssistance}
+                          layout={LayoutDefault} />
+                        <AppRoute exact path='/admin/users' component={Users}
+                          layout={LayoutDefault} />
+                        <AppRoute exact path='/account/settings'
+                          component={AccountSettings}
+                          layout={LayoutAccount}
+                        />
+                        <AppRoute exact path='/account/api-keys'
+                          component={ApiKeys}
+                          layout={LayoutAccount}
+                        />
+                        <AppRoute exact path='/account/usage'
+                          component={Usage}
+                          layout={LayoutAccount}
+                        />
+                        <AppRoute exact path='/account/billing'
+                          component={Billing}
+                          layout={LayoutAccount}
+                        />
+                        { /* Redirect /account to /account/settings */}
+                        <Redirect exact from="/account/*" to="/account/settings" />
+                      </CheckAuthentication>
+                    </Switch>
+                  )}
+                </ScrollReveal>
+              </Elements>
             </SnackbarProvider>
+            </FunctionsProvider>
           </FirestoreProvider>
         </AuthProvider>
       </FirebaseAppProvider>
