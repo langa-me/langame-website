@@ -12,7 +12,7 @@ import { useAuth, useFunctions } from "reactfire";
 import { ReactComponent as Discord } from "../../assets/images/discord.svg";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
 import EmailSignInDialogForm from "../../components/elements/EmailSignInDialogForm";
-import { isEmulator, isProd } from "../../utils/constants";
+import { isEmulator, isLocal, isProd } from "../../utils/constants";
 import { initEmulator } from "../../utils/firebase";
 import { log } from "../../utils/logs";
 
@@ -99,15 +99,14 @@ const SignInPage = () => {
             fn();
         }
     }, [query]);
-    if (isLoading) {
+    if (
+        isLoading ||
+        // there is "code" in the url bar
+        window.location.href.includes("code")
+    ) {
         return <CenteredCircularProgress />;
     }
 
-
-    // Show a centered vertically and horizontally form
-    // Used for Firebase authentication
-    // It should show email and password fields
-    // and a sign in button
     return (
         <>
             <EmailSignInDialogForm
@@ -128,7 +127,7 @@ const SignInPage = () => {
                 }}
             >
                 {
-                    (isEmulator || isProd) &&
+                    (isLocal || isProd) &&
                     <Grid item
                     >
                         <GoogleButton
@@ -140,7 +139,7 @@ const SignInPage = () => {
                     </Grid>
                 }
                 { 
-                (isEmulator || isProd) &&
+                (isLocal || isProd) &&
                     <Grid item
                         padding={0}
                         // center
