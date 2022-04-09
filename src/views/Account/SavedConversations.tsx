@@ -4,7 +4,7 @@ import { collection } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import * as React from "react";
 import { Configure, connectHits, InstantSearch } from "react-instantsearch-dom";
-import { useFirestore, useFirestoreCollectionData } from "reactfire";
+import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
 import CustomAlgoliaPagination from "../../components/elements/CustomAlgoliaPagination";
 import CustomAlgoliaSearchBox from "../../components/elements/CustomAlgoliaSearchBox";
 import { algoliaPrefix, searchClient } from "../../utils/constants";
@@ -37,7 +37,7 @@ const CHits = ({ hits }: {
 }) => {
   const hit = hits && hits.length > 0 && hits[0] ? hits[0] : undefined;
   // reverse the list
-  if (hit?.conversation) hit.conversation = hit.conversation.reverse();
+  const conversation = hit?.conversation?.reverse();
   const { enqueueSnackbar } = useSnackbar();
   
   const onCopy = () => {
@@ -95,9 +95,8 @@ ${hit?.conversation?.map((e) => e.author+"\n"+e.content).join("\n\n")}`;
             }}
           />
         </ListItem>
-
         {
-          hit?.conversation?.map((e) =>
+          conversation?.map((e) =>
             <ListItem
               key={e.author}
             >
@@ -129,6 +128,7 @@ export default function SavedConversations() {
   const { status, data: conversations } = useFirestoreCollectionData(conversationsCollection, {
     idField: "id",
   });
+  const {data: user} = useUser();
 
   return (
       <Stack
@@ -162,7 +162,9 @@ export default function SavedConversations() {
         <InstantSearch searchClient={searchClient} indexName={
           algoliaPrefix + "saved_conversations"}>
           <CustomAlgoliaSearchBox />
-          <Configure hitsPerPage={1} />
+          <Configure hitsPerPage={1}
+            filters={`guild.id:${user?.uid}`}
+          />
           <CustomHits />
           <CustomAlgoliaPagination />
         </InstantSearch>
