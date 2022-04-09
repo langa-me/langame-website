@@ -31,6 +31,7 @@ import {loadStripe} from "@stripe/stripe-js";
 import Billing from "./views/Account/Billing";
 import { getFunctions } from "firebase/functions";
 import { log } from "./utils/logs";
+import SavedConversations from "./views/Account/SavedConversations";
 
 const firebaseConfig = getFirebaseConfig();
 
@@ -130,6 +131,10 @@ const App = () => {
                         />
                         <AppRoute exact path='/account/usage'
                           component={Usage}
+                          layout={LayoutAccount}
+                        />
+                        <AppRoute exact path='/account/conversations'
+                          component={SavedConversations}
                           layout={LayoutAccount}
                         />
                         <AppRoute exact path='/account/billing'

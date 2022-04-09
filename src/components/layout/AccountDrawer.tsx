@@ -1,4 +1,4 @@
-import { AttachMoney, BarChart, Forum, Key, Payment, People, Settings, ThumbsUpDown } from "@mui/icons-material";
+import { AttachMoney, BarChart, Forum, Key, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
 import { Divider, ListItemButton } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -84,6 +84,20 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   />
                 </ListItemIcon>
                 {window.innerWidth > 768 && <ListItemText primary="Usage" />}
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  history.push("/account/conversations");
+                }}
+              >
+                <ListItemIcon>
+                  <QuestionAnswer
+                    color="success"
+                  />
+                </ListItemIcon>
+                {window.innerWidth > 768 && <ListItemText primary="Conversations" />}
               </ListItemButton>
             </ListItem>
             {

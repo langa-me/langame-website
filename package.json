@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -16,6 +16,7 @@
     "@skyra/discord-components-react": "^3.1.0",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.25.0",
+    "algoliasearch": "^4.13.0",
     "classnames": "^2.2.6",
     "eslint-plugin-react": "^7.29.4",
     "firebase": "^9.6.2",
@@ -26,6 +27,7 @@
     "react-ga": "^3.3.0",
     "react-google-button": "^0.7.2",
     "react-hook-form": "^7.0.4",
+    "react-instantsearch-dom": "^6.23.3",
     "react-responsive-carousel": "^3.2.20",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^5.0.0",
@@ -42,6 +44,7 @@
     "@types/node": "^16.11.12",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "@types/react-instantsearch-dom": "^6.12.2",
     "@types/react-router-dom": "^5.3.2",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.15.0",
