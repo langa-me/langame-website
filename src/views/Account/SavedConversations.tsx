@@ -1,16 +1,14 @@
-/* eslint-disable no-unused-vars */
 import { ContentCopy, Delete, FileDownload } from "@mui/icons-material";
-import {
-  Box, Divider, Fab, List, ListItem, ListItemText, Paper, Skeleton, Stack, Tooltip, Typography
-} from "@mui/material";
+import { Divider, Fab, List, ListItem, ListItemText, Paper, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
 import { collection } from "firebase/firestore";
+import { useSnackbar } from "notistack";
 import * as React from "react";
 import { Configure, connectHits, InstantSearch } from "react-instantsearch-dom";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CustomAlgoliaPagination from "../../components/elements/CustomAlgoliaPagination";
 import CustomAlgoliaSearchBox from "../../components/elements/CustomAlgoliaSearchBox";
 import { algoliaPrefix, searchClient } from "../../utils/constants";
-import { useSnackbar } from "notistack";
+
 
 interface ConversationHit {
   channel: {
@@ -127,7 +125,7 @@ const CustomHits = connectHits(CHits);
 
 export default function SavedConversations() {
   const firestore = useFirestore();
-  const conversationsCollection = collection(firestore, "conversations");
+  const conversationsCollection = collection(firestore, "saved_conversations");
   const { status, data: conversations } = useFirestoreCollectionData(conversationsCollection, {
     idField: "id",
   });
