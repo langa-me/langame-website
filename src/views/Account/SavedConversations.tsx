@@ -1,5 +1,6 @@
 import { ContentCopy, Delete, FileDownload } from "@mui/icons-material";
-import { Divider, Fab, List, ListItem, ListItemText, Paper, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
+import { Divider, Fab, List, ListItem, ListItemText, 
+  Paper, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
 import { collection } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import * as React from "react";
@@ -41,7 +42,7 @@ const CHits = ({ hits }: {
   const { enqueueSnackbar } = useSnackbar();
   
   const onCopy = () => {
-    const text = `# ${hit?.channel?.name}\n
+    const text = `${hit?.channel?.name}\n
 ${hit?.conversation?.map((e) => e.author+"\n"+e.content).join("\n\n")}`;
     navigator.clipboard.writeText(text);
     enqueueSnackbar("Copied to clipboard");
@@ -163,7 +164,7 @@ export default function SavedConversations() {
           algoliaPrefix + "saved_conversations"}>
           <CustomAlgoliaSearchBox />
           <Configure hitsPerPage={1}
-            filters={`guild.id:${user?.uid}`}
+            filters={`guildId:${user?.uid}`}
           />
           <CustomHits />
           <CustomAlgoliaPagination />
