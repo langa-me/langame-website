@@ -18,8 +18,12 @@ export const ConfirmConversationStarters = () => {
         where(documentId(), "not-in", skipped),
         limit(1),
     );
+    const memesTotalQuery = query(memesCollection,
+        where("disabled", "==", true),
+    );
     const topicsQuery = query(topicsCollection)
     const { data: memes } = useFirestoreCollectionData(memesQuery, { idField: "id" });
+    const { data: memesTotal } = useFirestoreCollectionData(memesTotalQuery, { idField: "id" });
     const { data: topics } = useFirestoreCollectionData(topicsQuery, { idField: "id" });
     const [shouldTweet, setShouldTweet] = React.useState(false);
     const [conversationStarter, setConversationStarter] = React.useState("");
@@ -109,11 +113,9 @@ export const ConfirmConversationStarters = () => {
                 justifyContent="center"
                 marginTop="10%"
             >
+                <Grid item>
+
                 <FormGroup
-                    style={{
-                        padding: "20px",
-                        width: "70%",
-                    }}
                 >
                     <Grid
                         container
@@ -253,7 +255,15 @@ export const ConfirmConversationStarters = () => {
                         </>
                     }
                 </FormGroup>
+                </Grid>
 
+                <Grid item>
+                    <Typography
+                        variant="h6"
+                    >
+                        {memesTotal?.length} left
+                    </Typography>
+                </Grid>
             </Grid>
         </>
     );
