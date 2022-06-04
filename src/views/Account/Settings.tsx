@@ -141,15 +141,16 @@ export default function AccountSettings() {
                 </Tooltip>
             }
             {
-                organizations.length > 0 &&
-                organizations[0].guild_id &&
+                configs &&
+                configs.length > 0 &&
+                configs[0].guild_id &&
                 <Stack
                     direction="row"
                 >
                     <Tooltip title={
                         configs &&
                         configs.length > 0 &&
-                        configs[0].notion.error ?
+                        configs[0].notion?.error ?
                         configs[0].notion.error :
                         ""
                     }>
@@ -163,7 +164,7 @@ export default function AccountSettings() {
                                 endIcon={
                                     configs &&
                                     configs.length > 0 &&
-                                    configs[0].notion.error &&
+                                    configs[0].notion?.error &&
                                     <Warning />
                                 }
                                 onClick={connectToNotion}
@@ -173,7 +174,7 @@ export default function AccountSettings() {
                                     configs.length === 0 ||
                                     (
                                         configs[0].notion !== undefined &&
-                                        configs[0].notion.error === undefined
+                                        configs[0].notion?.error === undefined
                                     )
                                 }
                                 color={
