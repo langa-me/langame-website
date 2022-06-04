@@ -24,8 +24,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
   const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
     idField: "id",
   });
-  const userObs = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || ""));
-
+  const {data: userData} = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || ""));
   if (status === "loading") {
     return <CenteredCircularProgress />;
   }
@@ -87,7 +86,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
               </ListItemButton>
             </ListItem>
             {
-              organizations[0].guild_id &&
+              userData.discord &&
               <ListItem disablePadding>
                 <ListItemButton
                   onClick={() => {
@@ -137,10 +136,10 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
             {window.innerWidth > 768 && <ListItemText primary="Pricing" />}
           </ListItemButton>
         </ListItem>
-        {userObs.data?.role === "admin" &&
+        {userData?.role === "admin" &&
           <Divider textAlign="left">{window.innerWidth > 768 && "Admin"}</Divider>
         }
-        {userObs.data?.role === "admin" &&
+        {userData?.role === "admin" &&
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
@@ -156,7 +155,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
             </ListItemButton>
           </ListItem>
         }
-        {userObs.data?.role === "admin" &&
+        {userData?.role === "admin" &&
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
@@ -172,7 +171,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
             </ListItemButton>
           </ListItem>
         }
-        {userObs.data?.role === "admin" &&
+        {userData?.role === "admin" &&
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
