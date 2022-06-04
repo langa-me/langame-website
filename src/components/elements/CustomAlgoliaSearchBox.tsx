@@ -43,7 +43,7 @@ const MySearchBox = ({ currentRefinement, refine }: any) => (
         onChange={e => refine(e.currentTarget.value)}
         fullWidth
         size="medium"
-        placeholder="channel name, author..."
+        placeholder="channel name, author, content..."
     />
 );
 

@@ -7,7 +7,7 @@ import { httpsCallable } from "firebase/functions";
 import { useSnackbar } from "notistack";
 import * as React from "react";
 import GoogleButton from "react-google-button";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAuth, useFunctions } from "reactfire";
 import { ReactComponent as Discord } from "../../assets/images/discord.svg";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
@@ -15,14 +15,8 @@ import EmailSignInDialogForm from "../../components/elements/EmailSignInDialogFo
 import { isEmulator, isLocal, isProd } from "../../utils/constants";
 import { initEmulator } from "../../utils/firebase";
 import { log } from "../../utils/logs";
+import { useQuery } from "../../utils/route";
 
-// A custom hook that builds on useLocation to parse
-// the query string for you.
-function useQuery() {
-    const { search } = useLocation();
-
-    return React.useMemo(() => new URLSearchParams(search), [search]);
-}
 const SignInPage = () => {
     const auth = useAuth();
     const functions = useFunctions();

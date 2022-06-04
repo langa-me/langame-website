@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import Pagination from "@mui/material/Pagination";
 import { connectPagination } from "react-instantsearch-dom";
 
 
 
-const P = ({ currentRefinement, nbPages, refine, createURL }: any) => (
+const P = ({ nbPages, refine }: any) => (
     <Pagination count={nbPages}
         onChange={(e, value) => refine(value)}
     />

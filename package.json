@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -12,8 +12,8 @@
     "@mui/lab": "^5.0.0-alpha.73",
     "@mui/material": "^5.2.5",
     "@mui/x-data-grid": "^5.5.1",
-    "@skyra/discord-components-core": "^3.1.0",
-    "@skyra/discord-components-react": "^3.1.0",
+    "@skyra/discord-components-core": "^3.4.0",
+    "@skyra/discord-components-react": "^3.4.0",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.25.0",
     "algoliasearch": "^4.13.0",

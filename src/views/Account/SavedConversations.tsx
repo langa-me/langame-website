@@ -97,12 +97,21 @@ ${hit?.conversation?.map((e) => e.author+"\n"+e.content).join("\n\n")}`;
           />
         </ListItem>
         {
-          conversation?.map((e) =>
+          conversation
+          ?.filter((e) => 
+            !e.author.includes("Langame") ||
+            e.content.match(/\*\*(.*)\*\*/) &&
+            e.content.match(/\*\*(.*)\*\*/)!.length > 1)
+          ?.map((e) =>
             <ListItem
               key={e.author}
             >
               <ListItemText
-                secondary={e.content}
+                secondary={
+                  e.author.includes("Langame") ?
+                  e.content.match(/\*\*(.*)\*\*/)![1] :
+                  e.content
+                }
                 primary={e.author}
                 primaryTypographyProps={{
                   color: "primary",
