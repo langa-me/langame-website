@@ -142,6 +142,7 @@ export default function AccountSettings() {
             }
             {
                 organizations.length > 0 &&
+                organizations[0].guild_id &&
                 <Stack
                     direction="row"
                 >

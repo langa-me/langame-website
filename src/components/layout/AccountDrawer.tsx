@@ -86,20 +86,23 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 {window.innerWidth > 768 && <ListItemText primary="Usage" />}
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  history.push("/account/conversations");
-                }}
-              >
-                <ListItemIcon>
-                  <QuestionAnswer
-                    color="success"
-                  />
-                </ListItemIcon>
-                {window.innerWidth > 768 && <ListItemText primary="Conversations" />}
-              </ListItemButton>
-            </ListItem>
+            {
+              organizations[0].guild_id &&
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    history.push("/account/conversations");
+                  }}
+                >
+                  <ListItemIcon>
+                    <QuestionAnswer
+                      color="success"
+                    />
+                  </ListItemIcon>
+                  {window.innerWidth > 768 && <ListItemText primary="Conversations" />}
+                </ListItemButton>
+              </ListItem>
+            }
             {
               false &&
                 <ListItem disablePadding>
