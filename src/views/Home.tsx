@@ -21,11 +21,16 @@ const Home = () => {
           alignItems="center"
           justifyContent="center"
           spacing={4}
+
         >
-          <Grid item>
+          <Grid item
+            xs={4}
+          >
             <Discord />
           </Grid>
-          <Grid item>
+          <Grid item
+            xs={4}
+          >
             <Grid container
               direction="row"
               alignItems="center"
@@ -62,17 +67,62 @@ const Home = () => {
                   </Button>
                 </Tooltip>
               </Grid>
+              <Grid item>
+                <Tooltip title="See what Langame Discord members answered to Langames">
+                  <Button
+                    startIcon={<ReadMore/>}
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                      const url = "https://langame.notion.site/3fb80c46b8b046509644cfcd427961b1?v=9bd6caeb4c34406d8806ff58143f388e";
+                      // go to url
+                      window.open(url, "_blank", "noopener");
+                    }}
+                  >
+                    Member answers
+                  </Button>
+                </Tooltip>
+              </Grid>
             </Grid>
           </Grid>
           
-          <Grid item>
-            <DiscordSamples />
+          <Grid item
+            xs={12}
+          >
+            <Grid container
+              spacing={2}
+            >
+              <Grid item
+                xs={6}
+              >
+                <DiscordSamples
+                  style={{
+                    height: "400px",
+                  }}
+                />
+              </Grid>
+
+              <Grid item
+                xs={6}
+              >
+                <Timeline
+                  dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
+                  options={{
+                    theme: "dark",
+                    height: "400px",
+                    width: "100%",
+                  }}
+                />
+              </Grid>
+            </Grid>
           </Grid>
 
 
           
 
-          <Grid item>
+          <Grid item
+            xs={12}
+          >
             <Grid container 
             direction="column"
             alignItems="center"
@@ -105,18 +155,6 @@ const Home = () => {
               </Grid>
             </Grid>
           </Grid>
-
-          <Grid item>
-            <Timeline
-              dataSource={{ sourceType: "profile", screenName: "langame_ai" }}
-              options={{
-                theme: "dark",
-                height: "400px",
-                width: "100%",
-              }}
-            />
-          </Grid>
-
         </Grid>
 
     </>
