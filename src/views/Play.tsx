@@ -95,20 +95,33 @@ export default function Play() {
     };
 
     return (
+        <React.Fragment>
         <Stack
             spacing={4}
             alignContent="center"
             justifyContent="center"
             alignItems="center"
             direction="column"
+            width={
+                window.innerWidth > 800 ?
+                "100%" :
+                "70%"
+            }
         >
             <TagsAutocomplete
                 conversationStarterTopics={autocompleteTopics}
                 setConversationStarterTopics={setAutocompleteTopics}
             />
             
+            <Paper
+                sx={{
+                    margin: "2em",
+                    width: "90%",
+                }}
+            >
             <Carousel
                 showThumbs={false}
+                // width="50%"
                 onChange={(e) =>
                     setCurrentConversationIndex(
                         e
@@ -194,6 +207,7 @@ export default function Play() {
                     )
                 }
             </Carousel>
+            </Paper>
             <Divider />
             {
                 currentMeme &&
@@ -232,5 +246,6 @@ export default function Play() {
                 </span>
             </Tooltip>
         </Stack>
+        </React.Fragment>
     )
 }

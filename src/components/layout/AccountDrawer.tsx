@@ -1,5 +1,5 @@
 import { AttachMoney, BarChart, Collections, Forum, Key, Menu, Mood, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
-import { AppBar, Box, Divider, Drawer, IconButton, ListItemButton, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Divider, Drawer, IconButton, ListItemButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -41,10 +41,17 @@ const bo = (
       <Divider />
       <List>
       <ListItem disablePadding>
+        <Tooltip title={
+            window.innerWidth < 600 ? "Please use a larger screen" : ""
+          }>
+            <span>
           <ListItemButton
             onClick={() => {
               history.push("/account/play");
             }}
+            disabled={
+              window.innerWidth < 600
+            }
           >
             <ListItemIcon>
               <Mood
@@ -53,20 +60,31 @@ const bo = (
             </ListItemIcon>
             <ListItemText primary="Play" />
           </ListItemButton>
+          </span>
+          </Tooltip>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              history.push("/account/collections");
-            }}
-          >
-            <ListItemIcon>
-              <Collections
-                color="success"
-              />
-            </ListItemIcon>
-            <ListItemText primary="Collection" />
-          </ListItemButton>
+          <Tooltip title={
+            window.innerWidth < 600 ? "Please use a larger screen" : ""
+          }>
+            <span>
+            <ListItemButton
+              onClick={() => {
+                history.push("/account/collections");
+              }}
+              disabled={
+                window.innerWidth < 600
+              }
+            >
+              <ListItemIcon>
+                <Collections
+                  color="success"
+                />
+              </ListItemIcon>
+              <ListItemText primary="Collection" />
+            </ListItemButton>
+            </span>
+          </Tooltip>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton

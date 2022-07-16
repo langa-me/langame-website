@@ -105,18 +105,22 @@ const Home = () => {
             <Grid container
               spacing={2}
             >
-              <Grid item
-                xs={6}
-              >
-                <DiscordSamples
-                  style={{
-                    height: "400px",
-                  }}
-                />
-              </Grid>
+              {
+                // hide on mobile
+                window.innerWidth > 600 &&
+                <Grid item
+                  xs={6}
+                >
+                  <DiscordSamples
+                    style={{
+                      height: "400px",
+                    }}
+                  />
+                </Grid>
+              }
 
               <Grid item
-                xs={6}
+                xs={window.innerWidth > 600 ? 6 : 12}
               >
                 <Timeline
                   dataSource={{ sourceType: "profile", screenName: "langame_ai" }}

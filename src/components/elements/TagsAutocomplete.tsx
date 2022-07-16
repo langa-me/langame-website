@@ -22,16 +22,22 @@ export default function TagsAutocomplete({
             <Stack
                 alignContent="center"
                 justifyContent="center"
+                alignItems="center"
                 spacing={2}
                 direction="column"
             >
             <Stack
                 alignContent="center"
                 justifyContent="center"
+                alignItems="center"
                 spacing={2}
                 direction="row"
             >
-                <Paper>
+                <Paper
+                    sx={{
+                        width: "100%",
+                    }}
+                >
                 <List
                     sx={{
                         padding: "0.5em",
@@ -62,49 +68,63 @@ export default function TagsAutocomplete({
                                 onClick={() => {
                                     setConversationStarterTopics([topic]);
                                 }}
+                                sx={{
+                                    margin: "0.1rem",
+                                }}
                             />
                         )
                     }
                 </List>
                 </Paper>
-                <Paper>
-                <List
+                {
+                    window.innerWidth > 600 &&
+                    <Paper
                     sx={{
-                        padding: "0.5em",
+                        width: "100%",
                     }}
-                    subheader={
-                        <Paper>
-                            <Button
-                                disabled
-                                startIcon={<History
-                                    sx={{
-                                        margin: "0.5em",
+                    >
+                    <List
+                        sx={{
+                            padding: "0.5em",
+                        }}
+                        subheader={
+                            <Paper>
+                                <Button
+                                    disabled
+                                    startIcon={<History
+                                        sx={{
+                                            margin: "0.5em",
+                                        }}
+                                    />}
+                                >
+                                    History
+                                </Button>
+                            </Paper>
+                        }
+                    >
+                        {
+                            preferences?.history?.map((h: any, i: number) =>
+                                <Chip key={i} label={h.topic}
+                                    onDelete={() => {
+                                        setDoc(doc(collection(firestore, "preferences"), user?.uid), {
+                                            history: preferences?.history?.filter((hh: any) => hh.topic !== h.topic)
+                                        }, {merge: true});
                                     }}
-                                />}
-                            >
-                                History
-                            </Button>
-                        </Paper>
-                    }
-                >
-                    {
-                        preferences?.history?.map((h: any, i: number) =>
-                            <Chip key={i} label={h.topic}
-                                onDelete={() => {
-                                    setDoc(doc(collection(firestore, "preferences"), user?.uid), {
-                                        history: preferences?.history?.filter((hh: any) => hh.topic !== h.topic)
-                                    }, {merge: true});
-                                }}
-                                onClick={() => {
-                                    setConversationStarterTopics([h.topic]);
-                                }}
-                            />
-                        )
-                    }
-                </List>
-                </Paper>
+                                    onClick={() => {
+                                        setConversationStarterTopics([h.topic]);
+                                    }}
+                                    sx={{
+                                        margin: "0.1rem",
+                                    }}
+                                />
+                            )
+                        }
+                    </List>
+                    </Paper>
+                }
                 </Stack>
                 <Autocomplete
+                    fullWidth
                     freeSolo
                     multiple
                     id="tags-outlined"
