@@ -7,8 +7,8 @@ import { httpsCallable } from "firebase/functions";
 import { useSnackbar } from "notistack";
 import * as React from "react";
 import GoogleButton from "react-google-button";
-import { useHistory } from "react-router-dom";
-import { useAuth, useFunctions } from "reactfire";
+import { Redirect, useHistory } from "react-router-dom";
+import { useAuth, useFunctions, useSigninCheck } from "reactfire";
 import { ReactComponent as Discord } from "../../assets/images/discord.svg";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
 import EmailSignInDialogForm from "../../components/elements/EmailSignInDialogForm";
@@ -19,6 +19,7 @@ import { useQuery } from "../../utils/route";
 
 const SignInPage = () => {
     const auth = useAuth();
+    const {data: signedIn} = useSigninCheck();
     const functions = useFunctions();
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
@@ -36,6 +37,7 @@ const SignInPage = () => {
             }
         }
       }, []);
+
     const googleSignIn = () => {
         setIsLoading(true);
         signInWithPopup(auth, provider)
@@ -99,6 +101,10 @@ const SignInPage = () => {
         window.location.href.includes("code")
     ) {
         return <CenteredCircularProgress />;
+    }
+
+    if (signedIn) {
+        return <Redirect to="/account" />;
     }
 
     return (

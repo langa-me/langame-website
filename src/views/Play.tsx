@@ -102,11 +102,11 @@ export default function Play() {
             justifyContent="center"
             alignItems="center"
             direction="column"
-            width={
-                window.innerWidth > 800 ?
-                "100%" :
-                "70%"
-            }
+            // width={
+            //     window.innerWidth > 800 ?
+            //     "100%" :
+            //     "70%"
+            // }
         >
             <TagsAutocomplete
                 conversationStarterTopics={autocompleteTopics}
@@ -121,7 +121,11 @@ export default function Play() {
             >
             <Carousel
                 showThumbs={false}
-                // width="50%"
+                width={
+                    window.innerWidth > 600 ?
+                    "100%" :
+                    "300px"
+                }
                 onChange={(e) =>
                     setCurrentConversationIndex(
                         e
@@ -185,6 +189,10 @@ export default function Play() {
                             <List
                                 sx={{
                                     padding: "0.2em",
+                                    width: "50%",
+                                    // scrollable
+                                    overflow: "auto",
+                                    maxHeight: "10em",
                                 }}
                             >
                             {
