@@ -4,7 +4,6 @@ import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useHistory } from "react-router-dom";
 import { Timeline } from "react-twitter-widgets";
-import { ReactComponent as Discord } from "../assets/images/discord.svg";
 import DiscordSamples from "../components/elements/DiscordSamples";
 import Hero from "../components/sections/Hero";
 
@@ -24,13 +23,27 @@ const Home = () => {
 
         >
           <Grid item
-            xs={4}
           >
-            <Discord />
-          </Grid>
-          <Grid item
-            xs={4}
-          >
+            <Grid item
+              sx={{
+                textAlign: "center",
+                margin: "1em",
+              }}
+            >
+              <Tooltip title="Get conversation starters now and share it with friends">
+                  <Button
+                    startIcon={<ReadMore/>}
+                    variant="outlined"
+                    color="secondary"
+                    onClick={
+                      () => history.push("/signin")
+                    }
+                  >
+                    Get conversation starters now
+                  </Button>
+                </Tooltip>
+            </Grid>
+            <Grid item>
             <Grid container
               direction="row"
               alignItems="center"
@@ -85,7 +98,7 @@ const Home = () => {
               </Grid>
             </Grid>
           </Grid>
-          
+          </Grid>
           <Grid item
             xs={12}
           >
@@ -116,9 +129,6 @@ const Home = () => {
               </Grid>
             </Grid>
           </Grid>
-
-
-          
 
           <Grid item
             xs={12}

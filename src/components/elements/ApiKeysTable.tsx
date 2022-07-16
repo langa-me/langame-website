@@ -1,24 +1,25 @@
-import * as React from "react";
+import { Add, ContentCopy, Delete, SentimentSatisfied } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import { Button, CircularProgress, Grid, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { useFirestore, useFirestoreCollectionData } from "reactfire";
-import CenteredCircularProgress from "./CenteredCircularProgress";
 import { addDoc, collection, deleteDoc, doc, DocumentData, onSnapshot, query, serverTimestamp, where } from "firebase/firestore";
-import { Button, CircularProgress, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
-import { Add, ContentCopy, Delete, SentimentSatisfied } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
-import { isProd } from "../../utils/constants";
+import * as React from "react";
+import { useFirestore, useFirestoreCollectionData } from "reactfire";
+import { langameApiUrl } from "../../utils/constants";
+import CenteredCircularProgress from "./CenteredCircularProgress";
+import TagsAutocomplete from "./TagsAutocomplete";
 
 
 interface ApiKeysProps {
     organizationId: string;
 }
-const apiUrl = `https://${isProd ? "" : "d"}api.langa.me/v1/conversation/starter`;
 export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
     const firestore = useFirestore();
     const apiKeysCollection = collection(firestore, "api_keys");
@@ -27,9 +28,10 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
         idField: "id",
     });
     const [canAct, setCanAct] = React.useState(false);
-    const [topicsQueryTry, setTopicsQueryTry] = React.useState("ice breaker,travel");
     const [queryResponse, setQueryResponse] = React.useState<any>(null);
     const { enqueueSnackbar } = useSnackbar();
+    const [loading, setLoading] = React.useState(false);
+    const [topics, setTopics] = React.useState<string[]>([]);
 
     React.useEffect(() => {
         if (!canAct) setTimeout(() => setCanAct(true), 4000);
@@ -72,24 +74,26 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
             .catch(onFail);
     };
     const onExecuteRequestToApi = () => {
-        fetch(apiUrl, {
+        setLoading(true);
+        const h  = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "X-Api-Key": keys[0].apiKey,
             },
             body: JSON.stringify({
-                topics: topicsQueryTry.split(",").map((e) => e.trim()),
-            })
-        }).then((e) => e.json()).then((e) => {
+                topics: topics.map((e) => e.trim()),
+            }),
+        };
+        fetch(langameApiUrl, h).then((e) => e.json()).then((e) => {
             setQueryResponse(e);
         }).catch((e) => {
             enqueueSnackbar(e.message, { variant: "error" });
             setQueryResponse(null);
-        });
+        }).finally(() => setLoading(false));
     };
     const onCopyRequestAsCurlToClipboard = () => {
-        const curl = `curl -X POST -H "Content-Type: application/json" -H "X-Api-Key: ${keys[0].apiKey}" -d '{"topics": [${topicsQueryTry.split(",").map((e) => `"${e.trim()}"`).join(", ")}]}' ${apiUrl} | jq '.'`;
+        const curl = `curl -X POST -H "Content-Type: application/json" -H "X-Api-Key: ${keys[0].apiKey}" -d '{"topics": [${topics.map((e) => `"${e.trim()}"`).join(", ")}]}' ${langameApiUrl} | jq '.'`;
         navigator.clipboard.writeText(curl).then(() => {
             enqueueSnackbar("Copied to clipboard", { variant: "success" });
         }).catch((e) => {
@@ -182,12 +186,24 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                 Create new API key
             </Button>
 
-            <TextField
-                label="Try now!"
-                placeholder="ice breaker,travel"
-                value={topicsQueryTry}
-                onChange={(e) => setTopicsQueryTry(e.target.value)}
+            <TagsAutocomplete
+                conversationStarterTopics={topics}
+                setConversationStarterTopics={setTopics}
             />
+            {
+                queryResponse &&
+                "results" in queryResponse &&
+                queryResponse.results.length > 0 &&
+                "conversation_starter" in queryResponse.results[0] &&
+                "en" in queryResponse.results[0].conversation_starter &&
+                <Paper>
+                    <Typography variant="h6">
+                    {
+                        queryResponse.results[0].conversation_starter.en
+                    }
+                    </Typography>
+                </Paper>
+            }
             {/* Row with 2 buttons */}
             <Grid
                 container
@@ -197,9 +213,7 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                 <Grid item>
 
                     <Tooltip title={
-                        keys.length === 0 ||
-                        !canAct
-                        || topicsQueryTry.split(",").some((e) => e.trim().length < 3) ?
+                        keys.length === 0 ?
                         "You need to create an API key first" :
                         "Try the API with a cURL request."
                     }
@@ -213,7 +227,6 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                                 disabled={
                                     keys.length === 0 ||
                                     !canAct
-                                    || topicsQueryTry.split(",").some((e) => e.trim().length < 3)
                                 }
                             >
                                 Copy as cURL
@@ -223,27 +236,25 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                 </Grid>
                 <Grid item>
                     <Tooltip title={
-                        "Coming soon"
+                        ""
                     }
                         followCursor={true}
                     >
                         <span>
-                            <Button
+                            <LoadingButton
                                 variant="outlined"
                                 startIcon={<SentimentSatisfied />}
                                 onClick={onExecuteRequestToApi}
+                                loading={loading}
                                 disabled={false}
                             >
                                 Execute
-                            </Button>
+                            </LoadingButton>
                         </span>
                     </Tooltip>
                 </Grid>
             </Grid>
-            {
-                queryResponse &&
-                <Typography>{queryResponse}</Typography>
-            }
+            
         </Stack>
     );
 }

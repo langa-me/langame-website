@@ -1,5 +1,5 @@
-import { AttachMoney, BarChart, Forum, Key, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
-import { Divider, ListItemButton } from "@mui/material";
+import { AttachMoney, BarChart, Collections, Forum, Key, Menu, Mood, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
+import { AppBar, Box, Divider, Drawer, IconButton, ListItemButton, Stack, Toolbar, Typography } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -9,10 +9,12 @@ import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import CenteredCircularProgress from "../elements/CenteredCircularProgress";
+import Logo from "./partials/Logo";
 interface AccountDrawerProps {
-  topAnchor: any;
+  children: React.ReactNode
 }
-export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
+export const drawerWidth = 240;
+export default function AccountDrawer({ children }: AccountDrawerProps) {
   const history = useHistory();
   const firestore = useFirestore();
   const user = useUser();
@@ -25,20 +27,47 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
     idField: "id",
   });
   const {data: userData} = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || ""));
+  const container = window !== undefined ? () => window.document.body : undefined;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
   if (status === "loading") {
     return <CenteredCircularProgress />;
   }
-  return (
-    <nav
-      style={{
-        top: topAnchor,
-        position: "absolute",
-        width: "20%",
-        zIndex: 1,
-        boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
-      }}
-    >
+const bo = (
+    <React.Fragment>
+      <Toolbar />
+      <Divider />
       <List>
+      <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              history.push("/account/play");
+            }}
+          >
+            <ListItemIcon>
+              <Mood
+                color="success"
+              />
+            </ListItemIcon>
+            <ListItemText primary="Play" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              history.push("/account/collections");
+            }}
+          >
+            <ListItemIcon>
+              <Collections
+                color="success"
+              />
+            </ListItemIcon>
+            <ListItemText primary="Collection" />
+          </ListItemButton>
+        </ListItem>
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
@@ -50,12 +79,12 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 color="success"
               />
             </ListItemIcon>
-            {window.innerWidth > 768 && <ListItemText primary="Settings" />}
+            <ListItemText primary="Settings" />
           </ListItemButton>
         </ListItem>
         {
           // Don't show if no organizations created yet
-          window.innerWidth > 768 && organizations.length > 0 &&
+          organizations.length > 0 &&
           <>
             <ListItem disablePadding>
               <ListItemButton
@@ -68,7 +97,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                     color="success"
                   />
                 </ListItemIcon>
-                {window.innerWidth > 768 && <ListItemText primary="API keys" />}
+                <ListItemText primary="Develop" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -82,11 +111,11 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                     color="success"
                   />
                 </ListItemIcon>
-                {window.innerWidth > 768 && <ListItemText primary="Usage" />}
+                <ListItemText primary="Usage" />
               </ListItemButton>
             </ListItem>
             {
-              userData.discord &&
+              userData?.discord &&
               <ListItem disablePadding>
                 <ListItemButton
                   onClick={() => {
@@ -133,11 +162,11 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                 color="success"
               />
             </ListItemIcon>
-            {window.innerWidth > 768 && <ListItemText primary="Pricing" />}
+            <ListItemText primary="Pricing" />
           </ListItemButton>
         </ListItem>
         {userData?.role === "admin" &&
-          <Divider textAlign="left">{window.innerWidth > 768 && "Admin"}</Divider>
+          <Divider textAlign="left">Admin</Divider>
         }
         {userData?.role === "admin" &&
           <ListItem disablePadding>
@@ -151,7 +180,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   color="success"
                 />
               </ListItemIcon>
-              {window.innerWidth > 768 && <ListItemText primary="Conversation starters" />}
+              <ListItemText primary="Conversation starters" />
             </ListItemButton>
           </ListItem>
         }
@@ -167,7 +196,7 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   color="success"
                 />
               </ListItemIcon>
-              {window.innerWidth > 768 && <ListItemText primary="Conversation assistance" />}
+              <ListItemText primary="Conversation assistance" />
             </ListItemButton>
           </ListItem>
         }
@@ -183,11 +212,89 @@ export default function AccountDrawer({ topAnchor }: AccountDrawerProps) {
                   color="success"
                 />
               </ListItemIcon>
-              {window.innerWidth > 768 && <ListItemText primary="Users" />}
+              <ListItemText primary="Users" />
             </ListItemButton>
           </ListItem>
         }
       </List>
-    </nav>
+    </React.Fragment>
+);
+
+  return (
+    <React.Fragment>
+      <Box sx={{ display: "flex" }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+          bgcolor: "primary",
+        }}
+      >
+        <Toolbar
+        >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
+            <Menu />
+          </IconButton>
+          <Stack
+            direction="row"
+            spacing={4}
+          >
+            <Logo className={undefined} />
+            <Typography variant="h6" noWrap component="div">
+              Langame
+            </Typography>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+      <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+          }}
+        >
+          {bo}
+        </Drawer>
+
+    <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+          }}
+          open
+        >
+          {bo}
+    
+    </Drawer>
+    </Box>
+    <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+            
+        <Toolbar/>
+      {children}
+    </Box>
+    </Box>
+    </React.Fragment>
   );
 }

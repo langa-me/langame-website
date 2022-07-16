@@ -32,6 +32,10 @@ import Billing from "./views/Account/Billing";
 import { getFunctions } from "firebase/functions";
 import { log } from "./utils/logs";
 import SavedConversations from "./views/Account/SavedConversations";
+import Play from "./views/Play";
+import { PreferencesProvider } from "./contexts/usePreferences";
+import CollectionsList from "./views/CollectionsList";
+import Collection from "./views/Collection";
 
 const firebaseConfig = getFirebaseConfig();
 
@@ -105,50 +109,64 @@ const App = () => {
         <AuthProvider sdk={auth}>
           <FirestoreProvider sdk={fs}>
             <FunctionsProvider sdk={functions}>
-            <SnackbarProvider maxSnack={3}>
-              <Elements stripe={stripePromise}>
-                <ScrollReveal
-                  ref={childRef}>
-                  {() => (
-                    <Switch>
-                      <AppRoute exact path='/' component={Home} layout={LayoutDefault} />
-                      <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
-                      <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
-                      <CheckAuthentication>
-                        <AppRoute exact path='/admin/conversation/starter' component={ConfirmConversationStarters}
-                          layout={LayoutDefault} />
-                        <AppRoute exact path='/admin/conversation/assistance' component={ConversationAssistance}
-                          layout={LayoutDefault} />
-                        <AppRoute exact path='/admin/users' component={Users}
-                          layout={LayoutDefault} />
-                        <AppRoute exact path='/account/settings'
-                          component={AccountSettings}
-                          layout={LayoutAccount}
-                        />
-                        <AppRoute exact path='/account/api-keys'
-                          component={ApiKeys}
-                          layout={LayoutAccount}
-                        />
-                        <AppRoute exact path='/account/usage'
-                          component={Usage}
-                          layout={LayoutAccount}
-                        />
-                        <AppRoute exact path='/account/conversations'
-                          component={SavedConversations}
-                          layout={LayoutAccount}
-                        />
-                        <AppRoute exact path='/account/billing'
-                          component={Billing}
-                          layout={LayoutAccount}
-                        />
-                        { /* Redirect /account to /account/settings */}
-                        <Redirect exact from="/account/*" to="/account/settings" />
-                      </CheckAuthentication>
-                    </Switch>
-                  )}
-                </ScrollReveal>
-              </Elements>
-            </SnackbarProvider>
+              <PreferencesProvider>x
+                <SnackbarProvider maxSnack={3}>
+                  <Elements stripe={stripePromise}>
+                    <ScrollReveal
+                      ref={childRef}>
+                      {() => (
+                        <Switch>
+                          <AppRoute exact path='/' component={Home} layout={LayoutDefault} />
+                          <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
+                          <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
+                          <CheckAuthentication>
+                            <AppRoute exact path='/admin/conversation/starter' component={ConfirmConversationStarters}
+                              layout={LayoutAccount} />
+                            <AppRoute exact path='/admin/conversation/assistance' component={ConversationAssistance}
+                              layout={LayoutAccount} />
+                            <AppRoute exact path='/admin/users' component={Users}
+                              layout={LayoutAccount} />
+                            <AppRoute exact path='/account/play'
+                              component={Play}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/collections/:collection'
+                              component={Collection}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/collections'
+                              component={CollectionsList}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/settings'
+                              component={AccountSettings}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/api-keys'
+                              component={ApiKeys}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/usage'
+                              component={Usage}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/conversations'
+                              component={SavedConversations}
+                              layout={LayoutAccount}
+                            />
+                            <AppRoute exact path='/account/billing'
+                              component={Billing}
+                              layout={LayoutAccount}
+                            />
+                            { /* Redirect /account to /account/play */}
+                            <Redirect exact from="/account/*" to="/account/play" />
+                          </CheckAuthentication>
+                        </Switch>
+                      )}
+                    </ScrollReveal>
+                  </Elements>
+                </SnackbarProvider>
+              </PreferencesProvider>
             </FunctionsProvider>
           </FirestoreProvider>
         </AuthProvider>

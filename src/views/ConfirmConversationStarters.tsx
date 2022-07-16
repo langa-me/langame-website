@@ -1,21 +1,20 @@
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { Autocomplete, Button, ButtonGroup, Checkbox, Divider, FormControlLabel, FormGroup, Grid, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
-import { collection, deleteDoc, doc, documentId, limit, query, setDoc, where } from "firebase/firestore";
+import { ArrowBackIos, ArrowForwardIos, Clear } from "@mui/icons-material";
+import { Autocomplete, Button, ButtonGroup, Checkbox, Divider, FormControlLabel,
+    Grid, IconButton, InputAdornment, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
+import { collection, deleteDoc, doc, limit, query, setDoc, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import CenteredCircularProgress from "../components/elements/CenteredCircularProgress";
 import { log } from "../utils/logs";
 
+
 export const ConfirmConversationStarters = () => {
     const firestore = useFirestore();
     const memesCollection = collection(firestore, "memes");
     const topicsCollection = collection(firestore, "topics");
-    const [skipped, setSkipped] = React.useState<string[]>(["aaaaaaaaaaaaaaaaaaa"]);
     const memesQuery = query(memesCollection,
         where("disabled", "==", true),
-        // filter out skipped
-        where(documentId(), "not-in", skipped),
         limit(1),
     );
     const memesTotalQuery = query(memesCollection,
@@ -94,17 +93,12 @@ export const ConfirmConversationStarters = () => {
         });
     };
 
-    const onSkip = () => {
-        log("ConfirmMemes:onSkip", memes[0].id);
-        setSkipped([...skipped, memes[0].id]);
-        enqueueSnackbar(`Skipping ${memes[0].id}`, { variant: "success" });
-    }
 
     if (!memes || !topics) {
         return <CenteredCircularProgress />;
     }
     return (
-        <>
+        <React.Fragment>
             <Grid
                 container
                 spacing={0}
@@ -114,9 +108,6 @@ export const ConfirmConversationStarters = () => {
                 marginTop="10%"
             >
                 <Grid item>
-
-                <FormGroup
-                >
                     <Grid
                         container
                         spacing={0}
@@ -157,8 +148,19 @@ export const ConfirmConversationStarters = () => {
                     <TextField
                         label="Conversation starter"
                         value={conversationStarter}
+                        InputProps={{
+                            endAdornment: conversationStarter && <InputAdornment position="end">
+                                <IconButton
+                                aria-label="clear"
+                                onClick={() => setConversationStarter("")}
+                                >
+                                <Clear/>
+                                </IconButton>
+                            </InputAdornment>,
+                        }}
                         onChange={(e) => setConversationStarter(e.target.value)}
                         multiline
+                        fullWidth
                         maxRows={4}
                         margin="normal"
                         size="medium"
@@ -187,9 +189,10 @@ export const ConfirmConversationStarters = () => {
                     <ButtonGroup
                         variant="text" aria-label="text button group"
                         sx={{
-                            // align center
+                            // align child center
+                            display: "flex",
+                            flexDirection: "row",
                             justifyContent: "center",
-
                         }}
                     >
                         <Tooltip title="Bad conversation starter">
@@ -200,19 +203,12 @@ export const ConfirmConversationStarters = () => {
                                 Delete
                             </Button>
                         </Tooltip>
-                        <Tooltip title="I don't know">
-                            <Button
-                                onClick={onSkip}
-                            >
-                                Skip
-                            </Button>
-                        </Tooltip>
                         <Tooltip title="Good conversation starter">
                             <Button
                                 onClick={onConfirm}
                                 endIcon={<ArrowForwardIos />}
                             >
-                                Confirm
+                                Save
                             </Button>
                         </Tooltip>
                     </ButtonGroup>
@@ -254,7 +250,6 @@ export const ConfirmConversationStarters = () => {
                             </List>
                         </>
                     }
-                </FormGroup>
                 </Grid>
 
                 <Grid item>
@@ -265,6 +260,6 @@ export const ConfirmConversationStarters = () => {
                     </Typography>
                 </Grid>
             </Grid>
-        </>
+        </React.Fragment>
     );
 }

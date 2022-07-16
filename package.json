@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -16,7 +16,7 @@
     "@skyra/discord-components-react": "^3.4.0",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.25.0",
-    "algoliasearch": "^4.13.0",
+    "algoliasearch": "^4.13.1",
     "classnames": "^2.2.6",
     "eslint-plugin-react": "^7.29.4",
     "firebase": "^9.6.2",
@@ -28,6 +28,7 @@
     "react-google-button": "^0.7.2",
     "react-hook-form": "^7.0.4",
     "react-instantsearch-dom": "^6.23.3",
+    "react-instantsearch-hooks-web": "^6.29.0",
     "react-responsive-carousel": "^3.2.20",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^5.0.0",
@@ -67,7 +68,8 @@
     "deploy-tmp": "npm run set-dev && REACT_APP_ENVIRONMENT=development react-scripts build && firebase hosting:channel:deploy new-awesome-feature --expires 1d",
     "set-dev": "firebase use langame-dev",
     "set-prod": "firebase use langame-86ac4",
-    "lint": "eslint . --ext .ts --fix"
+    "lint": "eslint . --ext .ts --fix",
+    "clean": "rm -rf ./build node_modules package-lock.json"
   },
   "eslintConfig": {
     "extends": "react-app"

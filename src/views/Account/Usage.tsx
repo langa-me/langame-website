@@ -40,9 +40,6 @@ export default function Usage() {
     }
     return (
         <Stack
-            sx={{
-                width: "70%",
-            }}
             spacing={4}
         >
             <Typography

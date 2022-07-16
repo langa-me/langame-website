@@ -17,7 +17,7 @@ const PreferencesProvider = (props: PreferencesProviderProps) => {
   const user = useUser();
   const firestore = useFirestore();
   const preferencesCollection = collection(firestore, "preferences");
-  const preferenceDoc = doc(preferencesCollection, user.data?.uid || "undefined");
+  const preferenceDoc = doc(preferencesCollection, user.data?.uid || "%");
   const prefObs = useFirestoreDocData(preferenceDoc, {
     idField: "id",
   });

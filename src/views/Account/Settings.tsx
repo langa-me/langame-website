@@ -98,15 +98,12 @@ export default function AccountSettings() {
         return <CenteredCircularProgress />;
     }
     return (
+        <React.Fragment>
         <Stack
             spacing={4}
-            sx={{
-                backgroundColor: "background",
-                width: "50%",
-            }}
         >
             <Typography
-          variant="h3"
+          variant="h4"
           >
           Account Settings
           </Typography>
@@ -212,5 +209,6 @@ export default function AccountSettings() {
                 </Stack>
             }
         </Stack>
+        </React.Fragment>
     );
 }

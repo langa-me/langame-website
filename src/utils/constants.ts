@@ -16,3 +16,4 @@ export const algoliaPrefix = isProd ?
     "dev_" :
     "emulator_";
 export const searchClient = algoliasearch("B1SU8TE6UY", "a2c82fa22a5c4683b3caf14fadf78a33");
+export const langameApiUrl = `https://${isProd ? "" : "d"}api.langa.me/v1/conversation/starter`;

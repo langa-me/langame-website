@@ -20,9 +20,6 @@ export default function ApiKeys() {
     }
     return (
         <Stack
-            sx={{
-                width: "70%",
-            }}
             spacing={4}
         >
             <Typography
