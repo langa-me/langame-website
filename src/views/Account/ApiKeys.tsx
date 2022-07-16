@@ -19,23 +19,35 @@ export default function ApiKeys() {
         return <CenteredCircularProgress />;
     }
     return (
-        <Stack
-            spacing={4}
-        >
-            <Typography
-          variant="h3"
-          >
-          API keys
-          </Typography>
-          <Divider />
-            <p>
-                Your secret API keys are shown below. Do not share your API key with others,
-                or expose it in the browser or other client-side code.
-                In order to protect the security of your account.
-            </p>
-            <ApiKeysTable
-                organizationId={preferences.currentOrganization}
-            />
-        </Stack>
+        <React.Fragment>
+            <Stack
+                spacing={4}
+                // sx={{
+                //     width: 
+                //     window.innerWidth > 600 ?
+                //     "80%" :
+                //     "60%",
+                //     padding: "1rem",
+                // }}
+                alignContent="center"
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography
+                    variant="h6"
+                >
+                    API keys
+                </Typography>
+            <Divider />
+                <p>
+                    Your secret API keys are shown below. Do not share your API key with others,
+                    or expose it in the browser or other client-side code.
+                    In order to protect the security of your account.
+                </p>
+                <ApiKeysTable
+                    organizationId={preferences.currentOrganization}
+                />
+            </Stack>
+        </React.Fragment>
     );
 }

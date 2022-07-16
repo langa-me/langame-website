@@ -81,32 +81,35 @@ export default function CollectionsList() {
                         }
                     >
                         <Stack>
-                        <Chip
-                            sx={{
-                                margin: "0.5em",
-                                width: "40px",
-                            }}
-                            label={playlists
-                                ?.filter((playlist) => playlist.collection === c.id).length}
-                        />
-                        <ListItemText primary={
-                            <TextField
-                                fullWidth
-                                value={c.name}
-                                inputProps={{ maxLength: 12 }}
-                                onChange={(e) => {
-                                    const cn = preferences?.collections;
-                                    cn.forEach((cc: any) => {
-                                        if (cc.id === c.id) {
-                                            cc.name = e.target.value;
-                                        }
-                                    });
-                                    setDoc(doc(collection(firestore, "preferences"), user?.uid), {
-                                        collections: cn
-                                    }, {merge: true});
+                            <Chip
+                                sx={{
+                                    margin: "0.5em",
+                                    width: "40px",
                                 }}
+                                label={playlists
+                                    ?.filter((playlist) => playlist.collection === c.id).length}
                             />
-                        } secondary={
+                            <ListItemText primary={
+                                <TextField
+                                    fullWidth
+                                    sx={{
+                                        width: "80%",
+                                    }}
+                                    value={c.name}
+                                    inputProps={{ maxLength: 12 }}
+                                    onChange={(e) => {
+                                        const cn = preferences?.collections;
+                                        cn.forEach((cc: any) => {
+                                            if (cc.id === c.id) {
+                                                cc.name = e.target.value;
+                                            }
+                                        });
+                                        setDoc(doc(collection(firestore, "preferences"), user?.uid), {
+                                            collections: cn
+                                        }, {merge: true});
+                                    }}
+                                />
+                            }/>
                             <List
                                 sx={{
                                     // padding: "0.2em",
@@ -135,7 +138,6 @@ export default function CollectionsList() {
 
                                 }
                             </List>
-                        } />
                         </Stack>
                     </ListItem>
                     

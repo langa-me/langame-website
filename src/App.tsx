@@ -109,7 +109,7 @@ const App = () => {
         <AuthProvider sdk={auth}>
           <FirestoreProvider sdk={fs}>
             <FunctionsProvider sdk={functions}>
-              <PreferencesProvider>x
+              <PreferencesProvider>
                 <SnackbarProvider maxSnack={3}>
                   <Elements stripe={stripePromise}>
                     <ScrollReveal

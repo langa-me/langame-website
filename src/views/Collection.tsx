@@ -59,11 +59,10 @@ export default function Collection() {
                                     }, {merge: true});
                                 }}
                                 multiline
-                                // rows={3}
                                 variant="outlined"
                                 fullWidth
                                 sx={{
-                                    width: "80%",
+                                    width: "60%",
                                 }}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">
@@ -78,7 +77,7 @@ export default function Collection() {
                                 />
                         } 
                             secondary={
-                                    playlist.topics.map((topic: string) => (
+                                    playlist.topics.map((topic: string) =>
                                         <Chip key={topic} label={topic}
                                             sx={{
                                                 marginTop: "0.5rem",
@@ -89,7 +88,7 @@ export default function Collection() {
                                                 }, {merge: true});
                                             }}
                                         />
-                                    ))
+                                    )
                             }
                         />
                         

@@ -110,9 +110,6 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
             {
                 row.apiKey ?
                     <>
-                        <TableCell>
-                            {row.id}
-                        </TableCell>
                         <TableCell
 
                         >
@@ -132,7 +129,6 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                         <TableCell>
                             {row.createdAt?.toDate().toLocaleDateString("en-US")}
                         </TableCell>
-                        <TableCell>{row.lastSpent?.toDate().toLocaleDateString("en-US")}</TableCell>
                         <TableCell>
                             <IconButton
                                 onClick={() => onDeleteKey(row.id)}
@@ -149,6 +145,7 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
         </TableRow>
     );
     return (
+        <React.Fragment>
         <Stack
             spacing={6}
         >
@@ -159,15 +156,12 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                 }}
             >
                 <Table sx={{
-                    minWidth: 300,
-
+                    minWidth: 200,
                 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>SECRET KEY ID</TableCell>
                             <TableCell>SECRET KEY VALUE</TableCell>
                             <TableCell>CREATED</TableCell>
-                            <TableCell>LAST USED</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
@@ -254,7 +248,7 @@ export default function ApiKeysTable({ organizationId }: ApiKeysProps) {
                     </Tooltip>
                 </Grid>
             </Grid>
-            
         </Stack>
+        </React.Fragment>
     );
 }

@@ -39,13 +39,20 @@ export default function Usage() {
         return <CenteredCircularProgress />;
     }
     return (
+        <React.Fragment>
         <Stack
             spacing={4}
+            sx={{
+                width: "80%",
+            }}
+            alignContent="center"
+            justifyContent="center"
+            alignItems="center"
         >
-            <Typography
-          variant="h3"
-          >
-          Usage
+        <Typography
+                variant="h6"
+        >
+            Usage
           </Typography>
           <Divider />
             {
@@ -55,7 +62,7 @@ export default function Usage() {
                     direction="row"
                     spacing={4}
                 >
-                    <Typography>Organizations credits</Typography>
+                    <Typography>Credits</Typography>
                     <Chip icon={<AttachMoney />}
                         label={organizationsQuerySnapshot.data[0].credits} />
                 </Stack>
@@ -79,5 +86,6 @@ export default function Usage() {
                 keyId={selectedKey}
             />}
         </Stack>
+        </React.Fragment>
     );
 }

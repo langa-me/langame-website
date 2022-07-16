@@ -102,11 +102,6 @@ export default function Play() {
             justifyContent="center"
             alignItems="center"
             direction="column"
-            // width={
-            //     window.innerWidth > 800 ?
-            //     "100%" :
-            //     "70%"
-            // }
         >
             <TagsAutocomplete
                 conversationStarterTopics={autocompleteTopics}

@@ -95,7 +95,7 @@ export default function UsagePerKeyChart({ keyId }: IUsagePerKeyChartProps) {
                 width={
                     window.innerWidth > 600 ?
                         800 :
-                        400
+                        300
                 }
                 height={400}
                 margin={{
