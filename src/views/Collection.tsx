@@ -1,11 +1,14 @@
 
-import { ContentCopy, Delete } from "@mui/icons-material";
-import { Chip, Divider, IconButton, InputAdornment, List, ListItem, ListItemText, Stack, TextField } from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import { Divider, IconButton, List, ListItem, Stack } from "@mui/material";
 import { collection, deleteDoc, doc, query, setDoc, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
+import ConversationStarterTextfield, { ConversationStarter } from "../components/elements/ConversationStarter";
+
+
 
 
 export default function Collection() {
@@ -34,7 +37,9 @@ export default function Collection() {
         >
             <List>
                 {playlists?.map((playlist) => (
-                    <ListItem key={playlist.id}
+                    <ListItem
+                        alignItems="center"
+                        key={playlist.id}
                         secondaryAction={
                             <IconButton
                                 onClick={() => {
@@ -49,49 +54,19 @@ export default function Collection() {
                             </IconButton>
                         }
                     >
-                        <ListItemText primary={
-                            <TextField 
-                                value={playlist.content}
-                                inputProps={{ maxLength: 120 }}
-                                onChange={(e) => {
-                                    setDoc(doc(collection(firestore, "playlists"), playlist.id), {
-                                        content: e.target.value,
-                                    }, {merge: true});
-                                }}
-                                multiline
-                                variant="outlined"
-                                fullWidth
-                                sx={{
-                                    width: "60%",
-                                }}
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end">
-                                      <IconButton
-                                        // copy to clipboard
-                                        onClick={() => window.navigator.clipboard.writeText(playlist.content)}
-                                      >
-                                        <ContentCopy/>
-                                      </IconButton>
-                                    </InputAdornment>,
-                                }}
-                                />
-                        } 
-                            secondary={
-                                    playlist.topics.map((topic: string) =>
-                                        <Chip key={topic} label={topic}
-                                            sx={{
-                                                marginTop: "0.5rem",
-                                            }}
-                                            onDelete={() => {
-                                                setDoc(doc(collection(firestore, "playlists"), playlist.id), {
-                                                    topics: playlist.topics.filter((t: string) => t !== topic),
-                                                }, {merge: true});
-                                            }}
-                                        />
-                                    )
-                            }
+                        <ConversationStarterTextfield
+                            conversationStarter={playlist as ConversationStarter}
+                            onContentChange={(content) => {
+                                setDoc(doc(collection(firestore, "playlists"), playlist.id), {
+                                    content: content,
+                                }, {merge: true});
+                            }}
+                            onTopicsChange={(topics) => {
+                                setDoc(doc(collection(firestore, "playlists"), playlist.id), {
+                                    topics: topics,
+                                }, {merge: true});
+                            }}
                         />
-                        
                     </ListItem>
                 ))}
             </List>

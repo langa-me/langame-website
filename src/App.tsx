@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { SnackbarProvider } from "notistack";
 import React, { useEffect, useRef } from "react";
-import { Redirect, Switch, useLocation } from "react-router-dom";
+import { Switch, useLocation } from "react-router-dom";
 import {
   AuthProvider, FirebaseAppProvider, FirestoreProvider, FunctionsProvider,
 } from "reactfire";
@@ -28,7 +28,6 @@ import { Users } from "./views/Users";
 import { ConversationAssistance } from "./views/ConversationAssistance";
 import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
-import Billing from "./views/Account/Billing";
 import { getFunctions } from "firebase/functions";
 import { log } from "./utils/logs";
 import SavedConversations from "./views/Account/SavedConversations";
@@ -36,6 +35,7 @@ import Play from "./views/Play";
 import { PreferencesProvider } from "./contexts/usePreferences";
 import CollectionsList from "./views/CollectionsList";
 import Collection from "./views/Collection";
+
 
 const firebaseConfig = getFirebaseConfig();
 
@@ -154,12 +154,12 @@ const App = () => {
                               component={SavedConversations}
                               layout={LayoutAccount}
                             />
-                            <AppRoute exact path='/account/billing'
+                            {/* <AppRoute exact path='/account/billing'
                               component={Billing}
                               layout={LayoutAccount}
-                            />
+                            /> */}
                             { /* Redirect /account to /account/play */}
-                            <Redirect exact from="/account/*" to="/account/play" />
+                            {/* <Redirect exact from="/account/*" to="/account/play" /> */}
                           </CheckAuthentication>
                         </Switch>
                       )}

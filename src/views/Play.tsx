@@ -1,106 +1,19 @@
 
-import { ContentCopy, SentimentSatisfied } from "@mui/icons-material";
+import { SentimentSatisfied } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Chip, Divider, IconButton, InputAdornment, List, Paper, Skeleton, Stack, TextField, Tooltip } from "@mui/material";
+import { Divider, Paper, Stack, Tooltip } from "@mui/material";
 import { collection, query, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
+import ConversationStarterTextfield, { ConversationStarter } from "../components/elements/ConversationStarter";
 import StarterFeedbackButtons from "../components/elements/StarterFeedbackButtons";
 import TagsAutocomplete from "../components/elements/TagsAutocomplete";
 import { usePreferences } from "../contexts/usePreferences";
 import { langameApiUrl } from "../utils/constants";
 
-interface ConversationStarter {
-    id: string
-    content: string
-    topics: string[]
-}
 
-interface ConversationStarterProps {
-    conversationStarter: ConversationStarter | undefined
-    setConversationStarter: React.Dispatch<React.SetStateAction<ConversationStarter | undefined>>
-}
-/**
- *
- * @param {ConversationStarterProps} props 
- * @return 
- */
-function ConversationStarterTextfield({
-    conversationStarter, setConversationStarter
-}: ConversationStarterProps) {
-    return (
-        <Paper
-            elevation={3}
-            sx={{
-                padding: "3rem 0",
-            }}
-        >
-            <Stack
-                alignContent="center"
-                justifyContent="center"
-                alignItems="center"
-                spacing={4}
-            >
-                {
-                    conversationStarter && conversationStarter.content ?
-                    <TextField
-                        fullWidth
-                        multiline
-                        sx={{
-                            width: "80%"
-                        }}
-                        value={conversationStarter.content}
-                        onChange={(e) => setConversationStarter({
-                            ...conversationStarter,
-                            content: e.target.value
-                        })}
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">
-                            <IconButton
-                                // copy to clipboard
-                                onClick={() => conversationStarter!.content &&
-                                    window.navigator.clipboard.writeText(conversationStarter!.content)}
-                            >
-                                <ContentCopy/>
-                            </IconButton>
-                            </InputAdornment>,
-                        }}
-                    /> :
-                    <Skeleton
-                        variant="rectangular"
-                        height="5em"
-                    />
-                }
-                <List
-                    sx={{
-                        padding: "0.2em",
-                        width: "50%",
-                        // scrollable
-                        overflow: "auto",
-                        maxHeight: "10em",
-                    }}
-                >
-                {
-                    conversationStarter?.topics?.map((topic: string) => (
-                        <Chip key={topic} label={topic}
-                            sx={{
-                                marginTop: "0.5rem",
-                            }}
-                            onDelete={() => {
-                                setConversationStarter({
-                                    ...conversationStarter,
-                                    topics: conversationStarter?.topics.filter((e) => e !== topic)});
-                            }}
-                        />
-                    ))
-                }
-                </List>
-            </Stack>
-        </Paper>
-    );
-}
 
 export default function Play() {
     const firestore = useFirestore();
@@ -221,6 +134,7 @@ export default function Play() {
                     .map((item, i) => <ConversationStarterTextfield key={i}
                         conversationStarter={currentMeme}
                         setConversationStarter={setCurrentMeme}
+                        width={"auto"}
                     />
                     ) :
                     newMemes
@@ -228,6 +142,7 @@ export default function Play() {
                     ?.map((item, i) => <ConversationStarterTextfield key={i}
                         conversationStarter={currentMeme}
                         setConversationStarter={setCurrentMeme}
+                        width={"auto"}
                     />
                     )
                 }
