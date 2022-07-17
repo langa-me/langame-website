@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { AlternateEmail } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, Grid, Tooltip } from "@mui/material";
@@ -8,7 +7,7 @@ import { httpsCallable } from "firebase/functions";
 import { useSnackbar } from "notistack";
 import * as React from "react";
 import GoogleButton from "react-google-button";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useAuth, useFunctions, useSigninCheck } from "reactfire";
 import { ReactComponent as Discord } from "../../assets/images/discord.svg";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
@@ -104,9 +103,9 @@ const SignInPage = () => {
         return <CenteredCircularProgress />;
     }
 
-    // if (signedIn) {
-    //     return <Redirect to="/account" />;
-    // }
+    if (signedIn?.signedIn) {
+        return <Redirect to="/account" />;
+    }
     
 
     return (

@@ -1,13 +1,14 @@
-import { AttachMoney, BarChart, Collections, Forum, Key, Menu, Mood, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
+import { AttachMoney, BarChart, Collections, Forum, Key, Logout, Menu, Mood, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
 import { AppBar, Box, Divider, Drawer, IconButton, ListItemButton, Stack, Toolbar, Typography } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { signOut } from "firebase/auth";
 import { collection, doc, query, where } from "firebase/firestore";
 import * as React from "react";
 import { useHistory } from "react-router-dom";
-import { useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
+import { useAuth, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import CenteredCircularProgress from "../elements/CenteredCircularProgress";
 import Logo from "./partials/Logo";
 interface AccountDrawerProps {
@@ -18,15 +19,16 @@ export default function AccountDrawer({ children }: AccountDrawerProps) {
   const history = useHistory();
   const firestore = useFirestore();
   const user = useUser();
+  const auth = useAuth();
   const organizationsCollection = collection(firestore, "organizations");
   const organizationsQuery = query(organizationsCollection,
     where("members", "array-contains", user.data?.uid || 
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      "%"
     ));
   const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
     idField: "id",
   });
-  const {data: userData} = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || ""));
+  const {data: userData} = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || "%"));
   const container = window !== undefined ? () => window.document.body : undefined;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
@@ -163,6 +165,20 @@ const bo = (
               />
             </ListItemIcon>
             <ListItemText primary="Pricing" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              signOut(auth).then(() => history.replace("/"));
+            }}
+          >
+            <ListItemIcon>
+              <Logout
+                color="error"
+              />
+            </ListItemIcon>
+            <ListItemText primary="Sign out" />
           </ListItemButton>
         </ListItem>
         {userData?.role === "admin" &&
