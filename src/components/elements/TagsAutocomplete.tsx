@@ -4,17 +4,19 @@ import { collection, query, setDoc, doc } from "firebase/firestore";
 import React from "react";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
 import { usePreferences } from "../../contexts/usePreferences";
+import { TopicChange } from "./ConversationStarter";
 
 interface TagsAutocompleteProps {
     conversationStarterTopics: string[]
-    setConversationStarterTopics: React.Dispatch<React.SetStateAction<string[]>>
+    setConversationStarterTopics: TopicChange
     height?: number | string
+    helpers?: boolean
 }
 export default function TagsAutocomplete({
-    conversationStarterTopics, setConversationStarterTopics, height
+    conversationStarterTopics, setConversationStarterTopics, height, helpers,
 }: TagsAutocompleteProps) {
     const firestore = useFirestore();
-    const {data: user} = useUser();
+    const { data: user } = useUser();
     const preferences = usePreferences();
     const topicsCollection = collection(firestore, "topics");
     const topicsQuery = query(topicsCollection)
@@ -27,106 +29,110 @@ export default function TagsAutocomplete({
                 alignItems="center"
                 spacing={2}
                 direction="column"
+                width="80%"
             >
-            <Stack
-                alignContent="center"
-                justifyContent="center"
-                alignItems="center"
-                spacing={2}
-                direction="row"
-            >
-                <Paper
-                    sx={{
-                        width: "100%",
-                        height: height || "8em",
-                    }}
-                >
-                <List
-                    sx={{
-                        padding: "0.5em",
-                    }}
-                    subheader={
-                        <Paper>
-                            <Button
-                                disabled
-                                startIcon={<Mood
-                                    sx={{
-                                        margin: "0.5em",
-                                    }}
-                                />}
-                            >
-                                Popular topics
-                            </Button>
-                        </Paper>
-                    }
-                >
-                    {
-                        [
-                            "ice breaker",
-                            "big talk",
-                            "personal development", 
-                            "love"
-                        ].map((topic: string, i: number) =>
-                            <Chip key={i} label={topic}
-                                onClick={() => {
-                                    setConversationStarterTopics([topic]);
-                                }}
-                                sx={{
-                                    margin: "0.1rem",
-                                }}
-                            />
-                        )
-                    }
-                </List>
-                </Paper>
                 {
-                    window.innerWidth > 600 &&
-                    <Paper
-                    sx={{
-                        width: "100%",
-                        height: height || "8em",
-                    }}
+                    helpers &&
+                    <Stack
+                        alignContent="center"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
+                        direction="row"
                     >
-                    <List
-                        sx={{
-                            padding: "0.5em",
-                        }}
-                        subheader={
-                            <Paper>
-                                <Button
-                                    disabled
-                                    startIcon={<History
-                                        sx={{
-                                            margin: "0.5em",
-                                        }}
-                                    />}
+                        <Paper
+                            sx={{
+                                width: "100%",
+                                height: height || "8em",
+                            }}
+                        >
+                            <List
+                                sx={{
+                                    padding: "0.5em",
+                                }}
+                                subheader={
+                                    <Paper>
+                                        <Button
+                                            disabled
+                                            startIcon={<Mood
+                                                sx={{
+                                                    margin: "0.5em",
+                                                }}
+                                            />}
+                                        >
+                                            Popular topics
+                                        </Button>
+                                    </Paper>
+                                }
+                            >
+                                {
+                                    [
+                                        "ice breaker",
+                                        "big talk",
+                                        "personal development",
+                                        "love"
+                                    ].map((topic: string, i: number) =>
+                                        <Chip key={i} label={topic}
+                                            onClick={() => {
+                                                setConversationStarterTopics([topic]);
+                                            }}
+                                            sx={{
+                                                margin: "0.1rem",
+                                            }}
+                                        />
+                                    )
+                                }
+                            </List>
+                        </Paper>
+                        {
+                            window.innerWidth > 600 &&
+                            <Paper
+                                sx={{
+                                    width: "100%",
+                                    height: height || "8em",
+                                }}
+                            >
+                                <List
+                                    sx={{
+                                        padding: "0.5em",
+                                    }}
+                                    subheader={
+                                        <Paper>
+                                            <Button
+                                                disabled
+                                                startIcon={<History
+                                                    sx={{
+                                                        margin: "0.5em",
+                                                    }}
+                                                />}
+                                            >
+                                                History
+                                            </Button>
+                                        </Paper>
+                                    }
                                 >
-                                    History
-                                </Button>
+                                    {
+                                        preferences?.history?.map((h: any, i: number) =>
+                                            <Chip key={i} label={h.topic}
+                                                onDelete={() => {
+                                                    setDoc(doc(collection(firestore, "preferences"), user?.uid), {
+                                                        history: preferences?.history?.filter((hh: any) => hh.topic !== h.topic)
+                                                    }, { merge: true });
+                                                }}
+                                                onClick={() => {
+                                                    setConversationStarterTopics([h.topic]);
+                                                }}
+                                                sx={{
+                                                    margin: "0.1rem",
+                                                }}
+                                            />
+                                        )
+                                    }
+                                </List>
                             </Paper>
                         }
-                    >
-                        {
-                            preferences?.history?.map((h: any, i: number) =>
-                                <Chip key={i} label={h.topic}
-                                    onDelete={() => {
-                                        setDoc(doc(collection(firestore, "preferences"), user?.uid), {
-                                            history: preferences?.history?.filter((hh: any) => hh.topic !== h.topic)
-                                        }, {merge: true});
-                                    }}
-                                    onClick={() => {
-                                        setConversationStarterTopics([h.topic]);
-                                    }}
-                                    sx={{
-                                        margin: "0.1rem",
-                                    }}
-                                />
-                            )
-                        }
-                    </List>
-                    </Paper>
+                    </Stack>
                 }
-                </Stack>
                 <Autocomplete
                     fullWidth
                     freeSolo
@@ -147,13 +153,13 @@ export default function TagsAutocomplete({
                         value.forEach((t) => {
                             // if present in history already skip
                             if (history?.find((h: any) => h.topic === t)) return;
-                            history?.push({topic: t});
+                            history?.push({ topic: t });
                         });
                         // max 10 history, remove firsts
                         while (history?.length > 4) history = history?.slice(1);
                         setDoc(doc(collection(firestore, "preferences"), user?.uid), {
                             history: history,
-                        }, {merge: true});
+                        }, { merge: true });
                     }}
                     renderInput={(params) => (
                         <TextField

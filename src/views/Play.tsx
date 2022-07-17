@@ -105,6 +105,7 @@ export default function Play() {
                 <TagsAutocomplete
                     conversationStarterTopics={autocompleteTopics}
                     setConversationStarterTopics={setAutocompleteTopics}
+                    helpers
                 />
 
                 <Paper

@@ -20,7 +20,7 @@ const CheckAuthentication = ({ children }: React.PropsWithChildren<any>) => {
         if (sign && !sign.signedIn) {
             navigate("/signin");
         }
-    }, [navigate, sign, sign.signedIn]);
+    }, [navigate, sign, sign?.signedIn]);
     if (!children) {
         throw new Error("Children must be provided");
     }
