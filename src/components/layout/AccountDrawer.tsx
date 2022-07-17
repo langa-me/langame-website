@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { signOut } from "firebase/auth";
 import { collection, doc, query, where } from "firebase/firestore";
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import CenteredCircularProgress from "../elements/CenteredCircularProgress";
 import Logo from "./partials/Logo";
@@ -16,19 +16,19 @@ interface AccountDrawerProps {
 }
 export const drawerWidth = 240;
 export default function AccountDrawer({ children }: AccountDrawerProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const firestore = useFirestore();
   const user = useUser();
   const auth = useAuth();
   const organizationsCollection = collection(firestore, "organizations");
   const organizationsQuery = query(organizationsCollection,
-    where("members", "array-contains", user.data?.uid || 
+    where("members", "array-contains", user.data?.uid ||
       "%"
     ));
   const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
     idField: "id",
   });
-  const {data: userData} = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || "%"));
+  const { data: userData } = useFirestoreDocData(doc(firestore, "users", user?.data?.uid || "%"));
   const container = window !== undefined ? () => window.document.body : undefined;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
@@ -37,15 +37,15 @@ export default function AccountDrawer({ children }: AccountDrawerProps) {
   if (status === "loading") {
     return <CenteredCircularProgress />;
   }
-const bo = (
+  const bo = (
     <React.Fragment>
       <Toolbar />
       <Divider />
       <List>
-      <ListItem disablePadding>
+        <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              history.push("/account/play");
+              navigate("/account/play");
             }}
           >
             <ListItemIcon>
@@ -59,7 +59,7 @@ const bo = (
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              history.push("/account/collections");
+              navigate("/account/collections");
             }}
           >
             <ListItemIcon>
@@ -73,7 +73,7 @@ const bo = (
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              history.push("/account/settings");
+              navigate("/account/settings");
             }}
           >
             <ListItemIcon>
@@ -91,7 +91,7 @@ const bo = (
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  history.push("/account/api-keys");
+                  navigate("/account/api-keys");
                 }}
               >
                 <ListItemIcon>
@@ -105,7 +105,7 @@ const bo = (
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  history.push("/account/usage");
+                  navigate("/account/usage");
                 }}
               >
                 <ListItemIcon>
@@ -121,7 +121,7 @@ const bo = (
               <ListItem disablePadding>
                 <ListItemButton
                   onClick={() => {
-                    history.push("/account/conversations");
+                    navigate("/account/conversations");
                   }}
                 >
                   <ListItemIcon>
@@ -135,21 +135,21 @@ const bo = (
             }
             {
               false &&
-                <ListItem disablePadding>
-                  <ListItemButton
-                    onClick={() => {
-                      history.push("/account/billing");
-                    }}
-                  >
-                    <ListItemIcon>
-                      <Payment
-                        color="success"
-                      />
-                    </ListItemIcon>
-                    {window.innerWidth > 768 && <ListItemText primary="Billing" />}
-                  </ListItemButton>
-                </ListItem>
-          }
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    navigate("/account/billing");
+                  }}
+                >
+                  <ListItemIcon>
+                    <Payment
+                      color="success"
+                    />
+                  </ListItemIcon>
+                  {window.innerWidth > 768 && <ListItemText primary="Billing" />}
+                </ListItemButton>
+              </ListItem>
+            }
           </>
         }
         <Divider />
@@ -170,8 +170,11 @@ const bo = (
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              signOut(auth).then(() => history.replace("/"));
+              signOut(auth).then(() => {
+                navigate("/");
+              });
             }}
+
           >
             <ListItemIcon>
               <Logout
@@ -188,7 +191,7 @@ const bo = (
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                history.push("/admin/conversation/starter");
+                navigate("/admin/conversation/starter");
               }}
             >
               <ListItemIcon>
@@ -204,7 +207,7 @@ const bo = (
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                history.push("/admin/conversation/assistance");
+                navigate("/admin/conversation/assistance");
               }}
             >
               <ListItemIcon>
@@ -220,7 +223,7 @@ const bo = (
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => {
-                history.push("/admin/users");
+                navigate("/admin/users");
               }}
             >
               <ListItemIcon>
@@ -234,83 +237,83 @@ const bo = (
         }
       </List>
     </React.Fragment>
-);
+  );
 
   return (
     <React.Fragment>
       <Box sx={{ display: "flex" }}>
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          bgcolor: "primary",
-        }}
-      >
-        <Toolbar
-        >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <Menu />
-          </IconButton>
-          <Stack
-            direction="row"
-            spacing={4}
-          >
-            <Logo className={undefined} />
-            <Typography variant="h6" noWrap component="div">
-              Langame
-            </Typography>
-          </Stack>
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-      <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
+        <AppBar
+          position="fixed"
           sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+            bgcolor: "primary",
           }}
         >
-          {bo}
-        </Drawer>
+          <Toolbar
+          >
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <Menu />
+            </IconButton>
+            <Stack
+              direction="row"
+              spacing={4}
+            >
+              <Logo className={undefined} />
+              <Typography variant="h6" noWrap component="div">
+                Langame
+              </Typography>
+            </Stack>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+            }}
+          >
+            {bo}
+          </Drawer>
 
-    <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
-          }}
-          open
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+            }}
+            open
+          >
+            {bo}
+
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          {bo}
-    
-    </Drawer>
-    </Box>
-    <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      >
-            
-        <Toolbar/>
-      {children}
-    </Box>
-    </Box>
+
+          <Toolbar />
+          {children}
+        </Box>
+      </Box>
     </React.Fragment>
   );
 }

@@ -48,5 +48,18 @@ module.exports = {
   ],
   rules: {
     quotes: ["error", "double"],
+    "keyword-spacing": ["error", {
+      before: true,
+      after: true
+    }],
+    "key-spacing": ["error", {
+      beforeColon: false,
+      afterColon: true
+    }],
+    "space-infix-ops": ["error", {
+      int32Hint: false
+    }],
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   },
 };

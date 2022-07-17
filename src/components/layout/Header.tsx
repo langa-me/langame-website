@@ -130,7 +130,8 @@ const Header = ({
                       </li>
                     </ul>
                   }
-                  {user.data &&
+                  {
+                    user.data &&
                     <ul
                       className="list-reset header-nav-right"
                     >

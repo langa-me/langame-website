@@ -7,7 +7,7 @@ import { httpsCallable } from "firebase/functions";
 import { useSnackbar } from "notistack";
 import * as React from "react";
 import GoogleButton from "react-google-button";
-import { Redirect, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth, useFunctions, useSigninCheck } from "reactfire";
 import { ReactComponent as Discord } from "../../assets/images/discord.svg";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
@@ -19,9 +19,9 @@ import { useQuery } from "../../utils/route";
 
 const SignInPage = () => {
     const auth = useAuth();
-    const {data: signedIn} = useSigninCheck();
+    const { data: signedIn } = useSigninCheck();
     const functions = useFunctions();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
     const [isLoading, setIsLoading] = React.useState(false);
     const [isEmailDialogOpen, setIsEmailDialogOpen] = React.useState(false);
@@ -36,7 +36,39 @@ const SignInPage = () => {
                 log("error", e);
             }
         }
-      }, []);
+    }, []);
+
+    React.useEffect(() => {
+        if (signedIn?.signedIn) {
+            return navigate("/account");
+        }
+    }, [signedIn, navigate]);
+
+    React.useEffect(() => {
+        if (query.get("code")) {
+            const fn = async () => {
+                try {
+                    const discordFn = httpsCallable<any, any>(functions, "discordAuthentication");
+                    const result = await discordFn({ token: query.get("code"), guildId: query.get("guild_id") })
+                    const result2 = await signInWithCustomToken(auth, result.data.token);
+                    const result3 = await discordFn({
+                        uid: result2.user.uid
+                    });
+                    log("success", result3);
+
+                    enqueueSnackbar("Signed in...", { variant: "success" });
+                    setTimeout(() =>
+                        navigate("/account/settings")
+                        , 1000);
+                } catch (e) {
+                    log("failure", e);
+                    enqueueSnackbar("Unfortunately an error occured", { variant: "error" });
+                }
+                setIsLoading(false);
+            }
+            fn();
+        }
+    }, [query]);
 
     const googleSignIn = () => {
         setIsLoading(true);
@@ -44,7 +76,7 @@ const SignInPage = () => {
             .then(async (result) => {
                 log("success", result);
                 enqueueSnackbar("Signed in", { variant: "success" });
-                history.replace("/account");
+                navigate("/account");
             }).catch((error) => {
                 log("failure", error);
                 enqueueSnackbar(error.message, { variant: "error" });
@@ -70,31 +102,7 @@ const SignInPage = () => {
             });
     };
 
-    React.useEffect(() => {
-        if (query.get("code")) {
-            const fn = async () => {
-                try {
-                    const discordFn = httpsCallable<any, any>(functions, "discordAuthentication");
-                    const result = await discordFn({token: query.get("code"), guildId: query.get("guild_id")})
-                    const result2 = await signInWithCustomToken(auth, result.data.token);
-                    const result3 = await discordFn({
-                        uid: result2.user.uid
-                    });
-                    log("success", result3);
-                    
-                    enqueueSnackbar("Signed in...", { variant: "success" });
-                    setTimeout(() => 
-                        history.replace("/account/settings")
-                    , 1000);
-                } catch (e) {
-                    log("failure", e);
-                    enqueueSnackbar("Unfortunately an error occured", { variant: "error" });
-                }
-                setIsLoading(false);
-            }
-            fn();
-        }
-    }, [query]);
+
     if (
         isLoading ||
         // there is "code" in the url bar
@@ -102,11 +110,6 @@ const SignInPage = () => {
     ) {
         return <CenteredCircularProgress />;
     }
-
-    if (signedIn?.signedIn) {
-        return <Redirect to="/account" />;
-    }
-    
 
     return (
         <>
@@ -123,8 +126,6 @@ const SignInPage = () => {
                 alignContent="center"
                 sx={{
                     minHeight: "100vh",
-                    // remove padding from child
-                    
                 }}
             >
                 {
@@ -139,8 +140,8 @@ const SignInPage = () => {
                         </GoogleButton>
                     </Grid>
                 }
-                { 
-                (isLocal || isProd) &&
+                {
+                    (isLocal || isProd) &&
                     <Grid item
                         padding={0}
                         // center
@@ -166,15 +167,17 @@ const SignInPage = () => {
                         </Tooltip>
                     </Grid>
                 }
-                {!isProd && <Grid item>
-                    <Button
-                        color="primary"
-                        startIcon={<AlternateEmail />}
-                        onClick={() => setIsEmailDialogOpen(true)}
-                    >
-                        Email
-                    </Button>
-                </Grid>}
+                {
+                    !isProd && <Grid item>
+                        <Button
+                            color="primary"
+                            startIcon={<AlternateEmail />}
+                            onClick={() => setIsEmailDialogOpen(true)}
+                        >
+                            Email
+                        </Button>
+                    </Grid>
+                }
             </Grid>
         </>
     );

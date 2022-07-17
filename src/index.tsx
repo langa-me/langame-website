@@ -1,18 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./assets/scss/style.scss";
 import { seed } from "./utils/random";
-const history = createBrowserHistory();
-seed(new Date().getTime()* Math.random());
+import { BrowserRouter } from "react-router-dom";
+seed(new Date().getTime() * Math.random());
 ReactDOM.render(
-  <Router history={history}>
-      <App />
-  </Router>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.getElementById("root")
 );
 

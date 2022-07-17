@@ -1,6 +1,8 @@
 import { AttachMoney } from "@mui/icons-material";
-import { Chip, Divider, FormControl, InputLabel,
-    MenuItem, Select, Stack, Typography } from "@mui/material";
+import {
+    Chip, Divider, FormControl, InputLabel,
+    MenuItem, Select, Stack, Typography
+} from "@mui/material";
 import { collection, query, where } from "firebase/firestore";
 import * as React from "react";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
@@ -40,49 +42,48 @@ export default function Usage() {
     }
     return (
         <React.Fragment>
-        <Stack
-            spacing={4}
-            alignContent="center"
-            justifyContent="center"
-            alignItems="center"
-        >
-        <Typography
-                variant="h6"
-        >
-            Usage
-          </Typography>
-          <Divider />
-            {
-                organizationsQuerySnapshot.data &&
-                organizationsQuerySnapshot.data.length > 0 &&
-                <Stack
-                    direction="row"
-                    spacing={4}
+            <Stack
+                spacing={4}
+                alignContent="center"
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography
+                    variant="h6"
                 >
-                    <Typography>Credits</Typography>
-                    <Chip icon={<AttachMoney />}
-                        label={organizationsQuerySnapshot.data[0].credits} />
-                </Stack>
-            }
+                    Usage
+                </Typography>
+                <Divider />
+                {
+                    organizationsQuerySnapshot.data &&
+                    organizationsQuerySnapshot.data.length > 0 &&
+                    <Stack
+                        direction="row"
+                        spacing={4}
+                    >
+                        <Typography>Credits</Typography>
+                        <Chip icon={<AttachMoney />}
+                            label={organizationsQuerySnapshot.data[0].credits} />
+                    </Stack>
+                }
 
-            <FormControl fullWidth>
-                <InputLabel>Key</InputLabel>
-                <Select
-                    value={selectedKey || ""}
-                    label="Key"
-                    onChange={(e) => setSelectedKey(e.target.value as string)}
-                >
-                    {
-                        apiKeysQuerySnapshot.data?.map((key) =>
-                            <MenuItem key={key.id} value={key.id}>{key.id}</MenuItem>)
-                    }
-                </Select>
-            </FormControl>
-
-            {selectedKey && <UsagePerKeyChart
-                keyId={selectedKey}
-            />}
-        </Stack>
+                <FormControl fullWidth>
+                    <InputLabel>Key</InputLabel>
+                    <Select
+                        value={selectedKey || ""}
+                        label="Key"
+                        onChange={(e) => setSelectedKey(e.target.value as string)}
+                    >
+                        {
+                            apiKeysQuerySnapshot.data?.map((key) =>
+                                <MenuItem key={key.id} value={key.id}>{key.id}</MenuItem>)
+                        }
+                    </Select>
+                </FormControl>
+                {selectedKey && <UsagePerKeyChart
+                    keyId={selectedKey}
+                />}
+            </Stack>
         </React.Fragment>
     );
 }

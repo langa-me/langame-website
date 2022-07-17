@@ -4,7 +4,7 @@ import { Chip, Divider, IconButton, List, ListItem, ListItemText, Stack, TextFie
 import { collection, doc, query, setDoc, where, writeBatch } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
 import CreateCollectionButton from "../components/elements/CreateCollectionButton";
 import { usePreferences } from "../contexts/usePreferences";
@@ -16,7 +16,7 @@ export default function CollectionsList() {
     const firestore = useFirestore();
     const preferences = usePreferences();
     const {data: user} = useUser();
-    const history = useHistory();
+    const navigate = useNavigate();
     const playlistsCollection = collection(firestore, "playlists");
     const playlistsQuery = query(playlistsCollection,
         // where("topics", "array-contains-any",
@@ -53,7 +53,7 @@ export default function CollectionsList() {
                                         enqueueSnackbar("Empty collection, add some conversation starters first", { variant: "info" });
                                         return;
                                     }
-                                    history.push(`/account/collections/${c.id}`);
+                                    navigate(`/account/collections/${c.id}`);
                                 }}>
                                 <Edit/>
                             </IconButton>

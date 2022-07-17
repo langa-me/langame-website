@@ -4,7 +4,7 @@ import { Divider, IconButton, List, ListItem, Stack } from "@mui/material";
 import { collection, deleteDoc, doc, query, setDoc, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
 import ConversationStarterTextfield, { ConversationStarter } from "../components/elements/ConversationStarter";
 
@@ -14,7 +14,7 @@ import ConversationStarterTextfield, { ConversationStarter } from "../components
 export default function Collection() {
     const firestore = useFirestore();
     const {data: user} = useUser();
-    const history = useHistory();
+    const navigate = useNavigate();
     const param = useParams<{collection: string}>();
     const playlistsCollection = collection(firestore, "playlists");
     const playlistsQuery = query(playlistsCollection,
@@ -29,7 +29,7 @@ export default function Collection() {
         if (!playlists) return;
         // if playlist empty, return to /account/collections
         if (playlists.length !== 0) return;
-        history.push("/account/collections");
+        navigate("/account/collections");
     }, [playlists]);
     return (
         <Stack

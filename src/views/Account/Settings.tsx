@@ -31,12 +31,12 @@ export default function AccountSettings() {
     const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
         idField: "id",
     });
-    const configsQuery = query(configsCollection, 
-        where("guild_id", "==", 
-        organizations && organizations.length > 0 ?
-        organizations[0].id :
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    ));
+    const configsQuery = query(configsCollection,
+        where("guild_id", "==",
+            organizations && organizations.length > 0 ?
+                organizations[0].id :
+                "%"
+        ));
     const { data: configs } = useFirestoreCollectionData(configsQuery, {
         idField: "id",
     });
@@ -54,15 +54,15 @@ export default function AccountSettings() {
             }
         };
         const newOrganizationDoc = await addDoc(organizationsCollection, newOrganization);
-        
+
         log("created new organization", newOrganizationDoc);
         enqueueSnackbar("Created new organization", { variant: "success" });
         setIsLoading(false);
     };
     const connectToNotion = async () => {
-        const url = "https://api.notion.com/v1/oauth/authorize?"+
-        `owner=user&client_id=${clientId}`+
-        `&redirect_uri=${redirectUri}&response_type=code`;
+        const url = "https://api.notion.com/v1/oauth/authorize?" +
+            `owner=user&client_id=${clientId}` +
+            `&redirect_uri=${redirectUri}&response_type=code`;
         window.open(url, "_self");
     };
 
@@ -85,12 +85,12 @@ export default function AccountSettings() {
                     redirect_uri: decodeURIComponent(redirectUri),
                 },
             }, { merge: true })
-            .catch((e) => {
-                console.log("error", e);
-                enqueueSnackbar("Error connecting to Notion", { variant: "error" });
-            })
-            .then(() => enqueueSnackbar("Connected to Notion", { variant: "success" }))
-            .finally(() => setNotionIsLoading(false));
+                .catch((e) => {
+                    console.log("error", e);
+                    enqueueSnackbar("Error connecting to Notion", { variant: "error" });
+                })
+                .then(() => enqueueSnackbar("Connected to Notion", { variant: "success" }))
+                .finally(() => setNotionIsLoading(false));
         }
     }, [configs, q]);
 
@@ -99,116 +99,116 @@ export default function AccountSettings() {
     }
     return (
         <React.Fragment>
-        <Stack
-            spacing={4}
-        >
-            <Typography
-          variant="h4"
-          >
-          Account Settings
-          </Typography>
-          <Divider />
-            <TextField
-                label="Organization Name"
-                value={organizations.length > 0 ?
-                    organizations[0].name :
-                    organizationName}
-                onChange={(e) => setOrganizationName(e.target.value)}
-                disabled={organizations.length > 0}
-            />
-            {
-                organizations.length === 0 &&
-                <Tooltip
-                    followCursor={true}
-                    title={organizationName.length < 3 ?
-                        "Organization name must be at least 3 characters long" :
-                        "Create a new organization"}
+            <Stack
+                spacing={4}
+            >
+                <Typography
+                    variant="h4"
                 >
-                    <span>
-                        <Button
-                            startIcon={<Add />}
-                            onClick={createOrganization}
-                            disabled={organizationName.length < 3 ||
-                                organizationName.length > 12
-                            }
-                        >
-                            Create Organization
-                        </Button>
-                    </span>
-                </Tooltip>
-            }
-            {
-                configs &&
-                configs.length > 0 &&
-                configs[0].guild_id &&
-                <Stack
-                    direction="row"
-                >
-                    <Tooltip title={
-                        configs &&
-                        configs.length > 0 &&
-                        configs[0].notion?.error ?
-                        configs[0].notion.error :
-                        ""
-                    }>
+                    Account Settings
+                </Typography>
+                <Divider />
+                <TextField
+                    label="Organization Name"
+                    value={organizations.length > 0 ?
+                        organizations[0].name :
+                        organizationName}
+                    onChange={(e) => setOrganizationName(e.target.value)}
+                    disabled={organizations.length > 0}
+                />
+                {
+                    organizations.length === 0 &&
+                    <Tooltip
+                        followCursor={true}
+                        title={organizationName.length < 3 ?
+                            "Organization name must be at least 3 characters long" :
+                            "Create a new organization"}
+                    >
                         <span>
-                            <LoadingButton
-                                startIcon={<img 
-                                    style={{
-                                        width: "20%",
-                                    }}
-                                    src={notionIcon} alt="notion" />}
-                                endIcon={
-                                    configs &&
-                                    configs.length > 0 &&
-                                    configs[0].notion?.error &&
-                                    <Warning />
+                            <Button
+                                startIcon={<Add />}
+                                onClick={createOrganization}
+                                disabled={organizationName.length < 3 ||
+                                    organizationName.length > 12
                                 }
-                                onClick={connectToNotion}
-                                loading={notionIsLoading}
-                                disabled={
-                                    !configs ||
-                                    configs.length === 0 ||
-                                    (
-                                        configs[0].notion !== undefined &&
-                                        configs[0].notion?.error === undefined
-                                    )
-                                }
-                                color={
-                                    configs &&
-                                    configs.length > 0 &&
-                                    configs[0].notion !== undefined ?
-                                    "success" :
-                                    "primary"
-                                }
-                                sx={{
-                                    "width": "60%",
-                                    ".MuiButton-startIcon": {
-                                        width: "40%",
-                                    }
-                                }}
                             >
-                                Connect to Notion
-                            </LoadingButton>
+                                Create Organization
+                            </Button>
                         </span>
                     </Tooltip>
-                    <Tooltip title="What do I get from connecting Langame with Notion?">
-                        <IconButton
-                            onClick={() => {
-                                // go to help.langa.me/langame-in-notion
-                                window.open(
-                                    "https://help.langa.me/langame-in-notion", 
-                                    "_blank",
-                                    "noopener,noreferrer",
-                                );
-                            }}
-                        >
-                            <HelpOutline/>
-                        </IconButton>
-                    </Tooltip>
-                </Stack>
-            }
-        </Stack>
+                }
+                {
+                    configs &&
+                    configs.length > 0 &&
+                    configs[0].guild_id &&
+                    <Stack
+                        direction="row"
+                    >
+                        <Tooltip title={
+                            configs &&
+                                configs.length > 0 &&
+                                configs[0].notion?.error ?
+                                configs[0].notion.error :
+                                ""
+                        }>
+                            <span>
+                                <LoadingButton
+                                    startIcon={<img
+                                        style={{
+                                            width: "20%",
+                                        }}
+                                        src={notionIcon} alt="notion" />}
+                                    endIcon={
+                                        configs &&
+                                        configs.length > 0 &&
+                                        configs[0].notion?.error &&
+                                        <Warning />
+                                    }
+                                    onClick={connectToNotion}
+                                    loading={notionIsLoading}
+                                    disabled={
+                                        !configs ||
+                                        configs.length === 0 ||
+                                        (
+                                            configs[0].notion !== undefined &&
+                                            configs[0].notion?.error === undefined
+                                        )
+                                    }
+                                    color={
+                                        configs &&
+                                            configs.length > 0 &&
+                                            configs[0].notion !== undefined ?
+                                            "success" :
+                                            "primary"
+                                    }
+                                    sx={{
+                                        "width": "60%",
+                                        ".MuiButton-startIcon": {
+                                            width: "40%",
+                                        }
+                                    }}
+                                >
+                                    Connect to Notion
+                                </LoadingButton>
+                            </span>
+                        </Tooltip>
+                        <Tooltip title="What do I get from connecting Langame with Notion?">
+                            <IconButton
+                                onClick={() => {
+                                    // go to help.langa.me/langame-in-notion
+                                    window.open(
+                                        "https://help.langa.me/langame-in-notion",
+                                        "_blank",
+                                        "noopener,noreferrer",
+                                    );
+                                }}
+                            >
+                                <HelpOutline />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>
+                }
+            </Stack>
         </React.Fragment>
     );
 }

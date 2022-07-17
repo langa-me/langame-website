@@ -1,7 +1,7 @@
 import { AccountCircle, Check } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
-import { ListItemText, Divider } from "@mui/material";
+import { Divider, ListItemText } from "@mui/material";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -15,6 +15,7 @@ import * as React from "react";
 import { useAuth, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import { log } from "../../utils/logs";
 
+
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -24,12 +25,12 @@ export default function AccountMenu() {
     const firestore = useFirestore();
     const organizationsCollection = collection(firestore, "organizations");
     const organizationsQuery = query(organizationsCollection,
-        where("members", "array-contains", user.data?.uid || "undefined"));
+        where("members", "array-contains", user.data?.uid || "%"));
     const { status, data: organizations } = useFirestoreCollectionData(organizationsQuery, {
         idField: "id",
     });
     const preferencesCollection = collection(firestore, "preferences");
-    const preferenceDoc = doc(preferencesCollection, user.data?.uid || "undefined");
+    const preferenceDoc = doc(preferencesCollection, user.data?.uid || "%");
     const prefObs = useFirestoreDocData(preferenceDoc, {
         idField: "id",
     });
@@ -46,7 +47,6 @@ export default function AccountMenu() {
             // Sign-out successful.
             log("signed out");
             enqueueSnackbar("Signed out", { variant: "success" });
-
         }).catch((error) => {
             // An error happened.
             log("error signing out", error);

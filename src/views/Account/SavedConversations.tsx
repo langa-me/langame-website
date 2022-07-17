@@ -1,6 +1,8 @@
 import { ContentCopy, Delete, FileDownload } from "@mui/icons-material";
-import { Divider, Fab, List, ListItem, ListItemText, 
-  Paper, Skeleton, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Divider, Fab, List, ListItem, ListItemText,
+  Paper, Skeleton, Stack, Tooltip, Typography
+} from "@mui/material";
 import { collection } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import * as React from "react";
@@ -40,10 +42,10 @@ const CHits = ({ hits }: {
   // reverse the list
   const conversation = hit?.conversation?.reverse();
   const { enqueueSnackbar } = useSnackbar();
-  
+
   const onCopy = () => {
     const text = `${hit?.channel?.name}\n
-${hit?.conversation?.map((e) => e.author+"\n"+e.content).join("\n\n")}`;
+${hit?.conversation?.map((e) => e.author + "\n" + e.content).join("\n\n")}`;
     navigator.clipboard.writeText(text);
     enqueueSnackbar("Copied to clipboard");
   };
@@ -64,25 +66,25 @@ ${hit?.conversation?.map((e) => e.author+"\n"+e.content).join("\n\n")}`;
       >
         <Tooltip title="Copy conversation">
           <span>
-          <Fab color="default" aria-label="copy"
-            onClick={onCopy}
-          >
-            <ContentCopy />
-          </Fab>
+            <Fab color="default" aria-label="copy"
+              onClick={onCopy}
+            >
+              <ContentCopy />
+            </Fab>
           </span>
         </Tooltip>
         <Tooltip title="Coming soon">
           <span>
-          <Fab disabled color="default" aria-label="delete">
-            <Delete />
-          </Fab>
+            <Fab disabled color="default" aria-label="delete">
+              <Delete />
+            </Fab>
           </span>
         </Tooltip>
         <Tooltip title="Coming soon">
           <span>
-          <Fab disabled color="default" aria-label="export">
-            <FileDownload />
-          </Fab>
+            <Fab disabled color="default" aria-label="export">
+              <FileDownload />
+            </Fab>
           </span>
         </Tooltip>
       </Stack>
@@ -98,32 +100,32 @@ ${hit?.conversation?.map((e) => e.author+"\n"+e.content).join("\n\n")}`;
         </ListItem>
         {
           conversation
-          ?.filter((e) => 
-            !e.author.includes("Langame") ||
-            e.content.match(/\*\*(.*)\*\*/) &&
-            e.content.match(/\*\*(.*)\*\*/)!.length > 1)
-          ?.map((e) =>
-            <ListItem
-              key={e.author}
-            >
-              <ListItemText
-                secondary={
-                  e.author.includes("Langame") ?
-                  e.content.match(/\*\*(.*)\*\*/)![1] :
-                  e.content
-                }
-                primary={e.author}
-                primaryTypographyProps={{
-                  color: "primary",
-                  variant: "body1",
-                }}
-                secondaryTypographyProps={{
-                  color: "grey.200",
-                  variant: "body2",
-                }}
-              />
-            </ListItem>
-          )
+            ?.filter((e) =>
+              !e.author.includes("Langame") ||
+              e.content.match(/\*\*(.*)\*\*/) &&
+              e.content.match(/\*\*(.*)\*\*/)!.length > 1)
+            ?.map((e) =>
+              <ListItem
+                key={e.author}
+              >
+                <ListItemText
+                  secondary={
+                    e.author.includes("Langame") ?
+                      e.content.match(/\*\*(.*)\*\*/)![1] :
+                      e.content
+                  }
+                  primary={e.author}
+                  primaryTypographyProps={{
+                    color: "primary",
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    color: "grey.200",
+                    variant: "body2",
+                  }}
+                />
+              </ListItem>
+            )
         }
       </List>
     </Paper>
@@ -138,47 +140,47 @@ export default function SavedConversations() {
   const { status, data: conversations } = useFirestoreCollectionData(conversationsCollection, {
     idField: "id",
   });
-  const {data: user} = useUser();
+  const { data: user } = useUser();
 
   return (
-      <Stack
-        sx={{
-          width: "70%",
-        }}
-        spacing={4}
-        alignContent="center"
-        alignItems="center"
+    <Stack
+      sx={{
+        width: "70%",
+      }}
+      spacing={4}
+      alignContent="center"
+      alignItems="center"
+    >
+      <Typography
+        variant="h3"
       >
-        <Typography
-          variant="h3"
-        >
-          Conversations
-        </Typography>
-        <Divider />
-        {
-          status === "loading" ?
+        Conversations
+      </Typography>
+      <Divider />
+      {
+        status === "loading" ?
           <Skeleton
             variant="text"
             height={40}
-            /> :
+          /> :
           conversations?.length === 0 &&
-            <Typography
-              variant="h6"
-            >
-              You will see saved conversations here once you have any 😇.
-              Try /setup to request the Langame Discord bot save conversations.
-            </Typography>
-        }
-        <InstantSearch searchClient={searchClient} indexName={
-          algoliaPrefix + "saved_conversations"}>
-          <CustomAlgoliaSearchBox />
-          <Configure hitsPerPage={1}
-            filters={`guildId:${user?.uid}`}
-          />
-          <CustomHits />
-          <CustomAlgoliaPagination />
-        </InstantSearch>
-      </Stack>
+          <Typography
+            variant="h6"
+          >
+            You will see saved conversations here once you have any 😇.
+            Try /setup to request the Langame Discord bot save conversations.
+          </Typography>
+      }
+      <InstantSearch searchClient={searchClient} indexName={
+        algoliaPrefix + "saved_conversations"}>
+        <CustomAlgoliaSearchBox />
+        <Configure hitsPerPage={1}
+          filters={`guildId:${user?.uid}`}
+        />
+        <CustomHits />
+        <CustomAlgoliaPagination />
+      </InstantSearch>
+    </Stack>
   );
 }
 

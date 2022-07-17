@@ -2,7 +2,7 @@ import { InstallDesktop, Key, ReadMore } from "@mui/icons-material";
 import { Button, Grid, Tooltip } from "@mui/material";
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Timeline } from "react-twitter-widgets";
 import DiscordSamples from "../components/elements/DiscordSamples";
 import Hero from "../components/sections/Hero";
@@ -10,7 +10,7 @@ import Hero from "../components/sections/Hero";
 
 
 const Home = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <>
       <Hero className="illustration-section-01" />
@@ -36,7 +36,7 @@ const Home = () => {
                     variant="outlined"
                     color="secondary"
                     onClick={
-                      () => history.push("/signin")
+                      () => navigate("/signin")
                     }
                   >
                     Get conversation starters now
@@ -160,7 +160,7 @@ const Home = () => {
                     variant="outlined"
                     color="secondary"
                     onClick={
-                      () => history.replace("/account/api-keys")
+                      () => navigate("/account/api-keys")
                     }
                   >
                     Try the API

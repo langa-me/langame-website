@@ -4,37 +4,36 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { SnackbarProvider } from "notistack";
 import React, { useEffect, useRef } from "react";
-import { Switch, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import {
-  AuthProvider, FirebaseAppProvider, FirestoreProvider, FunctionsProvider,
+  AuthProvider, FirebaseAppProvider, FirestoreProvider, FunctionsProvider
 } from "reactfire";
 // Layouts
 import LayoutDefault from "./layouts/LayoutDefault";
-import AppRoute from "./utils/AppRoute";
 import { getFirebaseConfig, initEmulator } from "./utils/firebase";
 import ScrollReveal, { ScrollRevealRef } from "./utils/ScrollReveal";
-import CheckAuthentication from "./components/elements/CheckAuthentication";
 import SignInPage from "./views/Authentication/SignInPage";
 import { ConfirmConversationStarters } from "./views/ConfirmConversationStarters";
 // Views 
-import Home from "./views/Home";
-import AccountSettings from "./views/Account/Settings";
-import NotFound from "./views/NotFound";
-import LayoutAccount from "./layouts/LayoutAccount";
-import ApiKeys from "./views/Account/ApiKeys";
-import { isEmulator } from "./utils/constants";
-import Usage from "./views/Account/Usage";
-import { Users } from "./views/Users";
-import { ConversationAssistance } from "./views/ConversationAssistance";
-import {Elements} from "@stripe/react-stripe-js";
-import {loadStripe} from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { getFunctions } from "firebase/functions";
-import { log } from "./utils/logs";
-import SavedConversations from "./views/Account/SavedConversations";
-import Play from "./views/Play";
 import { PreferencesProvider } from "./contexts/usePreferences";
-import CollectionsList from "./views/CollectionsList";
+import LayoutAccount from "./layouts/LayoutAccount";
+import { isEmulator } from "./utils/constants";
+import { log } from "./utils/logs";
+import ApiKeys from "./views/Account/ApiKeys";
+import SavedConversations from "./views/Account/SavedConversations";
+import AccountSettings from "./views/Account/Settings";
+import Usage from "./views/Account/Usage";
 import Collection from "./views/Collection";
+import CollectionsList from "./views/CollectionsList";
+import { ConversationAssistance } from "./views/ConversationAssistance";
+import Home from "./views/Home";
+import NotFound from "./views/NotFound";
+import Play from "./views/Play";
+import { Users } from "./views/Users";
+
 
 
 const firebaseConfig = getFirebaseConfig();
@@ -115,53 +114,41 @@ const App = () => {
                     <ScrollReveal
                       ref={childRef}>
                       {() => (
-                        <Switch>
-                          <AppRoute exact path='/' component={Home} layout={LayoutDefault} />
-                          <AppRoute exact path='/signin' component={SignInPage} layout={LayoutDefault} />
-                          <AppRoute exact path="/404" component={NotFound} layout={LayoutDefault} />
-                          <CheckAuthentication>
-                            <AppRoute exact path='/admin/conversation/starter' component={ConfirmConversationStarters}
-                              layout={LayoutAccount} />
-                            <AppRoute exact path='/admin/conversation/assistance' component={ConversationAssistance}
-                              layout={LayoutAccount} />
-                            <AppRoute exact path='/admin/users' component={Users}
-                              layout={LayoutAccount} />
-                            <AppRoute exact path='/account/play'
-                              component={Play}
-                              layout={LayoutAccount}
-                            />
-                            <AppRoute exact path='/account/collections/:collection'
-                              component={Collection}
-                              layout={LayoutAccount}
-                            />
-                            <AppRoute exact path='/account/collections'
-                              component={CollectionsList}
-                              layout={LayoutAccount}
-                            />
-                            <AppRoute exact path='/account/settings'
-                              component={AccountSettings}
-                              layout={LayoutAccount}
-                            />
-                            <AppRoute exact path='/account/api-keys'
-                              component={ApiKeys}
-                              layout={LayoutAccount}
-                            />
-                            <AppRoute exact path='/account/usage'
-                              component={Usage}
-                              layout={LayoutAccount}
-                            />
-                            <AppRoute exact path='/account/conversations'
-                              component={SavedConversations}
-                              layout={LayoutAccount}
-                            />
-                            {/* <AppRoute exact path='/account/billing'
-                              component={Billing}
-                              layout={LayoutAccount}
-                            /> */}
-                            { /* Redirect /account to /account/play */}
-                            {/* <Redirect exact from="/account/*" to="/account/play" /> */}
-                          </CheckAuthentication>
-                        </Switch>
+                        <Routes>
+                          <Route path='/' element={<LayoutDefault><Home /></LayoutDefault>} />
+                          <Route path='/signin' element={<LayoutDefault><SignInPage /></LayoutDefault>} />
+                          <Route path="/404" element={<LayoutDefault><NotFound /></LayoutDefault>} />
+                          <Route path='/admin/conversation/starter' element={<LayoutAccount><ConfirmConversationStarters /></LayoutAccount>} />
+                          <Route path='/admin/conversation/assistance'
+                            element={<LayoutAccount><ConversationAssistance /></LayoutAccount>} />
+                          <Route path='/admin/users'
+                            element={<LayoutAccount><Users /></LayoutAccount>} />
+                          <Route path='/account/play'
+                            element={<LayoutAccount><Play /></LayoutAccount>}
+                          />
+                          <Route path='/account/collections/:collection'
+                            element={<LayoutAccount><Collection /></LayoutAccount>}
+                          />
+                          <Route path='/account/collections'
+                            element={<LayoutAccount><CollectionsList /></LayoutAccount>}
+                          />
+                          <Route path='/account/settings'
+                            element={<LayoutAccount><AccountSettings /></LayoutAccount>}
+                          />
+                          <Route path='/account/api-keys'
+                            element={<LayoutAccount><ApiKeys /></LayoutAccount>}
+                          />
+                          <Route path='/account/usage'
+                            element={<LayoutAccount><Usage /></LayoutAccount>}
+                          />
+                          <Route path='/account/conversations'
+                            element={<LayoutAccount><SavedConversations /></LayoutAccount>}
+                          />
+                          <Route
+                            path="*"
+                            element={<Navigate to="/account/play" replace />}
+                          />
+                        </Routes>
                       )}
                     </ScrollReveal>
                   </Elements>
