@@ -44,7 +44,8 @@ module.exports = {
   plugins: [
     "@typescript-eslint",
     "import",
-    "react"
+    "react",
+    "react-hooks",
   ],
   rules: {
     quotes: ["error", "double"],

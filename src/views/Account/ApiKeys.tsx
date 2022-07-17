@@ -7,13 +7,14 @@ import CenteredCircularProgress from "../../components/elements/CenteredCircular
 
 
 
+
 export default function ApiKeys() {
     const user = useUser();
     const firestore = useFirestore();
     const preferencesCollection = collection(firestore, "preferences");
     const preferenceDoc = doc(preferencesCollection, user.data?.uid || "undefined");
-    const {status, data: preferences} = useFirestoreDocData(preferenceDoc, {
-      idField: "id",
+    const { status, data: preferences } = useFirestoreDocData(preferenceDoc, {
+        idField: "id",
     });
     if (status === "loading") {
         return <CenteredCircularProgress />;
@@ -22,13 +23,6 @@ export default function ApiKeys() {
         <React.Fragment>
             <Stack
                 spacing={4}
-                // sx={{
-                //     width: 
-                //     window.innerWidth > 600 ?
-                //     "80%" :
-                //     "60%",
-                //     padding: "1rem",
-                // }}
                 alignContent="center"
                 justifyContent="center"
                 alignItems="center"
@@ -38,11 +32,13 @@ export default function ApiKeys() {
                 >
                     API keys
                 </Typography>
-            <Divider />
+                <Divider />
                 <p>
                     Your secret API keys are shown below. Do not share your API key with others,
                     or expose it in the browser or other client-side code.
-                    In order to protect the security of your account.
+                    In order to protect the security of your account. <a href="https://docs.langa.me"
+                        target="_blank" rel="noopener noreferrer"
+                    >See documentation</a>
                 </p>
                 <ApiKeysTable
                     organizationId={preferences.currentOrganization}
