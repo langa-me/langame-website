@@ -42,9 +42,6 @@ export default function Usage() {
         <React.Fragment>
         <Stack
             spacing={4}
-            sx={{
-                width: "80%",
-            }}
             alignContent="center"
             justifyContent="center"
             alignItems="center"
