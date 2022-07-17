@@ -98,6 +98,7 @@ export default function CollectionsList() {
                                     value={c.name}
                                     inputProps={{ maxLength: 12 }}
                                     onChange={(e) => {
+                                        if (!e.target.value) return;
                                         const cn = preferences?.collections;
                                         cn.forEach((cc: any) => {
                                             if (cc.id === c.id) {
