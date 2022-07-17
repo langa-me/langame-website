@@ -21,6 +21,7 @@ export interface StarterFeedbackButtonsProps {
     conversationStarterText: string
     conversationStarterTopics: string[]
     onClick?: () => void
+    disabled?: string
 }
 
 const StarterFeedbackButtons = ({
@@ -28,6 +29,7 @@ const StarterFeedbackButtons = ({
     conversationStarterText,
     conversationStarterTopics,
     onClick,
+    disabled,
 }: StarterFeedbackButtonsProps) => {
     const {data: user} = useUser();
     const firestore = useFirestore();
@@ -94,7 +96,7 @@ const StarterFeedbackButtons = ({
                 <Tooltip title="I don't like this conversation starter">
                     <IconButton
                         onClick={() => onLike(hackDeleteCollection)}
-                        disabled={loading}
+                        disabled={loading || disabled !== undefined}
                     >
                         <Clear />
                     </IconButton>
@@ -102,7 +104,7 @@ const StarterFeedbackButtons = ({
                 <Tooltip title="Save this conversation starter">
                     <IconButton
                         onClick={() => setOpen(true)}
-                        disabled={loading}
+                        disabled={loading || disabled !== undefined}
                     >
                         <Check />
                     </IconButton>

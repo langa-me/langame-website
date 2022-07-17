@@ -8,9 +8,11 @@ import { usePreferences } from "../../contexts/usePreferences";
 interface TagsAutocompleteProps {
     conversationStarterTopics: string[]
     setConversationStarterTopics: React.Dispatch<React.SetStateAction<string[]>>
+    height?: number | string
 }
 export default function TagsAutocomplete({
-    conversationStarterTopics, setConversationStarterTopics}: TagsAutocompleteProps) {
+    conversationStarterTopics, setConversationStarterTopics, height
+}: TagsAutocompleteProps) {
     const firestore = useFirestore();
     const {data: user} = useUser();
     const preferences = usePreferences();
@@ -36,6 +38,7 @@ export default function TagsAutocomplete({
                 <Paper
                     sx={{
                         width: "100%",
+                        height: height || "8em",
                     }}
                 >
                 <List
@@ -81,6 +84,7 @@ export default function TagsAutocomplete({
                     <Paper
                     sx={{
                         width: "100%",
+                        height: height || "8em",
                     }}
                     >
                     <List
