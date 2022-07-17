@@ -59,7 +59,9 @@ export default function Play() {
     const [currentMeme, setCurrentMeme] = React.useState<ConversationStarter>();
 
     useEffect(() => {
-        if (!newMemes ||
+        if (
+            queryResponse ||
+            !newMemes ||
             currentConversationIndex >= newMemes.length ||
             !newMemes[currentConversationIndex].content ||
             newMemes[currentConversationIndex].id === currentMeme?.id
@@ -69,7 +71,7 @@ export default function Play() {
             content: newMemes[currentConversationIndex].content,
             topics: newMemes[currentConversationIndex].topics
         });
-    }, [currentConversationIndex, currentMeme?.id, newMemes]);
+    }, [currentConversationIndex, currentMeme?.id, newMemes, queryResponse]);
     useEffect(() => setCurrentConversationIndex(0), [memes]);
     const onExecuteRequestToApi = () => {
         setLoading(true);
@@ -85,14 +87,17 @@ export default function Play() {
         };
         fetch(langameApiUrl, h).then((e) => e.json()).then((e) => {
             setQueryResponse(e);
-            setCurrentMeme(e.results[0].content);
+            setCurrentMeme({
+                content: e.results[0].conversation_starter.en,
+                topics: e.topics,
+                id: e.results[0].id,
+            });
         }).catch((e) => {
             enqueueSnackbar(e.message, { variant: "error" });
             setQueryResponse(undefined);
             setCurrentMeme(undefined);
         }).finally(() => setLoading(false));
     };
-
     return (
         <React.Fragment>
             <Stack
@@ -104,7 +109,10 @@ export default function Play() {
             >
                 <TagsAutocomplete
                     conversationStarterTopics={autocompleteTopics}
-                    setConversationStarterTopics={setAutocompleteTopics}
+                    setConversationStarterTopics={(t) => {
+                        setAutocompleteTopics(t);
+                        setQueryResponse(undefined);
+                    }}
                     helpers
                 />
 
@@ -136,6 +144,7 @@ export default function Play() {
                                         conversationStarter={currentMeme}
                                         setConversationStarter={setCurrentMeme}
                                         width={"auto"}
+                                        padding="2rem 0"
                                     />
                                     ) :
                                 newMemes
@@ -144,6 +153,7 @@ export default function Play() {
                                         conversationStarter={currentMeme}
                                         setConversationStarter={setCurrentMeme}
                                         width={"auto"}
+                                        padding="2rem 0"
                                     />
 
                                     )

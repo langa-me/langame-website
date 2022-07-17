@@ -1,6 +1,7 @@
-import { ContentCopy } from "@mui/icons-material";
-import { IconButton, InputAdornment, Paper, Skeleton, Stack, TextField } from "@mui/material";
+import { ContentCopy, PresentToAll } from "@mui/icons-material";
+import { IconButton, InputAdornment, Paper, Skeleton, Stack, TextField, Tooltip } from "@mui/material";
 import React from "react";
+import PresentConversationStarterDialog from "./PresentConversationStarterDialog";
 import TagsAutocomplete from "./TagsAutocomplete";
 
 
@@ -22,6 +23,7 @@ interface ConversationStarterProps {
     onContentChange?: ContentChange
     onTopicsChange?: TopicChange
     width?: number | string
+    padding?: number | string
 }
 /**
  *
@@ -29,30 +31,51 @@ interface ConversationStarterProps {
  * @return 
  */
 export default function ConversationStarterTextfield({
-    conversationStarter, setConversationStarter, onContentChange, onTopicsChange, width,
+    conversationStarter, setConversationStarter, onContentChange, onTopicsChange, width, padding,
 }: ConversationStarterProps) {
+    const [presenting, setPresenting] = React.useState(false);
     return (
         <React.Fragment>
+            {
+                conversationStarter?.content &&
+                <PresentConversationStarterDialog
+                    conversationStarter={conversationStarter}
+                    open={presenting}
+                    setOpen={setPresenting}
+                />
+            }
             <Paper
                 elevation={3}
                 sx={{
-                    padding: "2rem 0",
+                    padding: padding || "1rem 0",
                     width: width || "90%",
                 }}
             >
+
                 <Stack
                     alignContent="center"
                     justifyContent="center"
                     alignItems="center"
                     spacing={0}
                 >
+                    <Tooltip title="Focus on this conversation starter">
+                        <IconButton
+                            onClick={() => setPresenting(true)}
+                            sx={{
+                                width: "40px",
+                            }}
+                            disabled={!conversationStarter}
+                        >
+                            <PresentToAll />
+                        </IconButton>
+                    </Tooltip>
                     {
                         conversationStarter && conversationStarter.content ?
                             <TextField
                                 fullWidth
                                 multiline
                                 sx={{
-                                    width: "80%"
+                                    width: "85%"
                                 }}
                                 value={conversationStarter.content}
                                 onChange={(e) => {

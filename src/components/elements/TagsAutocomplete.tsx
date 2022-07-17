@@ -29,7 +29,10 @@ export default function TagsAutocomplete({
                 alignItems="center"
                 spacing={2}
                 direction="column"
-                width="80%"
+                width="85%"
+                sx={{
+                    margin: "5px",
+                }}
             >
                 {
                     helpers &&
@@ -145,6 +148,7 @@ export default function TagsAutocomplete({
                     filterSelectedOptions
                     popupIcon={<></>}
                     onChange={(e, value) => {
+                        if (value.length > 11) return;
                         const hasRemoved = conversationStarterTopics.filter((t) => !value.includes(t)).length > 0;
                         setConversationStarterTopics(value);
                         if (!value || hasRemoved) return;
@@ -166,6 +170,14 @@ export default function TagsAutocomplete({
                             {...params}
                             label="Topics"
                             placeholder="ice breaker"
+                            error={
+                                conversationStarterTopics.length > 10
+                            }
+                            helperText={
+                                conversationStarterTopics.length > 10
+                                    ? "You can only select up to 10 topics"
+                                    : ""
+                            }
                         />
                     )}
                 />

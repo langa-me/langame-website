@@ -94,20 +94,24 @@ const StarterFeedbackButtons = ({
                 }}
             >
                 <Tooltip title="I don't like this conversation starter">
+                    <span>
                     <IconButton
                         onClick={() => onLike(hackDeleteCollection)}
                         disabled={loading || disabled !== undefined}
                     >
                         <Clear />
                     </IconButton>
+                    </span>
                 </Tooltip>
                 <Tooltip title="Save this conversation starter">
+                <span>
                     <IconButton
                         onClick={() => setOpen(true)}
                         disabled={loading || disabled !== undefined}
                     >
                         <Check />
                     </IconButton>
+                    </span>
                 </Tooltip>
         </ButtonGroup>
     </React.Fragment>
