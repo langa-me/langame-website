@@ -53,7 +53,7 @@ export default function UsagePerKeyChart({ keyId }: IUsagePerKeyChartProps) {
     // Stupid hack necessary because recharts crashes when document is updated
     useEffect(() => {
         forceUpdate();
-    }, [usage]);
+    }, [forceUpdate, usage]);
 
     // group usage data by day and sum up the calls
     const groupQueriesByDay = (

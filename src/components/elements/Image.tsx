@@ -22,34 +22,34 @@ const Image = ({
   const image = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    const handlePlaceholder = (img: HTMLImageElement) => {
+      const placeholder = document.createElement("img");
+      if (!loaded) {
+        img.style.display = "none";
+        img.before(placeholder);
+        placeholder.src = placeholderSrc(
+          Number(img.getAttribute("width") ?? 0),
+          Number(img.getAttribute("height") ?? 0)
+        );
+        placeholder.width = Number(img.getAttribute("width"));
+        placeholder.height = Number(img.getAttribute("height"));
+        placeholder.style.opacity = "0";
+        img.className && placeholder.classList.add(img.className);
+        placeholder.remove();
+        img.style.display = "";
+      }
+    }
     handlePlaceholder(image.current!);
-  }, []);
-  
+  }, [loaded]);
+
   const placeholderSrc = (w: number, h: number) => {
     return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}"%3E%3C/svg%3E`;
   }
 
-  const handlePlaceholder = (img: HTMLImageElement) => {
-    const placeholder = document.createElement("img");
-    if (!loaded) {
-      img.style.display = "none";
-      img.before(placeholder);
-      placeholder.src = placeholderSrc(
-        Number(img.getAttribute("width") ?? 0),
-        Number(img.getAttribute("height") ?? 0)
-      );
-      placeholder.width = Number(img.getAttribute("width"));
-      placeholder.height = Number(img.getAttribute("height"));
-      placeholder.style.opacity = "0";
-      img.className && placeholder.classList.add(img.className);
-      placeholder.remove();
-      img.style.display = "";      
-    }
-  }
 
   function onLoad() {
     setLoaded(true);
-  }  
+  }
 
   return (
     <img
@@ -60,7 +60,7 @@ const Image = ({
       width={width}
       height={height}
       alt={alt}
-      onLoad={onLoad}/>
+      onLoad={onLoad} />
   );
 }
 

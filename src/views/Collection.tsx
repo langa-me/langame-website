@@ -13,9 +13,9 @@ import ConversationStarterTextfield, { ConversationStarter } from "../components
 
 export default function Collection() {
     const firestore = useFirestore();
-    const {data: user} = useUser();
+    const { data: user } = useUser();
     const navigate = useNavigate();
-    const param = useParams<{collection: string}>();
+    const param = useParams<{ collection: string }>();
     const playlistsCollection = collection(firestore, "playlists");
     const playlistsQuery = query(playlistsCollection,
         where("collection", "==", param.collection),
@@ -30,7 +30,7 @@ export default function Collection() {
         // if playlist empty, return to /account/collections
         if (playlists.length !== 0) return;
         navigate("/account/collections");
-    }, [playlists]);
+    }, [navigate, playlists]);
     return (
         <Stack
             spacing={4}
@@ -44,13 +44,13 @@ export default function Collection() {
                             <IconButton
                                 onClick={() => {
                                     deleteDoc(doc(playlistsCollection, playlist.id))
-                                    .then(() => enqueueSnackbar("Deleted", { variant: "success" }))
-                                    .catch((err) => {
-                                        enqueueSnackbar(err.message, { variant: "error" });
-                                    });
+                                        .then(() => enqueueSnackbar("Deleted", { variant: "success" }))
+                                        .catch((err) => {
+                                            enqueueSnackbar(err.message, { variant: "error" });
+                                        });
                                 }}
                             >
-                                <Delete/>
+                                <Delete />
                             </IconButton>
                         }
                     >
@@ -59,12 +59,12 @@ export default function Collection() {
                             onContentChange={(content) => {
                                 setDoc(doc(collection(firestore, "playlists"), playlist.id), {
                                     content: content,
-                                }, {merge: true});
+                                }, { merge: true });
                             }}
                             onTopicsChange={(topics) => {
                                 setDoc(doc(collection(firestore, "playlists"), playlist.id), {
                                     topics: topics,
-                                }, {merge: true});
+                                }, { merge: true });
                             }}
                         />
                     </ListItem>

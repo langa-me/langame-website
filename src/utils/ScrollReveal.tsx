@@ -51,6 +51,7 @@ const ScrollReveal =
       }
       revealElements();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revealEl]);
 
   const handleListeners = () => {
@@ -71,6 +72,7 @@ const ScrollReveal =
   useEffect(() => {
     handleListeners();
     revealElements();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewportHeight]);
 
   return (

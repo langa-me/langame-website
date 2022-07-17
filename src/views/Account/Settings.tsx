@@ -92,6 +92,7 @@ export default function AccountSettings() {
                 .then(() => enqueueSnackbar("Connected to Notion", { variant: "success" }))
                 .finally(() => setNotionIsLoading(false));
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [configs, q]);
 
     if (isLoading || status === "loading") {

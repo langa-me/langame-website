@@ -68,6 +68,7 @@ const SignInPage = () => {
             }
             fn();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query]);
 
     const googleSignIn = () => {
