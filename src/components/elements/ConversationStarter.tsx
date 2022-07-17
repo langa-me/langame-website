@@ -86,36 +86,9 @@ export default function ConversationStarterTextfield({
                                 ...conversationStarter!,
                                 topics: topics,
                             }) :
-                                onTopicsChange ? onTopicsChange : () => { }
+                                onTopicsChange ? onTopicsChange(topics) : () => { }
                         }
                     />
-                    {/* <List
-                        sx={{
-                            padding: "0.2em",
-                            width: "50%",
-                            // scrollable
-                            overflow: "auto",
-                            maxHeight: "10em",
-                            textAlign: "center",
-                        }}
-                    >
-                    {
-                        conversationStarter?.topics?.map((topic: string) => (
-                            <Chip key={topic} label={topic}
-                                sx={{
-                                    marginTop: "0.5rem",
-                                }}
-                                onDelete={() => {
-                                    setConversationStarter && setConversationStarter({
-                                        ...conversationStarter,
-                                        topics: conversationStarter?.topics.filter((e) => e !== topic)}
-                                    );
-                                    onTopicsChange && onTopicsChange(conversationStarter?.topics.filter((e) => e !== topic))
-                                }}
-                            />
-                        ))
-                    }
-                    </List> */}
                 </Stack>
             </Paper>
         </React.Fragment>
