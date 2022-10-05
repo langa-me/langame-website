@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",

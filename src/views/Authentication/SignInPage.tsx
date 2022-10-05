@@ -40,7 +40,7 @@ const SignInPage = () => {
 
     React.useEffect(() => {
         if (signedIn?.signedIn) {
-            return navigate("/account");
+            return navigate("/account/settings");
         }
     }, [signedIn, navigate]);
 
@@ -77,7 +77,7 @@ const SignInPage = () => {
             .then(async (result) => {
                 log("success", result);
                 enqueueSnackbar("Signed in", { variant: "success" });
-                navigate("/account");
+                navigate("/account/settings");
             }).catch((error) => {
                 log("failure", error);
                 enqueueSnackbar(error.message, { variant: "error" });
