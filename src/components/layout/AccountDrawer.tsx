@@ -42,48 +42,60 @@ export default function AccountDrawer({ children }: AccountDrawerProps) {
       <Toolbar />
       <Divider />
       <List>
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate("/account/play");
-            }}
-          >
-            <ListItemIcon>
-              <Mood
-                color="success"
-              />
-            </ListItemIcon>
-            <ListItemText primary="Play" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate("/account/collections");
-            }}
-          >
-            <ListItemIcon>
-              <Collections
-                color="success"
-              />
-            </ListItemIcon>
-            <ListItemText primary="Collection" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate("/account/settings");
-            }}
-          >
-            <ListItemIcon>
-              <Settings
-                color="success"
-              />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItemButton>
-        </ListItem>
+        {
+          // Don't show if no organizations created yet
+          organizations.length > 0 &&
+          <>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  navigate("/account/play");
+                }}
+              >
+                <ListItemIcon>
+                  <Mood
+                    color="success"
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Play" />
+              </ListItemButton>
+            </ListItem>
+          </>
+        }
+        {
+          // Don't show if no organizations created yet
+          organizations.length > 0 &&
+          <>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  navigate("/account/collections");
+                }}
+              >
+                <ListItemIcon>
+                  <Collections
+                    color="success"
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Collection" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  navigate("/account/settings");
+                }}
+              >
+                <ListItemIcon>
+                  <Settings
+                    color="success"
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItemButton>
+            </ListItem>
+            </>
+        }
         {
           // Don't show if no organizations created yet
           organizations.length > 0 &&
