@@ -1,4 +1,4 @@
-import { AttachMoney, BarChart, Collections, Forum, Key, Logout, Menu, Mood, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
+import { BarChart, Collections, Key, Logout, Menu, Mood, Payment, People, QuestionAnswer, Settings, ThumbsUpDown } from "@mui/icons-material";
 import { AppBar, Box, Divider, Drawer, IconButton, ListItemButton, Stack, Toolbar, Typography } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -14,6 +14,7 @@ import Logo from "./partials/Logo";
 interface AccountDrawerProps {
   children: React.ReactNode
 }
+
 export const drawerWidth = 240;
 export default function AccountDrawer({ children }: AccountDrawerProps) {
   const navigate = useNavigate();
@@ -168,25 +169,10 @@ export default function AccountDrawer({ children }: AccountDrawerProps) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              window.open("https://help.langa.me/langame-services/pricing", "_blank");
-            }}
-          >
-            <ListItemIcon>
-              <AttachMoney
-                color="success"
-              />
-            </ListItemIcon>
-            <ListItemText primary="Pricing" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
               signOut(auth).then(() => {
                 navigate("/");
               });
             }}
-
           >
             <ListItemIcon>
               <Logout
@@ -212,22 +198,6 @@ export default function AccountDrawer({ children }: AccountDrawerProps) {
                 />
               </ListItemIcon>
               <ListItemText primary="Conversation starters" />
-            </ListItemButton>
-          </ListItem>
-        }
-        {userData?.role === "admin" &&
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => {
-                navigate("/admin/conversation/assistance");
-              }}
-            >
-              <ListItemIcon>
-                <Forum
-                  color="success"
-                />
-              </ListItemIcon>
-              <ListItemText primary="Conversation assistance" />
             </ListItemButton>
           </ListItem>
         }

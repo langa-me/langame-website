@@ -28,11 +28,11 @@ import AccountSettings from "./views/Account/Settings";
 import Usage from "./views/Account/Usage";
 import Collection from "./views/Collection";
 import CollectionsList from "./views/CollectionsList";
-import { ConversationAssistance } from "./views/ConversationAssistance";
 import Home from "./views/Home";
 import NotFound from "./views/NotFound";
 import Play from "./views/Play";
 import { Users } from "./views/Users";
+
 
 
 
@@ -112,8 +112,6 @@ const App = () => {
                           <Route path='/signin' element={<LayoutDefault><SignInPage /></LayoutDefault>} />
                           <Route path="/404" element={<LayoutDefault><NotFound /></LayoutDefault>} />
                           <Route path='/admin/conversation/starter' element={<LayoutAccount><ConfirmConversationStarters /></LayoutAccount>} />
-                          <Route path='/admin/conversation/assistance'
-                            element={<LayoutAccount><ConversationAssistance /></LayoutAccount>} />
                           <Route path='/admin/users'
                             element={<LayoutAccount><Users /></LayoutAccount>} />
                           <Route path='/account/play'

@@ -18,16 +18,7 @@ const FooterNav = ({
     >
       <ul className="list-reset">
         <li>
-          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me">About us</a>
-        </li>
-        <li>
-          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me/privacy">Privacy</a>
-        </li>
-        <li>
-          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me/terms">Terms</a>
-        </li>
-        <li>
-          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me/join">Join us</a>
+          <a target="_blank" rel="noopener noreferrer" href="https://help.langa.me">About</a>
         </li>
       </ul>
     </nav>

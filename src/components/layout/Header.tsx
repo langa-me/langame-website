@@ -1,8 +1,5 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { useUser } from "reactfire";
-import AccountMenu from "../elements/AccountMenu";
 import Logo from "./partials/Logo";
 
 interface HeaderProps extends React.PropsWithChildren<any> {
@@ -14,11 +11,12 @@ interface HeaderProps extends React.PropsWithChildren<any> {
   bottomDivider?: boolean;
 }
 
+
+
 const Header = ({
   className,
   navPosition,
   hideNav,
-  hideSignin,
   hideDev,
   bottomOuterDivider,
   bottomDivider,
@@ -28,7 +26,6 @@ const Header = ({
   const [isActive, setIsactive] = useState(false);
   const nav = useRef<HTMLElement>(null);
   const hamburger = useRef<HTMLButtonElement>(null);
-  const user = useUser();
 
   useEffect(() => {
     isActive && openMenu();
@@ -53,11 +50,6 @@ const Header = ({
     setIsactive(false);
   }
 
-
-  const signUp = () => {
-    closeMenu();
-    window.location.href = "/signin";
-  }
 
   const keyPress = (e: any) => {
     isActive && e.keyCode === 27 && closeMenu();
@@ -119,28 +111,6 @@ const Header = ({
                         onClick={closeMenu}>Developer Documentation</a>
                     </li>
                   </ul>}
-                  {!user.data && !hideSignin &&
-                    <ul
-                      className="list-reset header-nav-right"
-                    >
-                      <li>
-                        <Link to="#0"
-                          className="button button-primary button-wide-mobile button-sm"
-                          onClick={signUp}>Sign in
-                        </Link>
-                      </li>
-                    </ul>
-                  }
-                  {
-                    user.data &&
-                    <ul
-                      className="list-reset header-nav-right"
-                    >
-                      <li>
-                        <AccountMenu />
-                      </li>
-                    </ul>
-                  }
                 </div>
               </nav>
             </>}

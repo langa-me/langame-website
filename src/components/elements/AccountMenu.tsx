@@ -1,6 +1,5 @@
-import { AccountCircle, Check } from "@mui/icons-material";
+import { AccountCircle, Check, Dashboard } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
-import Settings from "@mui/icons-material/Settings";
 import { Divider, ListItemText } from "@mui/material";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +13,7 @@ import { useSnackbar } from "notistack";
 import * as React from "react";
 import { useAuth, useFirestore, useFirestoreCollectionData, useFirestoreDocData, useUser } from "reactfire";
 import { log } from "../../utils/logs";
+
 
 
 export default function AccountMenu() {
@@ -130,9 +130,9 @@ export default function AccountMenu() {
                     <ListItemIcon
 
                     >
-                        <Settings fontSize="small" />
+                        <Dashboard fontSize="small" />
                     </ListItemIcon>
-                    Settings
+                    Dashboard
                 </MenuItem>
                 <MenuItem
                     onClick={onLogout}
