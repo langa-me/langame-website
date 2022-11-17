@@ -15,12 +15,12 @@ export default function Collection() {
     const firestore = useFirestore();
     const { data: user } = useUser();
     const navigate = useNavigate();
-    const param = useParams<{ collection: string }>();
+    const param = useParams<{ userId?: string, collection: string }>();
     const playlistsCollection = collection(firestore, "playlists");
     const playlistsQuery = query(playlistsCollection,
         where("collection", "==", param.collection),
         where("disabled", "==", false),
-        where("uid", "==", user?.uid || "%"),
+        where("uid", "==", user?.uid || param.userId || "%"),
         where("like", "==", true),
     );
     const { data: playlists } = useFirestoreCollectionData(playlistsQuery, { idField: "id" });

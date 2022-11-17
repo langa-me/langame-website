@@ -113,9 +113,10 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}>
                     <li>
-                      <Link target="_blank"
-                        to={{ pathname: "https://docs.langa.me" }}
-                        onClick={closeMenu}>Developer Documentation</Link>
+                      <a target="_blank"
+                        href="https://docs.langa.me"
+                        rel="noopener noreferrer"
+                        onClick={closeMenu}>Developer Documentation</a>
                     </li>
                   </ul>}
                   {!user.data && !hideSignin &&
