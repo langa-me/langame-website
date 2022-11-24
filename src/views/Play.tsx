@@ -160,6 +160,7 @@ export default function Play() {
                 </Paper>
                 <Divider />
                 {
+                    user &&
                     currentMeme &&
                     <StarterFeedbackButtons
                         disabled={loading ? "disabled" : undefined}
