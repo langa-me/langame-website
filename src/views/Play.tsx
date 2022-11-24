@@ -18,7 +18,7 @@ export default function Play() {
     const preferences = usePreferences();
     const { data: user } = useUser();
     const apiKeysCollection = collection(firestore, "api_keys");
-    const apiKeysQuery = user ? query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
+    const apiKeysQuery = !user ? query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
         preferences?.currentOrganization || "%"
     ));
     const { data: keys } = useFirestoreCollectionData(apiKeysQuery, {
@@ -55,7 +55,6 @@ export default function Play() {
     }>();
     const [currentConversationIndex, setCurrentConversationIndex] = React.useState<number>(0);
     const [currentMeme, setCurrentMeme] = React.useState<ConversationStarter>();
-    console.log("keys", keys);
     useEffect(() => {
         if (
             queryResponse ||
