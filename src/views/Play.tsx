@@ -187,7 +187,7 @@ export default function Play({freeMode}: PlayProps) {
                 }
                 <Tooltip
                     title={
-                        freeMode ?
+                        !user ?
                             "Log in to create new conversation starters using AI" :
                         autocompleteTopics.length === 0 ?
                             "Please select at least one topic" :
