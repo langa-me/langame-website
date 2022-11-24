@@ -17,11 +17,11 @@ import CreateCollectionButton from "./CreateCollectionButton";
 // user can't name more than 12 characters anyway
 const hackDeleteCollection = "%%%%%%%%%%%%%%%%%%";
 export interface StarterFeedbackButtonsProps {
-    conversationStarterId: string
-    conversationStarterText: string
-    conversationStarterTopics: string[]
-    onClick?: () => void
-    disabled?: string
+    conversationStarterId: string;
+    conversationStarterText: string;
+    conversationStarterTopics: string[];
+    onClick?: () => void;
+    disabled?: string;
 }
 
 const StarterFeedbackButtons = ({

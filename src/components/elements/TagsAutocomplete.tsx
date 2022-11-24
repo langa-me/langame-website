@@ -7,10 +7,10 @@ import { usePreferences } from "../../contexts/usePreferences";
 import { TopicChange } from "./ConversationStarter";
 
 interface TagsAutocompleteProps {
-    conversationStarterTopics: string[]
-    setConversationStarterTopics: TopicChange
-    height?: number | string
-    helpers?: boolean
+    conversationStarterTopics: string[];
+    setConversationStarterTopics: TopicChange;
+    height?: number | string;
+    helpers?: boolean;
 }
 export default function TagsAutocomplete({
     conversationStarterTopics, setConversationStarterTopics, height, helpers,
@@ -89,6 +89,7 @@ export default function TagsAutocomplete({
                         </Paper>
                         {
                             window.innerWidth > 600 &&
+                            user &&
                             <Paper
                                 sx={{
                                     width: "100%",

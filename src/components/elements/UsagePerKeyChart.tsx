@@ -58,10 +58,10 @@ export default function UsagePerKeyChart({ keyId }: IUsagePerKeyChartProps) {
     // group usage data by day and sum up the calls
     const groupQueriesByDay = (
         queries: Timestamp[]
-    ): { day: number, count: number }[] => {
+    ): { day: number; count: number }[] => {
         const today = new Date();
 
-        const groupedQueries: { day: number, count: number }[] = [];
+        const groupedQueries: { day: number; count: number }[] = [];
 
         // get first day of month
         const firstDayOfMonth = new Date().getDate() - new Date().getDay();

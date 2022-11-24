@@ -1,7 +1,6 @@
 import { AlternateEmail } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, Grid, Tooltip } from "@mui/material";
-import { getApp } from "firebase/app";
 import { GoogleAuthProvider, signInWithCustomToken, signInWithPopup } from "firebase/auth";
 import { httpsCallable } from "firebase/functions";
 import { useSnackbar } from "notistack";
@@ -12,8 +11,7 @@ import { useAuth, useFunctions, useSigninCheck } from "reactfire";
 import { ReactComponent as Discord } from "../../assets/images/discord.svg";
 import CenteredCircularProgress from "../../components/elements/CenteredCircularProgress";
 import EmailSignInDialogForm from "../../components/elements/EmailSignInDialogForm";
-import { isEmulator, isLocal, isProd } from "../../utils/constants";
-import { initEmulator } from "../../utils/firebase";
+import { isLocal, isProd } from "../../utils/constants";
 import { log } from "../../utils/logs";
 import { useQuery } from "../../utils/route";
 
@@ -28,15 +26,6 @@ const SignInPage = () => {
     const query = useQuery();
     const provider = new GoogleAuthProvider();
     provider.addScope("email");
-    React.useEffect(() => {
-        if (isEmulator) {
-            try {
-                initEmulator(getApp());
-            } catch (e) {
-                log("error", e);
-            }
-        }
-    }, []);
 
     React.useEffect(() => {
         if (signedIn?.signedIn) {

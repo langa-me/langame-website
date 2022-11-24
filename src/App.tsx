@@ -1,11 +1,12 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-import { FirebaseApp, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { SnackbarProvider } from "notistack";
 import React, { useEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import {
+
   AuthProvider, FirebaseAppProvider, FirestoreProvider, FunctionsProvider
 } from "reactfire";
 // Layouts
@@ -16,7 +17,6 @@ import SignInPage from "./views/Authentication/SignInPage";
 import { ConfirmConversationStarters } from "./views/ConfirmConversationStarters";
 // Views 
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { getFunctions } from "firebase/functions";
 import { PreferencesProvider } from "./contexts/usePreferences";
 import LayoutAccount from "./layouts/LayoutAccount";
@@ -41,7 +41,7 @@ const firebaseConfig = getFirebaseConfig();
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("pk_test_51KeqduByPr5RRBhXTH0wEo3lQw7tHnV0tLTw25D5cJtJ3TeF1ZXuMSRVdFV0zCbIpxBwVqZXBt3UGZOuFaEyhFqQ00uHwM0Icw");
+// const stripePromise = loadStripe("pk_test_51KeqduByPr5RRBhXTH0wEo3lQw7tHnV0tLTw25D5cJtJ3TeF1ZXuMSRVdFV0zCbIpxBwVqZXBt3UGZOuFaEyhFqQ00uHwM0Icw");
 
 // hack see src/assets/scss/settings/base/_colors.scss
 const theme = createTheme({
@@ -72,12 +72,13 @@ const theme = createTheme({
 });
 const App = () => {
 
+  const [emulatorSatUp, setEmulatorSatUp] = React.useState(false);
   const childRef = useRef<ScrollRevealRef>(null);
   let location = useLocation();
-  const app = React.useState<FirebaseApp>(initializeApp(firebaseConfig))[0];
+  const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const fs = getFirestore(app);
-  const functions = getFunctions();
+  const functions = getFunctions(app);
   useEffect(() => {
     // const page = location.pathname;
     document.body.classList.add("is-loaded")
@@ -86,14 +87,15 @@ const App = () => {
   }, [location]);
 
   useEffect(() => {
-    if (isEmulator) {
+    if (isEmulator && !emulatorSatUp) {
       try {
-        initEmulator(app);
-      } catch {
-        log("Emulator not found");
+        initEmulator(app, auth, fs, functions);
+        setEmulatorSatUp(true);
+      } catch (err) {
+        log("failed to init emulator", err);
       }
     }
-  }, [app]);
+  }, [app, auth, fs, functions, emulatorSatUp]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -103,7 +105,7 @@ const App = () => {
             <FunctionsProvider sdk={functions}>
               <PreferencesProvider>
                 <SnackbarProvider maxSnack={3}>
-                  <Elements stripe={stripePromise}>
+                  <Elements stripe={null}>
                     <ScrollReveal
                       ref={childRef}>
                       {() => (
@@ -115,7 +117,7 @@ const App = () => {
                           <Route path='/admin/users'
                             element={<LayoutAccount><Users /></LayoutAccount>} />
                           <Route path='/account/play'
-                            element={<LayoutAccount><Play /></LayoutAccount>}
+                            element={<LayoutAccount><Play freeMode={false} /></LayoutAccount>}
                           />
                           <Route path='/account/collections/:collection'
                             element={<LayoutAccount><Collection /></LayoutAccount>}

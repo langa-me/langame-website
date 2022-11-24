@@ -11,9 +11,9 @@ import { ConversationStarter } from "./ConversationStarter";
 
 
 interface PresentConversationStarterDialogProps {
-    conversationStarter: ConversationStarter
-    open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    conversationStarter: ConversationStarter;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function PresentConversationStarterDialog({
     conversationStarter, open, setOpen

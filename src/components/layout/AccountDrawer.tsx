@@ -12,7 +12,7 @@ import { useAuth, useFirestore, useFirestoreCollectionData, useFirestoreDocData,
 import CenteredCircularProgress from "../elements/CenteredCircularProgress";
 import Logo from "./partials/Logo";
 interface AccountDrawerProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const drawerWidth = 240;

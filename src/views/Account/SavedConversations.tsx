@@ -36,7 +36,7 @@ interface ConversationHit {
 }
 
 const CHits = ({ hits }: {
-  hits: Array<ConversationHit>
+  hits: Array<ConversationHit>;
 }) => {
   const hit = hits && hits.length > 0 && hits[0] ? hits[0] : undefined;
   // reverse the list

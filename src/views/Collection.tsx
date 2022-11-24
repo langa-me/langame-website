@@ -15,7 +15,7 @@ export default function Collection() {
     const firestore = useFirestore();
     const { data: user } = useUser();
     const navigate = useNavigate();
-    const param = useParams<{ userId?: string, collection: string }>();
+    const param = useParams<{ userId?: string; collection: string }>();
     const playlistsCollection = collection(firestore, "playlists");
     const playlistsQuery = query(playlistsCollection,
         where("collection", "==", param.collection),

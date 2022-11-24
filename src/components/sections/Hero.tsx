@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { SectionProps } from "../../utils/SectionProps";
-import "react-toastify/dist/ReactToastify.css";
 import { getRandom } from "../../utils/random";
 
 type HeroProps = SectionProps & React.HTMLProps<HTMLDivElement>

@@ -1,6 +1,5 @@
-import { TextField } from "@material-ui/core";
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle, IconButton
+  Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField
 } from "@mui/material";
 import { Auth, signInWithEmailAndPassword }
   from "firebase/auth";

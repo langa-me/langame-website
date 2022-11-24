@@ -60,6 +60,18 @@ module.exports = {
     "space-infix-ops": ["error", {
       int32Hint: false
     }],
+    "@typescript-eslint/member-delimiter-style": [
+      "error", {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        }
+      }
+    ],
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   },

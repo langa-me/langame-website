@@ -3,6 +3,7 @@ import { Button, Grid } from "@mui/material";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useNavigate } from "react-router-dom";
 import Hero from "../components/sections/Hero";
+import Play from "./Play";
 
 
 
@@ -38,6 +39,14 @@ const Home = () => {
                     Play
                   </Button>
             </Grid>
+            <Grid item
+              sx={{
+                textAlign: "center",
+                margin: "1em",
+              }}
+            >
+              <Play freeMode={true} />
+              </Grid>
           </Grid>
         </Grid>
     </>

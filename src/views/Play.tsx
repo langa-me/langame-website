@@ -14,13 +14,18 @@ import { usePreferences } from "../contexts/usePreferences";
 import { langameApiUrl } from "../utils/constants";
 
 
-
-export default function Play() {
+interface PlayProps {
+    // free mode use an arbitrary API key and disable collections (unauthenticated)
+    freeMode: boolean;
+}
+// TODO
+// eslint-disable-next-line no-unused-vars
+export default function Play({freeMode}: PlayProps) {
     const firestore = useFirestore();
     const preferences = usePreferences();
     const { data: user } = useUser();
     const apiKeysCollection = collection(firestore, "api_keys");
-    const apiKeysQuery = query(apiKeysCollection, where("owner", "==",
+    const apiKeysQuery = freeMode ? query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
         preferences?.currentOrganization || "%"
     ));
     const { data: keys } = useFirestoreCollectionData(apiKeysQuery, {
@@ -51,13 +56,13 @@ export default function Play() {
     const { enqueueSnackbar } = useSnackbar();
     const [loading, setLoading] = React.useState(false);
     const [queryResponse, setQueryResponse] = React.useState<{
-        limit: number,
-        translation: boolean,
-        results: any[]
+        limit: number;
+        translation: boolean;
+        results: any[];
     }>();
     const [currentConversationIndex, setCurrentConversationIndex] = React.useState<number>(0);
     const [currentMeme, setCurrentMeme] = React.useState<ConversationStarter>();
-
+    console.log("keys", keys);
     useEffect(() => {
         if (
             queryResponse ||
@@ -75,6 +80,7 @@ export default function Play() {
     useEffect(() => setCurrentConversationIndex(0), [memes]);
     const onExecuteRequestToApi = () => {
         setLoading(true);
+        setCurrentConversationIndex(0);
         const h = {
             method: "POST",
             headers: {
@@ -181,6 +187,8 @@ export default function Play() {
                 }
                 <Tooltip
                     title={
+                        freeMode ?
+                            "Log in to create new conversation starters using AI" :
                         autocompleteTopics.length === 0 ?
                             "Please select at least one topic" :
                             loading ?
@@ -189,7 +197,7 @@ export default function Play() {
                     }>
                     <span>
                         <LoadingButton
-                            disabled={autocompleteTopics.length === 0}
+                            disabled={autocompleteTopics.length === 0 || freeMode}
                             loading={loading}
                             onClick={onExecuteRequestToApi}
                             startIcon={<SentimentSatisfied />}

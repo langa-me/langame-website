@@ -8,9 +8,9 @@ import TagsAutocomplete from "./TagsAutocomplete";
 
 
 export interface ConversationStarter {
-    id: string
-    content: string
-    topics: string[]
+    id: string;
+    content: string;
+    topics: string[];
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -18,12 +18,12 @@ type ContentChange = (content: string) => void
 // eslint-disable-next-line no-unused-vars
 export type TopicChange = (topics: string[]) => void
 interface ConversationStarterProps {
-    conversationStarter: ConversationStarter | undefined
-    setConversationStarter?: React.Dispatch<React.SetStateAction<ConversationStarter | undefined>>
-    onContentChange?: ContentChange
-    onTopicsChange?: TopicChange
-    width?: number | string
-    padding?: number | string
+    conversationStarter: ConversationStarter | undefined;
+    setConversationStarter?: React.Dispatch<React.SetStateAction<ConversationStarter | undefined>>;
+    onContentChange?: ContentChange;
+    onTopicsChange?: TopicChange;
+    width?: number | string;
+    padding?: number | string;
 }
 /**
  *

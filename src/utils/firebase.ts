@@ -1,11 +1,14 @@
-import { connectAuthEmulator, getAuth } from "@firebase/auth";
+import { connectAuthEmulator } from "@firebase/auth";
 import {
-    connectFirestoreEmulator,
-    getFirestore
+    connectFirestoreEmulator
 } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions } from "firebase/app";
-import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
+import { Auth } from "firebase/auth";
+import { Firestore } from "firebase/firestore";
+import { connectFunctionsEmulator, Functions } from "firebase/functions";
 import { isProd } from "./constants";
+
+
 
 
 export const getFirebaseConfig = (): FirebaseOptions => {
@@ -31,15 +34,12 @@ export const getFirebaseConfig = (): FirebaseOptions => {
     return firebaseConfig;
 };
 
-export const initEmulator = (app: FirebaseApp): FirebaseApp => {
+export const initEmulator = (app: FirebaseApp, auth: Auth, fs: Firestore, fn: Functions) => {
     console.log("using emulator");
-    const auth = getAuth(app);
-    const fs = getFirestore(app);
-    const fn = getFunctions(app, "us-central1");
     connectAuthEmulator(auth, "http://0.0.0.0:9099", {
         disableWarnings: true,
     });
     connectFirestoreEmulator(fs, "0.0.0.0", 8080);
     connectFunctionsEmulator(fn, "0.0.0.0", 5001);
-    return app;
+    return {auth, fs, fn};
 }
