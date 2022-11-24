@@ -13,19 +13,12 @@ import TagsAutocomplete from "../components/elements/TagsAutocomplete";
 import { usePreferences } from "../contexts/usePreferences";
 import { langameApiUrl } from "../utils/constants";
 
-
-interface PlayProps {
-    // free mode use an arbitrary API key and disable collections (unauthenticated)
-    freeMode: boolean;
-}
-// TODO
-// eslint-disable-next-line no-unused-vars
-export default function Play({freeMode}: PlayProps) {
+export default function Play() {
     const firestore = useFirestore();
     const preferences = usePreferences();
     const { data: user } = useUser();
     const apiKeysCollection = collection(firestore, "api_keys");
-    const apiKeysQuery = freeMode ? query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
+    const apiKeysQuery = user ? query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
         preferences?.currentOrganization || "%"
     ));
     const { data: keys } = useFirestoreCollectionData(apiKeysQuery, {

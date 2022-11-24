@@ -117,7 +117,7 @@ const App = () => {
                           <Route path='/admin/users'
                             element={<LayoutAccount><Users /></LayoutAccount>} />
                           <Route path='/account/play'
-                            element={<LayoutAccount><Play freeMode={false} /></LayoutAccount>}
+                            element={<LayoutAccount><Play /></LayoutAccount>}
                           />
                           <Route path='/account/collections/:collection'
                             element={<LayoutAccount><Collection /></LayoutAccount>}

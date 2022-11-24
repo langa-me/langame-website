@@ -45,7 +45,7 @@ const Home = () => {
                 margin: "1em",
               }}
             >
-              <Play freeMode={true} />
+              <Play />
               </Grid>
           </Grid>
         </Grid>
