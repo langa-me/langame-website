@@ -197,7 +197,7 @@ export default function Play({freeMode}: PlayProps) {
                     }>
                     <span>
                         <LoadingButton
-                            disabled={autocompleteTopics.length === 0 || freeMode}
+                            disabled={autocompleteTopics.length === 0 || !user}
                             loading={loading}
                             onClick={onExecuteRequestToApi}
                             startIcon={<SentimentSatisfied />}
