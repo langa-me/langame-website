@@ -89,7 +89,7 @@ export default function TagsAutocomplete({
                         </Paper>
                         {
                             window.innerWidth > 600 &&
-                            user &&
+                            user?.uid &&
                             <Paper
                                 sx={{
                                     width: "100%",
@@ -152,7 +152,7 @@ export default function TagsAutocomplete({
                         if (value.length > 11) return;
                         const hasRemoved = conversationStarterTopics.filter((t) => !value.includes(t)).length > 0;
                         setConversationStarterTopics(value);
-                        if (!value || hasRemoved) return;
+                        if (!user || !value || hasRemoved) return;
                         let history = preferences?.history;
                         if (!history) history = [];
                         value.forEach((t) => {
