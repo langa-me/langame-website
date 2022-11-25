@@ -17,7 +17,7 @@ const PreferencesProvider = (props: PreferencesProviderProps) => {
   const user = useUser();
   const firestore = useFirestore();
   const preferencesCollection = collection(firestore, "preferences");
-  const preferenceDoc = doc(preferencesCollection, 
+  const preferenceDoc = doc(user.data?.uid ? preferencesCollection : collection(firestore, "usages") ,
     // doc id random if not auth
     user.data?.uid || "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   );
@@ -25,7 +25,7 @@ const PreferencesProvider = (props: PreferencesProviderProps) => {
     idField: "id",
   });
   const value = {
-    preferences: prefObs.data,
+    preferences: user.data?.uid ? prefObs.data : undefined,
   };
   return (
     <PreferencesContext.Provider value={value}>
