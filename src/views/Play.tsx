@@ -18,7 +18,8 @@ export default function Play() {
     const preferences = usePreferences();
     const { data: user } = useUser();
     const apiKeysCollection = collection(firestore, "api_keys");
-    const apiKeysQuery = !user ? query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
+    const apiKeysQuery = !user?.uid && preferences?.currentOrganization ?
+    query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
         preferences?.currentOrganization || "%"
     ));
     const { data: keys } = useFirestoreCollectionData(apiKeysQuery, {
