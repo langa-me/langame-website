@@ -21,11 +21,11 @@ const PreferencesProvider = (props: PreferencesProviderProps) => {
     // doc id random if not auth
     user.data?.uid || "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   );
-  const prefObs = useFirestoreDocData(preferenceDoc, {
+  const {data: pref, status} = useFirestoreDocData(preferenceDoc, {
     idField: "id",
   });
   const value = {
-    preferences: user.data?.uid ? prefObs.data : undefined,
+    preferences: status === "success" && user.data?.uid ? pref : undefined,
   };
   return (
     <PreferencesContext.Provider value={value}>
