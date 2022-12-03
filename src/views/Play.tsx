@@ -16,10 +16,9 @@ import { langameApiUrl } from "../utils/constants";
 export default function Play() {
     const firestore = useFirestore();
     const preferences = usePreferences();
-    const { data: user, status } = useUser();
+    const { data: user } = useUser();
     const apiKeysCollection = collection(firestore, "api_keys");
-    const apiKeysQuery = status === "success" && preferences?.currentOrganization ?
-    query(collection(firestore, "usages")) : query(apiKeysCollection, where("owner", "==",
+    const apiKeysQuery = query(apiKeysCollection, where("owner", "==",
         preferences?.currentOrganization || "%"
     ));
     const { data: keys } = useFirestoreCollectionData(apiKeysQuery, {
