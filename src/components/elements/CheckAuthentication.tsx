@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, useFirestore, useFirestoreDoc, useSigninCheck } from "reactfire";
 import CenteredCircularProgress from "./CenteredCircularProgress";
+import * as Sentry from "@sentry/react";
 
 const CheckAuthentication = ({ children }: React.PropsWithChildren<any>) => {
     const navigate = useNavigate();
@@ -15,6 +16,11 @@ const CheckAuthentication = ({ children }: React.PropsWithChildren<any>) => {
     const { status } = useFirestoreDoc(userDoc);
     useEffect(() => {
         setPersistence(auth, browserLocalPersistence);
+        Sentry.setUser({
+            id: auth.currentUser?.uid || "undefined",
+            email: auth.currentUser?.email || "undefined",
+            username: auth.currentUser?.displayName || "undefined",
+        });
     }, [auth]);
     useEffect(() => {
         if (sign && !sign.signedIn) {

@@ -41,7 +41,7 @@ export default function ApiKeys() {
                     >See documentation</a>
                 </p>
                 <ApiKeysTable
-                    organizationId={preferences.currentOrganization}
+                    organizationId={preferences?.currentOrganization || ""}
                 />
             </Stack>
         </React.Fragment>
