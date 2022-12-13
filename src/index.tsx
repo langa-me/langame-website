@@ -1,12 +1,15 @@
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./assets/scss/style.scss";
 import { seed } from "./utils/random";
-import { BrowserRouter } from "react-router-dom";
 seed(new Date().getTime() * Math.random());
 
-import { createRoot } from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
+import posthog from "posthog-js";
+import { createRoot } from "react-dom/client";
+
+posthog.init("phc_EvDPItRieyNWaty1qV6G9Lq3EFhYXm20WQugG8WxVOw", { api_host: "https://eu.posthog.com" })
 
 Sentry.init({
     dsn: "https://c6446636644447c9b8163002f07ccc6b@o4504242027102208.ingest.sentry.io/4504253872668672",

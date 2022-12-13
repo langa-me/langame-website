@@ -1,6 +1,6 @@
 {
   "name": "langame-website",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -21,6 +21,7 @@
     "firebase": "^9.14.0",
     "lodash": "^4.17.21",
     "notistack": "^2.0.8",
+    "posthog-js": "^1.37.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-button": "^0.7.2",
