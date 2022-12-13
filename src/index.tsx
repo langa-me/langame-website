@@ -6,7 +6,7 @@ seed(new Date().getTime() * Math.random());
 
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import posthog from "posthog-js";
+import {posthog} from "posthog-js";
 import { createRoot } from "react-dom/client";
 
 posthog.init("phc_EvDPItRieyNWaty1qV6G9Lq3EFhYXm20WQugG8WxVOw", { api_host: "https://eu.posthog.com" })
