@@ -182,7 +182,9 @@ export default function Play() {
                     title={
                         !user ?
                             "Log in to create new conversation starters using AI" :
-                        (keys.length === 0 ||
+                        (
+                            !keys ||
+                            keys?.length === 0 ||
                             !keys[0]) ?
                                 "It seems your account is not properly configured. " +
                                 "Please check your API keys " +
@@ -196,7 +198,8 @@ export default function Play() {
                     <span>
                         <LoadingButton
                             disabled={
-                                keys.length === 0 ||
+                                !keys ||
+                                keys?.length === 0 ||
                                 !keys[0] ||
                                 autocompleteTopics.length === 0 || !user}
                             loading={loading}
