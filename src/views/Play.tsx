@@ -190,7 +190,10 @@ export default function Play() {
                     }>
                     <span>
                         <LoadingButton
-                            disabled={autocompleteTopics.length === 0 || !user}
+                            disabled={
+                                keys.length === 0 ||
+                                !keys[0] ||
+                                autocompleteTopics.length === 0 || !user}
                             loading={loading}
                             onClick={onExecuteRequestToApi}
                             startIcon={<SentimentSatisfied />}
