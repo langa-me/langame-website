@@ -182,6 +182,11 @@ export default function Play() {
                     title={
                         !user ?
                             "Log in to create new conversation starters using AI" :
+                        (keys.length === 0 ||
+                            !keys[0]) ?
+                                "It seems your account is not properly configured. " +
+                                "Please check your API keys " +
+                                "or contact us contact@langa.me" :
                         autocompleteTopics.length === 0 ?
                             "Please select at least one topic" :
                             loading ?
