@@ -106,6 +106,12 @@ const Header = ({
                     )}>
                     <li>
                       <a target="_blank"
+                        href="https://cards.langa.me"
+                        rel="noopener noreferrer"
+                        onClick={closeMenu}>Card Game</a>
+                    </li>
+                    <li>
+                      <a target="_blank"
                         href="https://docs.langa.me"
                         rel="noopener noreferrer"
                         onClick={closeMenu}>Developer Documentation</a>
