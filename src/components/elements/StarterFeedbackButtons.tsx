@@ -13,6 +13,7 @@ import { useSnackbar } from "notistack";
 import { useFirestore, useUser } from "reactfire";
 import { usePreferences } from "../../contexts/usePreferences";
 import CreateCollectionButton from "./CreateCollectionButton";
+import {posthog} from "posthog-js";
 
 // user can't name more than 12 characters anyway
 const hackDeleteCollection = "%%%%%%%%%%%%%%%%%%";
@@ -40,6 +41,9 @@ const StarterFeedbackButtons = ({
     const [loading, setLoading] = React.useState(false);
 
     const onLike = (collection: string) => {
+        posthog.capture("add to collection", {
+            collection: collection
+        });
         setLoading(true);
 
         // If all validation went well, update the meme and set disabled to false

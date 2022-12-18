@@ -9,7 +9,7 @@ import { BrowserTracing } from "@sentry/tracing";
 import {posthog} from "posthog-js";
 import { createRoot } from "react-dom/client";
 
-posthog.init("phc_EvDPItRieyNWaty1qV6G9Lq3EFhYXm20WQugG8WxVOw", { api_host: "https://eu.posthog.com" })
+posthog.init("phc_P0ROPdCSFiwMEJWjzp4HkXMQXrmDzal1O3xuigmbm7I", { api_host: "https://app.posthog.com" })
 
 Sentry.init({
     dsn: "https://c6446636644447c9b8163002f07ccc6b@o4504242027102208.ingest.sentry.io/4504253872668672",
@@ -19,6 +19,7 @@ Sentry.init({
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
+    environment: process.env.REACT_APP_ENVIRONMENT === "development" ? "development" :  "production",
   });
 
  

@@ -4,6 +4,7 @@ import { LoadingButton } from "@mui/lab";
 import { Divider, Paper, Stack, Tooltip } from "@mui/material";
 import { collection, query, where } from "firebase/firestore";
 import { useSnackbar } from "notistack";
+import {posthog} from "posthog-js";
 import React, { useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
@@ -71,6 +72,10 @@ export default function Play() {
     }, [currentConversationIndex, currentMeme?.id, newMemes, queryResponse]);
     useEffect(() => setCurrentConversationIndex(0), [memes]);
     const onExecuteRequestToApi = () => {
+        posthog.capture("execute_request_to_api", {
+            topics: autocompleteTopics,
+        });
+
         setLoading(true);
         setCurrentConversationIndex(0);
         const h = {
